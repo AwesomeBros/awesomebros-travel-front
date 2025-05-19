@@ -42,7 +42,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root {
+/* :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(240 10% 3.9%);
   --card: hsl(0 0% 100%);
@@ -68,9 +68,9 @@
   --chart-3: hsl(197 37% 24%);
   --chart-4: hsl(43 74% 66%);
   --chart-5: hsl(27 87% 67%);
-}
+} */
 
-.dark {
+:root {
   --background: hsl(240 10% 3.9%);
   --radius: 0.5rem;
   --foreground: hsl(0 0% 98%);

@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
         hostname: "k.kakaocdn.net",
       },
     ],
+    domains: ["trip.gg"],
   },
 };
 

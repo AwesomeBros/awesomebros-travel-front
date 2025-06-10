@@ -1,10 +1,9 @@
 import { auth } from "@/auth";
-import { Toaster } from "@/components/ui/sonner";
-import { APP_DESCRIPTION, APP_NAME } from "@/constants/common";
-import QueryProvider from "@/provider/query-provider";
+import Header from "@/components/shared/header/header";
+import { APP_DESCRIPTION, APP_NAME } from "@/constants";
+import Provider from "@/provider/provider";
 import "@/style/globals.css";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
 
 const pretendard = localFont({
@@ -31,10 +30,10 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard`}>
-        <SessionProvider session={session}>
-          <QueryProvider>{children}</QueryProvider>
-          <Toaster />
-        </SessionProvider>
+        <Provider session={session}>
+          <Header session={session} />
+          {children}
+        </Provider>
       </body>
     </html>
   );

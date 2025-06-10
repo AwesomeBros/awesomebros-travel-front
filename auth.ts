@@ -4,7 +4,7 @@ import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
-import { SERVER_URL } from "./constants/common";
+import { SERVER_URL } from "./constants";
 
 async function refreshToken(token: JWT): Promise<JWT> {
   try {
@@ -21,6 +21,7 @@ async function refreshToken(token: JWT): Promise<JWT> {
     const { body } = await response.data;
 
     const newRefreshToken = await body;
+    // console.log("newRefreshToken", newRefreshToken);
 
     return {
       ...token,
@@ -66,8 +67,6 @@ export const config = {
           password,
         });
         const result = await response.data.body;
-        console.log("result", result);
-
         return result;
       },
     }),
@@ -77,10 +76,10 @@ export const config = {
       async profile(profile) {
         const user = {
           id: String(profile.id),
-          name: profile.properties.nickname,
+          username: profile.properties.nickname,
           email: profile.kakao_account.email,
           password: "",
-          image: profile.properties.profile_image,
+          url: profile.properties.profile_image,
           provider: "kakao",
         };
 
@@ -99,10 +98,10 @@ export const config = {
       async profile(profile) {
         const user = {
           id: Number(profile.sub),
-          name: profile.name,
+          username: profile.name,
           password: "",
           email: profile.email,
-          image: profile.picture,
+          url: profile.picture,
           provider: "google",
         };
 
@@ -128,8 +127,8 @@ export const config = {
         token = await refreshToken(token);
       }
       if (trigger === "update" && session) {
-        token.user.name = session.user.name;
-        token.user.image = session.user.image;
+        token.user.username = session.user.username;
+        token.user.url = session.user.url;
       }
       {
         /* 업데이트 */
@@ -137,7 +136,7 @@ export const config = {
       // const updatedData = {
       //   user: {
       //     name: "Updated Name",
-      //     image: "https://example.com/updated-image.jpg",
+      //     url: "https://example.com/updated-image.jpg",
       //   }
       // }
       // void update(updatedData);
@@ -148,8 +147,8 @@ export const config = {
         id: token.user.id,
         role: token.user.role,
         email: token.user.email,
-        name: token.user.name,
-        image: token.user.image,
+        username: token.user.username,
+        url: token.user.url,
         provider: token.user.provider,
       };
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { SERVER_URL } from "@/constants/common";
+import { SERVER_URL } from "@/constants";
 import axios from "axios";
 
 export const sendEmail = async (email: string, type: "signup" | "reset") => {

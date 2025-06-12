@@ -1,7 +1,7 @@
 "use server";
 
 import { auth, signIn } from "@/auth";
-import { SERVER_URL } from "@/constants/common";
+import { SERVER_URL } from "@/constants";
 import {
   LoginFormType,
   ResetPasswordFormType,

@@ -28,3 +28,17 @@ export const useFilterStore = create<FilterStore>((set) => ({
   setShowFilter: (show) => set({ showFilter: show }),
   setFilterValue: (filterValue) => set({ filterValue }),
 }));
+
+interface PostOpenState {
+  id?: number;
+  isOpen: boolean;
+  onOpen: (id?: number) => void;
+  onClose: () => void;
+}
+
+export const usePostOpenStore = create<PostOpenState>((set) => ({
+  id: undefined,
+  isOpen: false,
+  onOpen: (id) => set({ isOpen: true, id }),
+  onClose: () => set({ isOpen: false }),
+}));

@@ -1,4 +1,4 @@
-import { findDistrictsAll } from "@/actions/region.actions";
+import { findDistrictsAll } from "@/actions/district.actions";
 import { useQuery } from "@tanstack/react-query";
 
 export const useFindDistrictsAll = () => {

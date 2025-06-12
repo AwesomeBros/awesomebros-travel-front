@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePostOpenStore } from "@/hooks/store";
 
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
@@ -14,34 +15,38 @@ import { useRouter } from "next/navigation";
 import { AiOutlineMenu } from "react-icons/ai";
 import { LuUserRound } from "react-icons/lu";
 
-export default function UserMenu({ session }: { session: Session | null }) {
-  const publicRoute = [
-    {
-      label: "로그인",
-      href: "/login",
-    },
-    {
-      label: "회원가입",
-      href: "/signup",
-    },
-  ];
+const publicRoute = [
+  {
+    label: "로그인",
+    href: "/login",
+  },
+  {
+    label: "회원가입",
+    href: "/signup",
+  },
+];
 
-  const privateRoute = [
-    {
-      label: "마이페이지",
-      href: "/user/mypage",
-    },
-    {
-      label: "로그아웃",
-      href: "#",
-      signOut: true,
-    },
-  ];
+const privateRoute = [
+  {
+    label: "마이페이지",
+    href: "/user/mypage",
+  },
+  {
+    label: "로그아웃",
+    href: "#",
+    signOut: true,
+  },
+];
+export default function UserMenu({ session }: { session: Session | null }) {
+  const { onOpen } = usePostOpenStore();
   const router = useRouter();
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
-        <button className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+        <button
+          className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+          onClick={() => onOpen()}
+        >
           글작성 하기
         </button>
         <DropdownMenu>

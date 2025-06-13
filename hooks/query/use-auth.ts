@@ -53,6 +53,14 @@ export const useSendMail = () => {
   const mutation = useMutation({
     mutationFn: async ({ email, type }: EmailFormType) =>
       sendEmail(email, type),
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
   });
   return mutation;
 };

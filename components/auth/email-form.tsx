@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
@@ -35,25 +34,7 @@ const EmailForm = ({ type }: { type: "signup" | "reset" }) => {
   });
 
   function onSubmit(values: EmailType) {
-    sendMail.mutate(
-      { ...values, type },
-      {
-        onSuccess: (data) => {
-          toast.success(data.body);
-        },
-        onError: (error) => {
-          if (error instanceof Error) {
-            if (error.message.includes("409")) {
-              toast.error("이미 가입된 이메일입니다.");
-            } else if (error.message.includes("404")) {
-              toast.error("가입되지 않은 이메일입니다.");
-            } else if (error.message.includes("500")) {
-              toast.error("서버 오류입니다. 잠시 후 다시 시도해주세요.");
-            }
-          }
-        },
-      }
-    );
+    sendMail.mutate({ ...values, type });
   }
   return (
     <div className="flex flex-col gap-6">

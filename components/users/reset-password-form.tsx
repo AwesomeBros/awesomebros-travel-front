@@ -1,9 +1,9 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useSignup, useVerifyToken } from "@/hooks/query/use-auth";
-import { SignupFormType } from "@/type/auth.type";
-import { SignupFormSchema } from "@/validation/auth.schema";
+import { useResetPassword, useVerifyToken } from "@/hooks/query/use-users";
+import { ResetPasswordFormType } from "@/type/auth.type";
+import { ResetPasswordFormSchema } from "@/validation/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -19,47 +19,44 @@ import {
   FormMessage,
 } from "../ui/form";
 
-export function SignupForm() {
+export function ResetPasswordForm() {
   const router = useRouter();
-  const form = useForm<SignupFormType>({
-    resolver: zodResolver(SignupFormSchema),
+  const token = useParams<{ token: string }>().token;
+  const form = useForm<ResetPasswordFormType>({
+    resolver: zodResolver(ResetPasswordFormSchema),
     defaultValues: {
       email: "",
-      name: "",
       password: "",
       confirmPassword: "",
-      token: "",
     },
   });
-  const token = useParams<{ token: string }>().token;
 
   const { data, isError, error, isLoading } = useVerifyToken(token);
-  const signup = useSignup();
+  const resetPassword = useResetPassword();
 
   if (!isLoading) {
     setTimeout(() => {
       form.setValue("email", data.body);
-      form.setValue("token", token);
     }, 0);
   }
   if (isError) {
     if (error instanceof Error) {
       if (error.message.includes("401")) {
         toast.error("잘못된 접근입니다.");
-        router.push("/signup");
+        router.push("/reset-password");
       }
     }
   }
 
-  function onSubmit(values: SignupFormType) {
-    signup.mutate(values);
+  function onSubmit(values: ResetPasswordFormType) {
+    resetPassword.mutate(values);
   }
 
   return (
     <div className="flex flex-col gap-6">
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">회원가입</CardTitle>
+          <CardTitle className="text-xl">비밀번호 찾기</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -72,59 +69,36 @@ export function SignupForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input
-                            type="hidden"
-                            placeholder="이메일"
-                            {...field}
-                          />
+                          <Input type="hidden" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="token"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input
-                            type="hidden"
-                            placeholder="토큰"
-                            readOnly
-                            {...field}
-                          />
+                          <Input type="hidden" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
-                  <div className="grid gap-2">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>이름</FormLabel>
-                          <FormControl>
-                            <Input placeholder="이름" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  /> */}
+                  <input type="hidden" name="token" value={token} />
                   <div className="grid gap-2">
                     <FormField
                       control={form.control}
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>비밀번호</FormLabel>
+                          <FormLabel>새로운 비밀번호</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
-                              placeholder="비밀번호"
+                              placeholder="새로운 비밀번호"
                               {...field}
                             />
                           </FormControl>
@@ -139,11 +113,11 @@ export function SignupForm() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>비밀번호 확인</FormLabel>
+                          <FormLabel>새로운 비밀번호 확인</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
-                              placeholder="비밀번호 확인"
+                              placeholder="새로운 비밀번호 확인"
                               {...field}
                             />
                           </FormControl>
@@ -152,17 +126,16 @@ export function SignupForm() {
                       )}
                     />
                   </div>
-
-                  <Button>회원가입</Button>
-                </div>
-                <div className="text-sm text-center text-muted-foreground">
-                  이미 계정이 있나요?{" "}
-                  <Link
-                    href={"/login"}
-                    className="text-foreground link hover:underline underline-offset-2"
-                  >
-                    로그인
-                  </Link>
+                  <Button>비밀번호 재설정</Button>
+                  <div className="text-sm text-center text-muted-foreground">
+                    이미 계정이 있나요?{" "}
+                    <Link
+                      href={"/login"}
+                      className="text-foreground link hover:underline underline-offset-2"
+                    >
+                      로그인
+                    </Link>
+                  </div>
                 </div>
               </div>
             </form>

@@ -2,7 +2,7 @@
 
 import { SERVER_URL } from "@/constants";
 import axios from "axios";
-import { auth } from "./../auth";
+import { auth } from "../auth";
 
 export async function imageUpload(formData: FormData) {
   const session = await auth();

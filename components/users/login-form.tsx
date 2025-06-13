@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useLogin } from "@/hooks/query/use-auth";
+import { useLogin } from "@/hooks/query/use-users";
 import { LoginFormType } from "@/type/auth.type";
 import { LoginFormSchema } from "@/validation/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +23,7 @@ export function LoginForm() {
   const form = useForm<LoginFormType>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
@@ -48,12 +48,12 @@ export function LoginForm() {
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>이메일</FormLabel>
+                        <FormLabel>아이디</FormLabel>
                         <FormControl>
-                          <Input placeholder="이메일" {...field} />
+                          <Input placeholder="아이디" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -105,7 +105,7 @@ export function LoginForm() {
             <div className="text-sm text-center text-muted-foreground">
               계정이 없나요?{" "}
               <Link
-                href={"/signup"}
+                href={"/register"}
                 target="_self"
                 className="text-foreground link hover:underline underline-offset-2"
               >

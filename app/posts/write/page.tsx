@@ -1,7 +1,7 @@
 "use client";
 
 import PostForm from "@/components/post/post-form";
-import { useCreatePost } from "@/hooks/query/user-post";
+import { useCreatePost } from "@/hooks/query/use-posts";
 import { PostFormType } from "@/type/post.type";
 
 export default function WritePage() {

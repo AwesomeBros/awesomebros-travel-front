@@ -1,6 +1,6 @@
 "use client";
-import { login, resetPassword, signup } from "@/actions/auth.actions";
 import { sendEmail, verifyToken } from "@/actions/email.actions";
+import { login, resetPassword, signup } from "@/actions/users.actions";
 import { EmailFormType } from "@/type/auth.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";

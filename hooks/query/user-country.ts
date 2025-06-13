@@ -1,4 +1,4 @@
-import { findCountriesAll } from "@/actions/country.actions";
+import { findCountriesAll } from "@/actions/countries.actions";
 import { useQuery } from "@tanstack/react-query";
 
 export const useFindCountriesAll = () => {

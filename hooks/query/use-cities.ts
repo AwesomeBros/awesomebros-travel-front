@@ -1,4 +1,4 @@
-import { findCitiesAll } from "@/actions/city.actions";
+import { findCitiesAll } from "@/actions/cities.actions";
 import { useQuery } from "@tanstack/react-query";
 
 export const useFindCitiesAll = () => {

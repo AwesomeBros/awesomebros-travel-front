@@ -1,4 +1,4 @@
-import { imageUpload } from "@/actions/file.actions";
+import { imageUpload } from "@/actions/files.actions";
 import BlotFormatter from "quill-blot-formatter";
 import "quill/dist/quill.snow.css";
 import { useEffect } from "react";

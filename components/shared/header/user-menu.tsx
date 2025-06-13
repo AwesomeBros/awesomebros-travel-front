@@ -18,11 +18,11 @@ import { LuUserRound } from "react-icons/lu";
 const publicRoute = [
   {
     label: "로그인",
-    href: "/login",
+    href: "/users/login",
   },
   {
     label: "회원가입",
-    href: "/signup",
+    href: "/users/register",
   },
 ];
 

@@ -1,4 +1,8 @@
-import { createPost, findPostById, findPostsAll } from "@/actions/post.actions";
+import {
+  createPost,
+  findPostById,
+  findPostsAll,
+} from "@/actions/posts.actions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -20,10 +24,10 @@ export const useCreatePost = () => {
   return mutation;
 };
 
-export const useFindPostsAll = () => {
+export const useFindPostsAll = (sort?: string) => {
   const query = useQuery({
-    queryKey: ["posts"],
-    queryFn: findPostsAll,
+    queryKey: ["posts", { sort }],
+    queryFn: () => findPostsAll(sort),
   });
   return query;
 };
@@ -33,4 +37,5 @@ export const useFindPostById = (id: number) => {
     queryKey: ["post", { id }],
     queryFn: () => findPostById(id),
   });
+  return query;
 };

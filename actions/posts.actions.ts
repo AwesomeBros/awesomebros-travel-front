@@ -24,12 +24,14 @@ export async function createPost(values: PostFormType) {
   }
 }
 
-export async function findPostsAll() {
+export async function findPostsAll(sort?: string) {
   try {
-    const response = await axios.get(`${SERVER_URL}/post`);
-    const { body } = response.data;
-
-    return body;
+    const response = await axios.get(`${SERVER_URL}/posts`, {
+      params: {
+        sort,
+      },
+    });
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message;
@@ -41,7 +43,7 @@ export async function findPostsAll() {
 
 export async function findPostById(id: number) {
   try {
-    const response = await axios.get(`${SERVER_URL}/post/${id}`);
+    const response = await axios.get(`${SERVER_URL}/posts/${id}`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -1,4 +1,4 @@
-import { getCoordinate } from "@/actions/post.actions";
+import { getCoordinate } from "@/actions/posts.actions";
 import { Input } from "@/components/ui/input";
 import { PlaceType } from "@/type/post.type";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";

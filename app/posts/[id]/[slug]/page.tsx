@@ -1,4 +1,4 @@
-import { findPostById } from "@/actions/post.actions";
+import { findPostById } from "@/actions/posts.actions";
 import { auth } from "@/auth";
 import { Separator } from "@/components/ui/separator";
 import { NO_IMG } from "@/constants";

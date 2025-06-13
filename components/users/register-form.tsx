@@ -1,14 +1,12 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useResetPassword, useVerifyToken } from "@/hooks/query/use-auth";
-import { ResetPasswordFormType } from "@/type/auth.type";
-import { ResetPasswordFormSchema } from "@/validation/auth.schema";
+import { useSignup } from "@/hooks/query/use-users";
+import { SignupFormType } from "@/type/auth.type";
+import { SignupFormSchema } from "@/validation/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -19,46 +17,28 @@ import {
   FormMessage,
 } from "../ui/form";
 
-export function ResetPasswordForm() {
-  const router = useRouter();
-  const token = useParams<{ token: string }>().token;
-  const form = useForm<ResetPasswordFormType>({
-    resolver: zodResolver(ResetPasswordFormSchema),
+export function RegisterForm() {
+  const form = useForm<SignupFormType>({
+    resolver: zodResolver(SignupFormSchema),
     defaultValues: {
       email: "",
+      username: "",
       password: "",
       confirmPassword: "",
-      token: "",
+      nickname: "",
     },
   });
+  const signup = useSignup();
 
-  const { data, isError, error, isLoading } = useVerifyToken(token);
-  const resetPassword = useResetPassword();
-
-  if (!isLoading) {
-    setTimeout(() => {
-      form.setValue("email", data.body);
-      form.setValue("token", token);
-    }, 0);
-  }
-  if (isError) {
-    if (error instanceof Error) {
-      if (error.message.includes("401")) {
-        toast.error("잘못된 접근입니다.");
-        router.push("/reset-password");
-      }
-    }
-  }
-
-  function onSubmit(values: ResetPasswordFormType) {
-    resetPassword.mutate(values);
+  function onSubmit(values: SignupFormType) {
+    signup.mutate(values);
   }
 
   return (
     <div className="flex flex-col gap-6">
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">비밀번호 찾기</CardTitle>
+          <CardTitle className="text-xl">회원가입</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -70,8 +50,9 @@ export function ResetPasswordForm() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel>이메일</FormLabel>
                         <FormControl>
-                          <Input type="hidden" {...field} />
+                          <Input type="email" placeholder="이메일" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -79,28 +60,33 @@ export function ResetPasswordForm() {
                   />
                   <FormField
                     control={form.control}
-                    name="token"
+                    name="nickname"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel>닉네임</FormLabel>
                         <FormControl>
-                          <Input type="hidden" {...field} />
+                          <Input
+                            type="text"
+                            placeholder="닉네임"
+                            readOnly
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <input type="hidden" name="token" value={token} />
                   <div className="grid gap-2">
                     <FormField
                       control={form.control}
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>새로운 비밀번호</FormLabel>
+                          <FormLabel>비밀번호</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
-                              placeholder="새로운 비밀번호"
+                              placeholder="비밀번호"
                               {...field}
                             />
                           </FormControl>
@@ -115,11 +101,11 @@ export function ResetPasswordForm() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>새로운 비밀번호 확인</FormLabel>
+                          <FormLabel>비밀번호 확인</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
-                              placeholder="새로운 비밀번호 확인"
+                              placeholder="비밀번호 확인"
                               {...field}
                             />
                           </FormControl>
@@ -128,16 +114,17 @@ export function ResetPasswordForm() {
                       )}
                     />
                   </div>
-                  <Button>비밀번호 재설정</Button>
-                  <div className="text-sm text-center text-muted-foreground">
-                    이미 계정이 있나요?{" "}
-                    <Link
-                      href={"/login"}
-                      className="text-foreground link hover:underline underline-offset-2"
-                    >
-                      로그인
-                    </Link>
-                  </div>
+
+                  <Button>회원가입</Button>
+                </div>
+                <div className="text-sm text-center text-muted-foreground">
+                  이미 계정이 있나요?{" "}
+                  <Link
+                    href={"/login"}
+                    className="text-foreground link hover:underline underline-offset-2"
+                  >
+                    로그인
+                  </Link>
                 </div>
               </div>
             </form>

@@ -16,16 +16,16 @@ import axios from "axios";
 
 export const signup = async (value: SignupFormType) => {
   const data = SignupFormSchema.parse(value);
-  const { name, email, token, password } = data;
-  await axios.post(`${SERVER_URL}/auth/signup`, {
-    name,
+  const { username, email, nickname, password } = data;
+  await axios.post(`${SERVER_URL}/users/register`, {
+    username,
     email,
-    token,
+    nickname,
     password,
   });
 
   await signIn("credentials", {
-    email,
+    username,
     password,
     redirect: false,
   });
@@ -35,11 +35,10 @@ export const signup = async (value: SignupFormType) => {
 
 export const resetPassword = async (value: ResetPasswordFormType) => {
   const data = ResetPasswordFormSchema.parse(value);
-  const { email, token, password } = data;
+  const { email, password } = data;
   try {
     const response = await axios.post(`${SERVER_URL}/auth/reset-password`, {
       email,
-      token,
       password,
     });
     return response.data;
@@ -55,7 +54,7 @@ export const resetPassword = async (value: ResetPasswordFormType) => {
 export async function login(value: LoginFormType) {
   const data = LoginFormSchema.parse(value);
   await signIn("credentials", {
-    email: data.email,
+    email: data.username,
     password: data.password,
     redirect: false,
   });

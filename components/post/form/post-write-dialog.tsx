@@ -1,6 +1,6 @@
 "use client";
 
-import { useCreatePost } from "@/hooks/query/user-post";
+import { useCreatePost } from "@/hooks/query/use-posts";
 import { usePostOpenStore } from "@/hooks/store";
 import { PostFormType } from "@/type/post.type";
 import {

@@ -1,4 +1,4 @@
-import { findPostById } from "@/actions/post.actions";
+import { findPostById } from "@/actions/posts.actions";
 import { PostType } from "@/type/post.type";
 import { notFound, redirect } from "next/navigation";
 

@@ -31,6 +31,8 @@ export async function findPostsAll(sort?: string) {
         sort,
       },
     });
+    console.log("findPostsAll response:", response.data);
+
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

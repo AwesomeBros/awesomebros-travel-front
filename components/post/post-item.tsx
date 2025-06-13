@@ -17,7 +17,7 @@ export default function PostItem({ post }: { post: PostType }) {
         <div className="flex items-center gap-2">
           <div className="relative size-8 rounded-full overflow-hidden">
             <Image
-              src={post.users.url || NO_IMG}
+              src={post.users?.url || NO_IMG}
               alt="profile"
               fill
               style={{
@@ -76,7 +76,9 @@ export default function PostItem({ post }: { post: PostType }) {
           )}
         </div>
 
-        <p className="text-end text-primary font-bold">{post.districts.name}</p>
+        <p className="text-end text-primary font-bold">
+          {post.districts?.name}
+        </p>
       </div>
       {/* )} */}
     </Link>

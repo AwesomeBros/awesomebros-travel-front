@@ -23,7 +23,7 @@ export default function HomePostsList() {
   const { data: popularPostsAll, isLoading: popularIsLoading } =
     useFindPostsAll("popular");
   const { data: latestPostsAll, isLoading: latestIsLoading } =
-    useFindPostsAll();
+    useFindPostsAll("latest");
   if (popularIsLoading || latestIsLoading) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
@@ -33,7 +33,7 @@ export default function HomePostsList() {
   }
   return (
     <main className="container mx-auto px-2 md:px-0">
-      <div className="py-10 flex justify-center">
+      <div className="py-10 flex flex-col justify-center gap-10">
         <div className="w-full max-w-[1200px] flex flex-col gap-5">
           <div className="flex justify-between items-center">
             <div>

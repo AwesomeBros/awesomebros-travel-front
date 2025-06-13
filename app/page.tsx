@@ -10,8 +10,8 @@ export default function HomePage() {
     queryFn: () => findPostsAll("popular"),
   });
   queryClient.prefetchQuery({
-    queryKey: ["posts"],
-    queryFn: () => findPostsAll(),
+    queryKey: ["posts", { sort: "latest" }],
+    queryFn: () => findPostsAll("latest"),
   });
   const state = dehydrate(queryClient);
 

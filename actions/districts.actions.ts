@@ -5,6 +5,5 @@ import axios from "axios";
 
 export async function findDistrictsAll() {
   const response = await axios.get(`${SERVER_URL}/districts`);
-  const { body } = await response.data;
-  return body;
+  return response.data;
 }

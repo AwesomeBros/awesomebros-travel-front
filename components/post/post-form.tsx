@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { CityType } from "@/type/citiy.type";
 import { CountryType } from "@/type/country.type";
 import { DistrictType } from "@/type/district.type";
-import { PostFormType } from "@/type/post.type";
+import { PlaceType, PostFormType } from "@/type/post.type";
 import { PostFormSchema } from "@/validation/post.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
@@ -33,6 +33,16 @@ const ReactQuillEditor = dynamic(() => import("./react-quill-editor"), {
   ssr: false,
 });
 
+const AddressMap = dynamic(() => import("@/components/post/form/address-map"), {
+  ssr: false,
+  loading: () => <p>Loading map...</p>,
+});
+
+const AddressSearch = dynamic(
+  () => import("@/components/post/form/address-search"),
+  { ssr: false, loading: () => <p>Loading map...</p> }
+);
+
 export default function PostForm({
   id,
   defaultValues,
@@ -40,6 +50,7 @@ export default function PostForm({
   disabled,
 }: WriteFormProps) {
   const [step, setStep] = useState<number>(1);
+  const [selectPositions, setSelectPositions] = useState<PlaceType[] | []>([]);
   const { data: findCountriesAll, isLoading: CountriesAreLoading } =
     useFindCountriesAll();
   const { data: findDistrictsAll, isLoading: RegionsAreLoading } =
@@ -308,25 +319,17 @@ export default function PostForm({
           )}
           {step === 5 && (
             <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>주소</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="주소를 입력하세요"
-                        className="mt-1.5"
-                        {...field}
-                        value={field.value || ""}
-                        onChange={(e) => field.onChange(e.target.value)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex w-full size-full">
+                <div className="w-1/2 h-[60vh]">
+                  <AddressMap
+                    setSelectPositions={setSelectPositions}
+                    selectPositions={selectPositions}
+                  />
+                </div>
+                <div className="w-1/2 h-full">
+                  <AddressSearch setSelectPositions={setSelectPositions} />
+                </div>
+              </div>
             </div>
           )}
         </div>

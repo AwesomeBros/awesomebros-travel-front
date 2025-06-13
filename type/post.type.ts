@@ -19,3 +19,21 @@ export type PostType = z.infer<typeof PostFormSchema> & {
   cities: CityType;
   countries: CountryType;
 };
+
+export type PlaceType = {
+  place_id: number;
+  display_name: string;
+  address: {
+    city?: string;
+    borough?: string;
+    suburb?: string;
+    province?: string;
+    city_district?: string;
+    amenity?: string;
+    quarter?: string;
+    aeroway?: string;
+    beach?: string;
+  };
+  lat: number;
+  lon: number;
+};

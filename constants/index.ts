@@ -31,3 +31,5 @@ export const COUNTRIES = [{ id: 1, name: "한국" }];
 
 export const BLUR_DATA_URL =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOcNX9WPQAGAgJUl8IWQgAAAABJRU5ErkJggg==";
+
+export const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search?";

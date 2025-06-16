@@ -55,7 +55,7 @@ export const config = {
   providers: [
     CredentialsProvider({
       credentials: {
-        email: { type: "email" },
+        email: { type: "username" },
         password: { type: "password" },
       },
       async authorize(credentials) {
@@ -76,7 +76,7 @@ export const config = {
       async profile(profile) {
         const user = {
           id: String(profile.id),
-          username: profile.properties.nickname,
+          nickname: profile.properties.nickname,
           email: profile.kakao_account.email,
           password: "",
           url: profile.properties.profile_image,
@@ -98,7 +98,7 @@ export const config = {
       async profile(profile) {
         const user = {
           id: Number(profile.sub),
-          username: profile.name,
+          nickname: profile.name,
           password: "",
           email: profile.email,
           url: profile.picture,
@@ -127,7 +127,7 @@ export const config = {
         token = await refreshToken(token);
       }
       if (trigger === "update" && session) {
-        token.user.username = session.user.username;
+        token.user.nickname = session.user.nickname;
         token.user.url = session.user.url;
       }
       {
@@ -148,6 +148,7 @@ export const config = {
         role: token.user.role,
         email: token.user.email,
         username: token.user.username,
+        nickname: token.user.nickname,
         url: token.user.url,
         provider: token.user.provider,
       };

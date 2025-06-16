@@ -32,7 +32,9 @@ export default async function RootLayout({
       <body className={`${pretendard.variable} font-pretendard`}>
         <Provider session={session}>
           <Header session={session} />
-          {children}
+          <main className="w-full max-w-[1200px] mx-auto px-2 py-10 md:px-0">
+            {children}
+          </main>
         </Provider>
       </body>
     </html>

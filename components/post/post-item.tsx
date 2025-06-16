@@ -47,7 +47,6 @@ export default function PostItem({ post }: { post: PostType }) {
         </div>
         <div>
           <div className="text-[#000000b3] text-md font-medium leading-[140%] flex items-center gap-3">
-            {/* {`댓글 ${1} · 좋아요 ${1} · 조회수 ${post.viewCount}`} */}
             <p className="flex items-center gap-1">
               <FaRegCommentDots /> 0
             </p>

@@ -1,23 +1,36 @@
-import { findPostsAll } from "@/actions/posts.actions";
-import HomePostsList from "@/components/home/home-posts-list";
+import { findPostsByCities, findPostsBySort } from "@/actions/home.actions";
+import CitiesPostsList from "@/components/home/cities-posts-list";
+import PopularLatestPostsList from "@/components/home/popular-latest-posts-list";
 import { getQueryClient } from "@/provider/get-query-client";
+import { HomeCitiesType } from "@/type/types";
+
+import { HomeSortType } from "@/type/types";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-export default function HomePage() {
+export default async function HomePage() {
   const queryClient = getQueryClient();
-  queryClient.prefetchQuery({
-    queryKey: ["posts", { sort: "popular" }],
-    queryFn: () => findPostsAll("popular"),
-  });
-  queryClient.prefetchQuery({
-    queryKey: ["posts", { sort: "latest" }],
-    queryFn: () => findPostsAll("latest"),
-  });
+  const sortType: HomeSortType = "latest";
+  const cityType: HomeCitiesType = "서울";
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ["posts", { sort: sortType }],
+      queryFn: () => findPostsBySort(sortType),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ["posts", { city: cityType }],
+      queryFn: () => findPostsByCities(cityType),
+    }),
+  ]);
+
   const state = dehydrate(queryClient);
 
   return (
-    <HydrationBoundary state={state}>
-      <HomePostsList />
-    </HydrationBoundary>
+    <div className="flex flex-col">
+      <HydrationBoundary state={state}>
+        <PopularLatestPostsList />
+        <CitiesPostsList />
+      </HydrationBoundary>
+    </div>
   );
 }

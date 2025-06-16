@@ -2,12 +2,12 @@
 
 import { useConfirm } from "@/hooks/use-confirm";
 import { PlaceType } from "@/type/post.type";
-import type { LatLngTuple } from "leaflet";
+import type { LatLngTuple, Marker as LeafletMarker } from "leaflet";
 import { icon, latLng } from "leaflet";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";
 import "leaflet/dist/leaflet.css";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 const markerIcon = icon({
   iconUrl: typeof MarkerIcon === "string" ? MarkerIcon : MarkerIcon.src,
@@ -31,15 +31,31 @@ export default function AddressMap({
     ""
   );
   const JAWG_ACCESS_TOKEN = process.env.NEXT_PUBLIC_JAWG_ACCESS_TOKEN;
-
+  const markerRef = useRef<LeafletMarker | null>(null);
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (marker) {
+      marker.openPopup();
+      marker.on("popupclose", () => {
+        setTimeout(() => marker.openPopup(), 0);
+      });
+    }
+    // cleanup
+    return () => {
+      if (marker) marker.off("popupclose");
+    };
+  }, []);
   async function handleDeleteMarker(placeId: number) {
     const ok = await confirm();
     if (ok) {
       setSelectPositions((prevItems) =>
-        prevItems.filter((item) => item.place_id !== placeId)
+        prevItems.filter(
+          (item) => item.properties.geocoding.place_id !== placeId
+        )
       );
     }
   }
+
   return (
     <>
       <ConfirmDialog />
@@ -54,13 +70,25 @@ export default function AddressMap({
         />
         {selectPositions.map((position) => (
           <Marker
-            key={position.place_id}
-            position={[position.lat, position.lon]}
+            key={position.properties.geocoding.place_id}
+            ref={markerRef}
+            position={
+              [
+                position.geometry.coordinates[1],
+                position.geometry.coordinates[0],
+              ] as LatLngTuple
+            }
             icon={markerIcon}
             eventHandlers={{
-              click: () => handleDeleteMarker(position.place_id),
+              click: () =>
+                handleDeleteMarker(position.properties.geocoding.place_id),
+              add: (e) => e.target.openPopup(),
             }}
-          />
+          >
+            <Popup autoClose={false} closeOnClick={false} closeButton={false}>
+              {position.properties.geocoding.name}
+            </Popup>
+          </Marker>
         ))}
         <ResetCenterView selectPositions={selectPositions} />
       </MapContainer>
@@ -74,17 +102,28 @@ function ResetCenterView({
   selectPositions: PlaceType[] | [];
 }) {
   const map = useMap();
-
   useEffect(() => {
-    if (selectPositions.length === 1) {
-      const pos = selectPositions[0];
-      map.setView(latLng(pos.lat, pos.lon), map.getZoom(), { animate: true });
-    } else if (selectPositions.length > 1) {
-      const bounds: LatLngTuple[] = selectPositions.map(
-        (pos) => [pos.lat, pos.lon] as LatLngTuple
-      );
-      map.fitBounds(bounds, { padding: [50, 50], animate: true });
-    }
+    const timer = setTimeout(() => {
+      if (selectPositions.length === 1) {
+        const pos = selectPositions[0];
+        map.setView(
+          latLng(pos.geometry.coordinates[1], pos.geometry.coordinates[0]),
+          map.getZoom(),
+          { animate: true }
+        );
+      } else if (selectPositions.length > 1) {
+        const bounds: LatLngTuple[] = selectPositions.map(
+          (pos) =>
+            [
+              pos.geometry.coordinates[1],
+              pos.geometry.coordinates[0],
+            ] as LatLngTuple
+        );
+        map.fitBounds(bounds, { padding: [50, 50], animate: true });
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, [selectPositions, map]);
 
   return null;

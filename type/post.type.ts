@@ -20,20 +20,39 @@ export type PostType = z.infer<typeof PostFormSchema> & {
   countries: CountryType;
 };
 
+// export type PlaceType = {
+//   place_id: number;
+//   display_name: string;
+//   address: {
+//     city?: string;
+//     borough?: string;
+//     suburb?: string;
+//     province?: string;
+//     city_district?: string;
+//     amenity?: string;
+//     quarter?: string;
+//     aeroway?: string;
+//     beach?: string;
+//   };
+//   lat: number;
+//   lon: number;
+// };
+
 export type PlaceType = {
-  place_id: number;
-  display_name: string;
-  address: {
-    city?: string;
-    borough?: string;
-    suburb?: string;
-    province?: string;
-    city_district?: string;
-    amenity?: string;
-    quarter?: string;
-    aeroway?: string;
-    beach?: string;
+  geometry: {
+    coordinates: [number, number];
+    type: "Point";
   };
-  lat: number;
-  lon: number;
+  properties: {
+    geocoding: {
+      city: string | null;
+      district: string | null;
+      country: string | null;
+      locality: string | null;
+      name: string;
+      street: string | null;
+      place_id: number;
+      label: string;
+    };
+  };
 };

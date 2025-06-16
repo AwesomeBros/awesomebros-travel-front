@@ -24,16 +24,12 @@ export async function createPost(values: PostFormType) {
   }
 }
 
-export async function findPostsAll(sort?: string) {
+export async function findPostsAll() {
   try {
-    const response = await axios.get(`${SERVER_URL}/posts`, {
-      params: {
-        sort,
-      },
-    });
-    console.log("findPostsAll response:", response.data);
+    const response = await axios.get(`${SERVER_URL}/post`);
+    const { body } = response.data;
 
-    return response.data;
+    return body;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message;
@@ -45,7 +41,7 @@ export async function findPostsAll(sort?: string) {
 
 export async function findPostById(id: number) {
   try {
-    const response = await axios.get(`${SERVER_URL}/posts/${id}`);
+    const response = await axios.get(`${SERVER_URL}/post/${id}`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -61,7 +57,7 @@ export async function getCoordinate(value: string) {
     const response = await axios.get(`${NOMINATIM_URL}`, {
       params: {
         q: value,
-        format: "json",
+        format: "geocodejson",
         addressdetails: 1,
         "accept-language": "ko",
         polygon_geojson: 0,

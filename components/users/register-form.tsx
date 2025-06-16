@@ -30,6 +30,7 @@ export function RegisterForm() {
   });
   const signup = useSignup();
 
+  console.error(form.formState.errors);
   function onSubmit(values: SignupFormType) {
     signup.mutate(values);
   }
@@ -60,17 +61,29 @@ export function RegisterForm() {
                   />
                   <FormField
                     control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>유저 아이디</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="유저 아이디"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
                     name="nickname"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>닉네임</FormLabel>
                         <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="닉네임"
-                            readOnly
-                            {...field}
-                          />
+                          <Input type="text" placeholder="닉네임" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

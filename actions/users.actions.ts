@@ -24,12 +24,6 @@ export const signup = async (value: SignupFormType) => {
     password,
   });
 
-  await signIn("credentials", {
-    username,
-    password,
-    redirect: false,
-  });
-
   return { message: "회원가입에 성공하였습니다." };
 };
 

@@ -71,7 +71,7 @@ export default function AddressSearch({
         <ul className="max-h-[450px] overflow-y-auto mt-2 rounded-lg shadow">
           {listPlace.map((item, index) => {
             return (
-              <div key={item?.properties.geocoding.place_id}>
+              <div key={index}>
                 <li
                   className="border p-2 cursor-pointer hover:bg-gray-100"
                   onClick={() => handleAddress(item)}

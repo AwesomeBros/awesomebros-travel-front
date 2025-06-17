@@ -15,7 +15,9 @@ export const useLogin = () => {
     },
     onError: (error) => {
       if (error instanceof Error) {
-        toast.error(error.message);
+        if (error.message !== "NEXT_REDIRECT") {
+          toast.error("아이디 또는 비밀번호가 일치하지 않습니다.");
+        }
       }
     },
   });
@@ -38,7 +40,7 @@ export const useSignup = () => {
     mutationFn: signup,
     onSuccess: (data) => {
       toast.success(data.message);
-      router.push("/");
+      router.push("/login");
     },
     onError: (error) => {
       if (error instanceof Error) {

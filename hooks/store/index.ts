@@ -1,5 +1,7 @@
+import { PostFormType } from "@/type/post.type";
 import { DetailFilterType, FilterProps } from "@/type/types";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface DetailFilterStore {
   detailFilter: null | DetailFilterType;
@@ -42,3 +44,34 @@ export const usePostOpenStore = create<PostOpenState>((set) => ({
   onOpen: (id) => set({ isOpen: true, id }),
   onClose: () => set({ isOpen: false }),
 }));
+
+const POST_FORM_INITIAL: PostFormType = {
+  url: "",
+  title: "",
+  coordinates: [],
+  content: "",
+  cities_id: 0,
+  countries_id: 0,
+  districts_id: 0,
+  thumbnail: "",
+  slug: "",
+};
+
+interface PostFormStore {
+  postForm: PostFormType;
+  setPostForm: (form: PostFormType) => void;
+  resetPostForm: () => void;
+}
+
+export const usePostFormStore = create<PostFormStore>()(
+  persist(
+    (set) => ({
+      postForm: { ...POST_FORM_INITIAL },
+      setPostForm: (form) => set({ postForm: form }),
+      resetPostForm: () => set({ postForm: { ...POST_FORM_INITIAL } }),
+    }),
+    {
+      name: "post-form-storage",
+    }
+  )
+);

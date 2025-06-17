@@ -133,7 +133,7 @@ export function RegisterForm() {
                 <div className="text-sm text-center text-muted-foreground">
                   이미 계정이 있나요?{" "}
                   <Link
-                    href={"/login"}
+                    href={"/users/login"}
                     className="text-foreground link hover:underline underline-offset-2"
                   >
                     로그인

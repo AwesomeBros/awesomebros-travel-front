@@ -48,9 +48,9 @@ export const resetPassword = async (value: ResetPasswordFormType) => {
 export async function login(value: LoginFormType) {
   const data = LoginFormSchema.parse(value);
   await signIn("credentials", {
-    email: data.username,
+    username: data.username,
     password: data.password,
-    redirect: false,
+    redirect: true,
   });
 }
 

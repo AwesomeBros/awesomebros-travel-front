@@ -18,9 +18,7 @@ async function refreshToken(token: JWT): Promise<JWT> {
       }
     );
 
-    const { body } = await response.data;
-
-    const newRefreshToken = await body;
+    const newRefreshToken = response.data;
     // console.log("newRefreshToken", newRefreshToken);
 
     return {
@@ -55,19 +53,18 @@ export const config = {
   providers: [
     CredentialsProvider({
       credentials: {
-        email: { type: "username" },
+        username: { type: "username" },
         password: { type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
-        const { email, password } = credentials;
+        if (!credentials?.username || !credentials?.password) return null;
+        const { username, password } = credentials;
 
-        const response = await axios.post(`${SERVER_URL}/auth/login`, {
-          email,
+        const response = await axios.post(`${SERVER_URL}/users/login`, {
+          username,
           password,
         });
-        const result = await response.data.body;
-        return result;
+        return response.data;
       },
     }),
     KakaoProvider({
@@ -80,14 +77,14 @@ export const config = {
           email: profile.kakao_account.email,
           password: "",
           url: profile.properties.profile_image,
-          provider: "kakao",
+          provider: "카카오",
         };
 
         const response = await axios.post(
           `${SERVER_URL}/auth/social-login`,
           user
         );
-        const result = await response.data.body;
+        const result = await response.data;
 
         return result;
       },
@@ -102,14 +99,14 @@ export const config = {
           password: "",
           email: profile.email,
           url: profile.picture,
-          provider: "google",
+          provider: "구글",
         };
 
         const response = await axios.post(
           `${SERVER_URL}/auth/social-login`,
           user
         );
-        const result = await response.data.body;
+        const result = await response.data;
         result.id = user.id;
         return result;
       },

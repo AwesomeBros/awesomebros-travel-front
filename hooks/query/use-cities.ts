@@ -1,10 +1,11 @@
 import { findCitiesAll } from "@/actions/cities.actions";
 import { useQuery } from "@tanstack/react-query";
 
-export const useFindCitiesAll = () => {
+export const useFindCitiesAll = (countryId?: number) => {
   const query = useQuery({
-    queryKey: ["cities"],
-    queryFn: findCitiesAll,
+    enabled: !!countryId,
+    queryKey: ["cities", { countryId }],
+    queryFn: () => findCitiesAll(countryId),
   });
   return query;
 };

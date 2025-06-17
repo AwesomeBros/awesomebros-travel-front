@@ -40,7 +40,6 @@ export default function AddressMap({
         setTimeout(() => marker.openPopup(), 0);
       });
     }
-    // cleanup
     return () => {
       if (marker) marker.off("popupclose");
     };
@@ -80,8 +79,12 @@ export default function AddressMap({
             }
             icon={markerIcon}
             eventHandlers={{
-              click: () =>
-                handleDeleteMarker(position.properties.geocoding.place_id),
+              click: () => {
+                const placeId = position.properties.geocoding.place_id;
+                if (placeId !== undefined) {
+                  handleDeleteMarker(placeId);
+                }
+              },
               add: (e) => e.target.openPopup(),
             }}
           >

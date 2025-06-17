@@ -1,4 +1,11 @@
-import { PostFormSchema } from "@/validation/post.schema";
+import {
+  PostFormCitySchema,
+  PostFormCoordinateSchema,
+  PostFormCountrySchema,
+  PostFormDistrictSchema,
+  PostFormInfoSchema,
+  PostFormSchema,
+} from "@/validation/post.schema";
 import { z } from "zod";
 import { CityType } from "./citiy.type";
 import { CountryType } from "./country.type";
@@ -20,39 +27,27 @@ export type PostType = z.infer<typeof PostFormSchema> & {
   countries: CountryType;
 };
 
-// export type PlaceType = {
-//   place_id: number;
-//   display_name: string;
-//   address: {
-//     city?: string;
-//     borough?: string;
-//     suburb?: string;
-//     province?: string;
-//     city_district?: string;
-//     amenity?: string;
-//     quarter?: string;
-//     aeroway?: string;
-//     beach?: string;
-//   };
-//   lat: number;
-//   lon: number;
-// };
+export type PostFormCountryType = z.infer<typeof PostFormCountrySchema>;
+export type PostFormCityType = z.infer<typeof PostFormCitySchema>;
+export type PostFormDistrictType = z.infer<typeof PostFormDistrictSchema>;
+export type PostFormInfoType = z.infer<typeof PostFormInfoSchema>;
+export type PostFormCoordinateType = z.infer<typeof PostFormCoordinateSchema>;
 
 export type PlaceType = {
   geometry: {
     coordinates: [number, number];
-    type: "Point";
+    type?: "Point";
   };
   properties: {
     geocoding: {
-      city: string | null;
-      district: string | null;
-      country: string | null;
-      locality: string | null;
+      city?: string | null;
+      district?: string | null;
+      country?: string | null;
+      locality?: string | null;
       name: string;
-      street: string | null;
-      place_id: number;
-      label: string;
+      street?: string | null;
+      place_id?: number;
+      label?: string;
     };
   };
 };

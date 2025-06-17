@@ -105,7 +105,7 @@ export function LoginForm() {
             <div className="text-sm text-center text-muted-foreground">
               계정이 없나요?{" "}
               <Link
-                href={"/register"}
+                href={"/users/register"}
                 target="_self"
                 className="text-foreground link hover:underline underline-offset-2"
               >

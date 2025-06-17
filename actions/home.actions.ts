@@ -21,7 +21,7 @@ export async function findPostsBySort(sort: HomeSortType) {
 
 export async function findPostsByCities(city: HomeCitiesType) {
   try {
-    const response = await axios.get(`${SERVER_URL}/posts/city`, {
+    const response = await axios.get(`${SERVER_URL}/posts/cities`, {
       params: { city },
     });
     return response.data;

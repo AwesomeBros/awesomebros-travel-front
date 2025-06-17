@@ -1,11 +1,5 @@
-import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 
 export function Loader({ className }: { className?: string }) {
-  return (
-    <div className={cn("flex gap-4 justify-center", className)}>
-      <div className="size-2 rounded-full bg-gray-500 animate-ping" />
-      <div className="size-2 rounded-full bg-gray-500 animate-ping" />
-      <div className="size-2 rounded-full bg-gray-500 animate-ping" />
-    </div>
-  );
+  return <Loader2 className="size-6 text-slate-300 animate-spin" />;
 }

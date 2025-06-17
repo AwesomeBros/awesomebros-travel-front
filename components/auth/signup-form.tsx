@@ -2,8 +2,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useSignup, useVerifyToken } from "@/hooks/query/use-auth";
-import { SignupFormType } from "@/type/auth.type";
-import { SignupFormSchema } from "@/validation/auth.schema";
+import { SignupFormType } from "@/type";
+import { SignupFormSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";

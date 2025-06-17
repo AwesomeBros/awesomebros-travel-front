@@ -1,4 +1,4 @@
-import { DetailFilterType, FilterProps } from "@/type/types";
+import { DetailFilterType, FilterProps } from "@/type";
 import { create } from "zustand";
 
 interface DetailFilterStore {

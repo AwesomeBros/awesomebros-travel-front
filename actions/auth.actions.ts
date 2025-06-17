@@ -2,16 +2,12 @@
 
 import { auth, signIn } from "@/auth";
 import { SERVER_URL } from "@/constants";
-import {
-  LoginFormType,
-  ResetPasswordFormType,
-  SignupFormType,
-} from "@/type/auth.type";
+import { LoginFormType, ResetPasswordFormType, SignupFormType } from "@/type";
 import {
   LoginFormSchema,
   ResetPasswordFormSchema,
   SignupFormSchema,
-} from "@/validation/auth.schema";
+} from "@/validation";
 import axios from "axios";
 
 export const signup = async (value: SignupFormType) => {
@@ -57,7 +53,7 @@ export async function login(value: LoginFormType) {
   await signIn("credentials", {
     email: data.email,
     password: data.password,
-    redirect: false,
+    redirect: true,
   });
 }
 

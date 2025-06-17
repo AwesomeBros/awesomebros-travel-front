@@ -1,5 +1,5 @@
-import { useFindCitiesAll } from "@/hooks/query/use-cities";
-import { useFindDistrictsAll } from "@/hooks/query/use-districts";
+import { useFindCitiesAll } from "@/hooks/query/use-city";
+import { useFindDistrictsAll } from "@/hooks/query/use-district";
 import { useFindCountriesAll } from "@/hooks/query/user-country";
 import { useDetailFilterStore, useFilterStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";

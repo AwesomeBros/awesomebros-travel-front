@@ -2,14 +2,14 @@
 
 import { useCreatePost } from "@/hooks/query/user-post";
 import { usePostOpenStore } from "@/hooks/store";
-import { PostFormType } from "@/type/post.type";
+
+import { PostFormType } from "@/type";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog";
-import PostForm from "../post-form";
 
 export default function PostWriteDialog() {
   const { isOpen, onClose } = usePostOpenStore();
@@ -27,7 +27,7 @@ export default function PostWriteDialog() {
           </DialogTitle>
         </DialogHeader>
         <section className="w-full mx-auto px-4 min-h-[60vh] overflow-auto">
-          <PostForm onSubmit={onSubmit} />
+          {/* <PostForm onSubmit={onSubmit} /> */}
         </section>
       </DialogContent>
     </Dialog>

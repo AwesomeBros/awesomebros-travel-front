@@ -1,7 +1,7 @@
 "use client";
 import { login, resetPassword, signup } from "@/actions/auth.actions";
 import { sendEmail, verifyToken } from "@/actions/email.actions";
-import { EmailFormType } from "@/type/auth.type";
+import { EmailFormType } from "@/type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -15,7 +15,9 @@ export const useLogin = () => {
     },
     onError: (error) => {
       if (error instanceof Error) {
-        toast.error(error.message);
+        if (error.message !== "NEXT_REDIRECT") {
+          toast.error("이메일 또는 비밀번호가 일치하지 않습니다.");
+        }
       }
     },
   });

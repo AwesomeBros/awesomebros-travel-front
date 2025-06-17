@@ -76,11 +76,11 @@ export const config = {
       async profile(profile) {
         const user = {
           id: String(profile.id),
-          username: profile.properties.nickname,
+          name: profile.properties.nickname,
           email: profile.kakao_account.email,
           password: "",
           url: profile.properties.profile_image,
-          provider: "kakao",
+          provider: "카카오",
         };
 
         const response = await axios.post(
@@ -98,11 +98,11 @@ export const config = {
       async profile(profile) {
         const user = {
           id: Number(profile.sub),
-          username: profile.name,
+          name: profile.name,
           password: "",
           email: profile.email,
           url: profile.picture,
-          provider: "google",
+          provider: "구글",
         };
 
         const response = await axios.post(
@@ -127,8 +127,8 @@ export const config = {
         token = await refreshToken(token);
       }
       if (trigger === "update" && session) {
-        token.user.username = session.user.username;
-        token.user.url = session.user.url;
+        token.user.name = session.user.name;
+        token.user.image = session.user.image;
       }
       {
         /* 업데이트 */
@@ -147,8 +147,8 @@ export const config = {
         id: token.user.id,
         role: token.user.role,
         email: token.user.email,
-        username: token.user.username,
-        url: token.user.url,
+        name: token.user.name,
+        image: token.user.image,
         provider: token.user.provider,
       };
 

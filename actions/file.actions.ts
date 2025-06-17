@@ -12,7 +12,7 @@ export async function imageUpload(formData: FormData) {
       authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response.data.body;
 }
 
 export async function changePathContentImage(data: {
@@ -34,5 +34,5 @@ export async function changePathContentImage(data: {
       },
     }
   );
-  return response.data;
+  return response.data.body;
 }

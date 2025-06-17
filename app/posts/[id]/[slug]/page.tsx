@@ -2,7 +2,7 @@ import { findPostById } from "@/actions/post.actions";
 import { auth } from "@/auth";
 import { Separator } from "@/components/ui/separator";
 import { NO_IMG } from "@/constants";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +16,7 @@ export default async function PostDetailPage({
   const session = await auth();
   const { id, slug } = await params;
   const response = await findPostById(id);
-  const post: PostType = response.body;
+  const post: PostType = response;
   console.log("post", post);
   if (!post) notFound();
   const currentURL = `/posts/${id}/${slug}`;
@@ -28,7 +28,7 @@ export default async function PostDetailPage({
   return (
     <div className="py-[100px] flex justify-center">
       <div className="w-[996px] flex flex-col gap-[20px]">
-        <div className="flex flex-col gap-[40px]">
+        <div className="flex flex-col gap-[10px]">
           <div className="flex flex-col gap-[20px]">
             <div className="text-black text-[32px] font-medium leading-[140%]">
               {post.title}
@@ -37,17 +37,15 @@ export default async function PostDetailPage({
               <div className="flex items-center gap-[8px]">
                 <div className="relative size-[32px] overflow-hidden rounded-full">
                   <Image
-                    src={post.users.url || NO_IMG}
+                    src={post.user.image || NO_IMG}
                     fill
                     alt="user"
-                    style={{
-                      objectFit: "cover",
-                    }}
+                    className="object-cover object-center"
                   />
                 </div>
 
                 <div className="text-[#000000b3] text-[16px] font-medium leading-[140%] cursor-pointer">
-                  {post.users.username}
+                  {post.user.name}
                 </div>
                 <div className="text-[#00000066] text-[16px] font-normal leading-[140%]">
                   {"|"}
@@ -61,7 +59,7 @@ export default async function PostDetailPage({
                 <div className="icon more-icon"></div>
               </div>
             )} */}
-              {session?.user.id === post.users.id && (
+              {session?.user.id === post.user.id && (
                 <div className="board-detail-more-box">
                   <div className="board-detail-update-button">{"수정"}</div>
                   <div className="divider"></div>

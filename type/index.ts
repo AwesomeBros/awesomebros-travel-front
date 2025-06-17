@@ -1,5 +1,10 @@
 import {
   LoginFormSchema,
+  PostFormCitySchema,
+  PostFormCountrySchema,
+  PostFormDistrictSchema,
+  PostFormInfoSchema,
+  PostFormLocationSchema,
   PostFormSchema,
   ResetPasswordFormSchema,
   SignupFormSchema,
@@ -10,19 +15,19 @@ import { z } from "zod";
 export type DetailFilterType = "country" | "city" | "district" | "";
 
 export type DistrictType = {
-  id?: string;
+  id: string;
   name: string;
   cityId?: string;
 };
 
 export type CityType = {
-  id?: string;
+  id: string;
   name: string;
   countryId?: string;
 };
 
 export type CountryType = {
-  id?: string;
+  id: string;
   name: string;
 };
 
@@ -52,32 +57,39 @@ export type PostType = z.infer<typeof PostFormSchema> & {
   viewCount: number;
   id: number;
   createdAt: string;
-  users: {
+  user: {
     id: string;
-    username: string;
-    url: string | null;
+    name: string;
+    image: string | null;
   };
   districts: DistrictType;
   cities: CityType;
   countries: CountryType;
 };
 
+export type PostFormCountryType = z.infer<typeof PostFormCountrySchema>;
+export type PostFormCityType = z.infer<typeof PostFormCitySchema>;
+export type PostFormDistrictType = z.infer<typeof PostFormDistrictSchema>;
+export type PostFormInfoType = z.infer<typeof PostFormInfoSchema>;
+export type PostFormLocationType = z.infer<typeof PostFormLocationSchema>;
+
 export type PlaceType = {
-  place_id: number;
-  display_name: string;
-  address: {
-    city?: string;
-    borough?: string;
-    suburb?: string;
-    province?: string;
-    city_district?: string;
-    amenity?: string;
-    quarter?: string;
-    aeroway?: string;
-    beach?: string;
+  geometry: {
+    coordinates: [number, number];
+    type?: "Point";
   };
-  lat: number;
-  lon: number;
+  properties: {
+    geocoding: {
+      city?: string | null;
+      district?: string | null;
+      country?: string | null;
+      locality?: string | null;
+      name: string;
+      street?: string | null;
+      place_id?: number;
+      label?: string;
+    };
+  };
 };
 
 export type HomeSortType = "latest" | "popular";

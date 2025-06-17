@@ -1,11 +1,9 @@
-import { useFindCitiesAll } from "@/hooks/query/use-city";
-import { useFindDistrictsAll } from "@/hooks/query/use-district";
+import { useFindCitiesAllByCountry } from "@/hooks/query/use-city";
+import { useFindDistrictsAllByCity } from "@/hooks/query/use-district";
 import { useFindCountriesAll } from "@/hooks/query/user-country";
 import { useDetailFilterStore, useFilterStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
-import { CityType } from "@/type/citiy.type";
-import { CountryType } from "@/type/country.type";
-import { DistrictType } from "@/type/district.type";
+import { CityType, CountryType, DistrictType } from "@/type";
 import FilterContainer from "./filter-container";
 
 export function SearchFilter() {
@@ -48,11 +46,11 @@ const CountryFilter = () => {
                   name: country.name,
                 },
                 city: {
-                  id: 0,
+                  id: "",
                   name: "",
                 },
                 district: {
-                  id: 0,
+                  id: "",
                   name: "",
                 },
               });
@@ -70,11 +68,13 @@ const CountryFilter = () => {
 const CityFilter = () => {
   const { filterValue, setFilterValue } = useFilterStore();
   const { detailFilter, setDetailFilter } = useDetailFilterStore();
-  const { data: cities, isLoading } = useFindCitiesAll();
+  const { data: cities, isLoading } = useFindCitiesAllByCountry(
+    filterValue.country.id
+  );
   if (isLoading) return null;
   const filteredCities =
     cities?.filter(
-      (city: CityType) => city.countries_id === filterValue.country.id
+      (city: CityType) => city.countryId === filterValue.country.id
     ) ?? [];
   return (
     <FilterContainer title="도시 선택하기" isShow={detailFilter === "city"}>
@@ -97,7 +97,7 @@ const CityFilter = () => {
                   name: city.name,
                 },
                 district: {
-                  id: 0,
+                  id: "",
                   name: "",
                 },
               });
@@ -115,11 +115,13 @@ const CityFilter = () => {
 const DistrictFilter = () => {
   const { filterValue, setFilterValue } = useFilterStore();
   const { detailFilter, setDetailFilter } = useDetailFilterStore();
-  const { data: districts, isLoading } = useFindDistrictsAll();
+  const { data: districts, isLoading } = useFindDistrictsAllByCity(
+    filterValue.city.id
+  );
   if (isLoading) return null;
   const filteredDistricts =
     districts?.filter(
-      (district: DistrictType) => district.cities_id === filterValue.city.id
+      (district: DistrictType) => district.cityId === filterValue.city.id
     ) ?? [];
   return (
     <FilterContainer title="지역 선택하기" isShow={detailFilter === "district"}>

@@ -1,30 +1,43 @@
-import { Button } from "@/components/ui/button";
-import React from "react";
+import { Button } from "../../ui/button";
 
 interface Props {
-  step: number;
-  setStep: React.Dispatch<React.SetStateAction<number>>;
-  disabled?: boolean;
+  prevText?: string;
+  nextText?: string;
+  prevOnClick?: () => void;
+  nextOnClick?: () => void;
+  prevDisabled?: boolean;
+  nextDisabled?: boolean;
+  prevType?: "button" | "submit";
+  nextType?: "button" | "submit";
 }
 
-export default function ButtonWrap({ step, setStep, disabled }: Props) {
+export default function ButtonWrap({
+  prevText = "이전",
+  nextText = "다음",
+  prevOnClick,
+  nextOnClick,
+  prevDisabled = false,
+  nextDisabled = false,
+  prevType = "button",
+  nextType = "button",
+}: Props) {
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className="fixed bottom-20 inset-x-0 flex justify-center gap-4">
       <Button
-        type="button"
-        disabled={step === 1 || disabled}
-        className="mt-1.5"
-        onClick={() => setStep((prev) => prev - 1)}
+        type={prevType}
+        onClick={prevOnClick}
+        disabled={prevDisabled}
+        className="rounded-full max-w-[160px] px-6 py-4"
       >
-        {"이전"}
+        {prevText}
       </Button>
       <Button
-        type="button"
-        disabled={disabled}
-        className="mt-1.5"
-        onClick={() => setStep((prev) => prev + 1)}
+        type={nextType}
+        onClick={nextOnClick}
+        disabled={nextDisabled}
+        className="rounded-full max-w-[160px] px-6 py-4"
       >
-        {step > 6 ? "완료" : "다음"}
+        {nextText}
       </Button>
     </div>
   );

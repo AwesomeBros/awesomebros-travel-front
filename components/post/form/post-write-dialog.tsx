@@ -1,8 +1,6 @@
 "use client";
 
-import { useCreatePost } from "@/hooks/query/user-post";
 import { usePostOpenStore } from "@/hooks/store";
-
 import { PostFormType } from "@/type";
 import {
   Dialog,
@@ -10,12 +8,31 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog";
+import PostForm from "../post-form";
 
 export default function PostWriteDialog() {
   const { isOpen, onClose } = usePostOpenStore();
-  const createPost = useCreatePost();
+  // const defaultValues: PostFormType = {
+  //   url: "",
+  //   title: "",
+  //   coordinate: [
+  //     {
+  //       lat: 0,
+  //       lng: 0,
+  //       name: "",
+  //     },
+  //   ],
+  //   content: "",
+  //   cities_id: 0,
+  //   countries_id: 0,
+  //   districts_id: 0,
+  //   slug: "",
+  // };
+  // const createPost = useCreatePost();
   function onSubmit(data: PostFormType) {
-    createPost.mutate(data);
+    console.log("Submitted data:", data);
+
+    // createPost.mutate(data);
   }
 
   return (
@@ -26,8 +43,8 @@ export default function PostWriteDialog() {
             글 작성하기
           </DialogTitle>
         </DialogHeader>
-        <section className="w-full mx-auto px-4 min-h-[60vh] overflow-auto">
-          {/* <PostForm onSubmit={onSubmit} /> */}
+        <section className="w-full mx-auto px-4 min-h-[80vh] overflow-auto">
+          <PostForm onSubmit={onSubmit} />
         </section>
       </DialogContent>
     </Dialog>

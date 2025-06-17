@@ -13,8 +13,17 @@ const nextConfig: NextConfig = {
         protocol: "http",
         hostname: "k.kakaocdn.net",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
     ],
     domains: ["trip.gg"],
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "1000mb",
+    },
   },
 };
 

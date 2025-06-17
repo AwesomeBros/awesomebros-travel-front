@@ -9,7 +9,7 @@ export async function createPost(values: PostFormType) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
   try {
-    const response = await axios.post(`${SERVER_URL}/post`, values, {
+    const response = await axios.post(`${SERVER_URL}/post/create`, values, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -42,7 +42,7 @@ export async function findPostsAll() {
 export async function findPostById(id: number) {
   try {
     const response = await axios.get(`${SERVER_URL}/post/${id}`);
-    return response.data;
+    return response.data.body;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data.message;
@@ -57,7 +57,7 @@ export async function getCoordinate(value: string) {
     const response = await axios.get(`${NOMINATIM_URL}`, {
       params: {
         q: value,
-        format: "json",
+        format: "geocodejson",
         addressdetails: 1,
         "accept-language": "ko",
         polygon_geojson: 0,

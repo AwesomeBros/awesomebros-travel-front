@@ -1,5 +1,5 @@
 import { findPostById } from "@/actions/post.actions";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { notFound, redirect } from "next/navigation";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 export default async function PostRedirectPage({ params }: Props) {
   const { id } = await params;
   const response = await findPostById(id);
-  const post: PostType = response?.body;
+  const post: PostType = response;
   console.log("post", post);
 
   if (!post) notFound();

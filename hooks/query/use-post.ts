@@ -33,4 +33,5 @@ export const useFindPostById = (id: number) => {
     queryKey: ["post", { id }],
     queryFn: () => findPostById(id),
   });
+  return query;
 };

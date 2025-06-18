@@ -1,3 +1,4 @@
+import { BLUR_DATA_URL, NO_THUMBNAIL } from "@/constants";
 import { PostType } from "@/type";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,35 +15,35 @@ export default function PostCard({ post }: { post: PostType }) {
     >
       <div className="relative aspect-[2/1.5] rounded-lg overflow-hidden">
         <Image
-          src={post.image || "/images/obelisk.jpg"}
+          src={post.image ? post.image : NO_THUMBNAIL}
           alt="Board Image"
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
           fill
           className="object-cover object-center"
         />
       </div>
       <div className="p-2">
-        <h2 className="text-black text-lg font-bold mt-2 line-clamp-1">
-          {post.title}
-        </h2>
+        <h2 className="text-lg font-bold mt-2 line-clamp-1">{post.title}</h2>
         <div
-          className="text-gray-500 text-sm leading-[140%] line-clamp-1"
+          className="text-muted-foreground text-sm leading-[140%] line-clamp-1"
           dangerouslySetInnerHTML={{
             __html: post.content.replace(/<img.*?\/?>/g, ""),
           }}
         />
         <div className="flex justify-end xl:justify-between items-center mt-3">
-          <div className="text-[#000000b3] text-md font-medium leading-[140%] flex items-center gap-3">
+          <div className="text-md font-medium flex items-center gap-3">
             <p className="flex items-center gap-1">
-              <FaRegCommentDots /> 0
+              <FaRegCommentDots /> {post.commentCount || 0}
             </p>
             <p className="flex items-center gap-1">
-              <FaRegHeart /> 0
+              <FaRegHeart /> {post.likeCount || 0}
             </p>
             <p className="flex items-center gap-1">
-              <PiEyesFill className="text-lg" /> 0
+              <PiEyesFill className="text-lg" /> {post.viewCount || 0}
             </p>
           </div>
-          <p className="text-primary font-bold">{post?.districts?.name}</p>
+          <p className="text-primary font-bold">{post?.district?.name}</p>
         </div>
       </div>
     </Link>

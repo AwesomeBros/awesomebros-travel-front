@@ -2,7 +2,7 @@
 import PostCard from "@/components/post/post-card";
 import PostItem from "@/components/post/post-item";
 import { Button } from "@/components/ui/button";
-import { useFindPostsAll } from "@/hooks/query/user-post";
+import { useFindPostsAll } from "@/hooks/query/use-post";
 import { PostType } from "@/type/post.type";
 import { useEffect, useState } from "react";
 

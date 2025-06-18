@@ -115,3 +115,7 @@ export const PostFormLocationSchema = z.object({
     })
   ),
 });
+
+export const CommentFormSchema = z.object({
+  content: z.string().min(1, { message: "내용을 입력해주세요." }).trim(),
+});

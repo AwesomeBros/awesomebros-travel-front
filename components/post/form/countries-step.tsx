@@ -1,7 +1,7 @@
 import { Loader } from "@/components/shared/loader";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useFindCountriesAll } from "@/hooks/query/user-country";
+import { useFindCountriesAll } from "@/hooks/query/use-country";
 import { usePostFormStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
 import { CountryType, PostFormCountryType } from "@/type";

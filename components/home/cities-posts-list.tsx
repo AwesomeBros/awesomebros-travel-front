@@ -13,9 +13,8 @@ export default function CitiesPostsList() {
 
   return (
     <>
-      <div className="text-black text-2xl font-medium mb-5">도시별 후기</div>
       <Tabs value={city}>
-        <TabsList className="w-full flex flex-wrap">
+        <TabsList className="w-full flex flex-wrap shadow-md">
           {CITIES.map((city) => (
             <TabsTrigger
               value={city}

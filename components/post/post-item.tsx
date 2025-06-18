@@ -1,4 +1,4 @@
-import { NO_IMG } from "@/constants";
+import { BLUR_DATA_URL, NO_IMG, NO_THUMBNAIL } from "@/constants";
 import { PostType } from "@/type";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -11,18 +11,16 @@ export default function PostItem({ post }: { post: PostType }) {
   return (
     <Link
       href={`/posts/${post.id}/${encodeURIComponent(post.slug)}`}
-      className="p-4 bg-white flex items-center gap-[30px] cursor-pointer hover:bg-[#00000005] rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out"
+      className="p-4 bg-white flex items-center gap-[30px] cursor-pointer rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
     >
       <div className="flex-1 flex flex-col gap-4">
         <div className="flex items-center gap-2">
-          <div className="relative size-8 rounded-full overflow-hidden">
+          <div className="relative size-8 rounded-full overflow-hidden shadow-md">
             <Image
               src={post.user.image || NO_IMG}
               alt="profile"
               fill
-              style={{
-                objectFit: "cover",
-              }}
+              className="object-cover object-center"
             />
           </div>
           <div className="flex flex-col gap-0.5">
@@ -35,51 +33,44 @@ export default function PostItem({ post }: { post: PostType }) {
           </div>
         </div>
         <div className="flex flex-col gap-1.5">
-          <div className="text-black text-md font-medium leading-[140%]">
-            {post.title}
-          </div>
+          <div className="text-md font-medium leading-[140%]">{post.title}</div>
           <div
-            className="text-[#000000b3] text-xs font-medium leading-[140%] line-clamp-2"
+            className="text-xs font-medium leading-[140%] line-clamp-2"
             dangerouslySetInnerHTML={{
               __html: post.content.replace(/<img.*?\/?>/g, ""),
             }}
           />
         </div>
-        <div>
-          <div className="text-[#000000b3] text-md font-medium leading-[140%] flex items-center gap-3">
+        <div className="flex justify-between items-center">
+          <div className="text-md font-medium leading-[140%] flex items-center gap-3">
             <p className="flex items-center gap-1">
-              <FaRegCommentDots /> 0
+              <FaRegCommentDots /> {post.commentCount || 0}
             </p>
             <p className="flex items-center gap-1">
-              <FaRegHeart /> 0
+              <FaRegHeart /> {post.likeCount || 0}
             </p>
             <p className="flex items-center gap-1">
-              <PiEyesFill className="text-lg" /> 0
+              <PiEyesFill className="text-lg" /> {post.viewCount || 0}
             </p>
           </div>
+          <p className="text-end text-primary font-bold">
+            {post.district?.name}
+          </p>
         </div>
       </div>
-      {/* {boardListItem !== null && ( */}
-      <div>
-        <div className="relative aspect-2/1 w-[300px] h-full overflow-hidden">
-          {post.image && (
-            <Image
-              src={post.image ? post.image : "/images/obelisk.jpg"}
-              alt="Board Image"
-              fill
-              className="rounded-[10px]"
-              style={{
-                objectFit: "cover",
-              }}
-            />
-          )}
-        </div>
-
-        <p className="text-end text-primary font-bold">
-          {post.districts?.name}
-        </p>
+      <div className="relative w-[180px] h-[130px] overflow-hidden">
+        <Image
+          src={post.image ? post.image : NO_THUMBNAIL}
+          alt="Board Image"
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+          fill
+          className="rounded-[10px]"
+          style={{
+            objectFit: "cover",
+          }}
+        />
       </div>
-      {/* )} */}
     </Link>
   );
 }

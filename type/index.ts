@@ -1,4 +1,5 @@
 import {
+  CommentFormSchema,
   LoginFormSchema,
   PostFormCitySchema,
   PostFormCountrySchema,
@@ -54,7 +55,6 @@ export type ResetPasswordFormType = z.infer<typeof ResetPasswordFormSchema>;
 export type PostFormType = z.infer<typeof PostFormSchema>;
 
 export type PostType = z.infer<typeof PostFormSchema> & {
-  viewCount: number;
   id: number;
   createdAt: string;
   user: {
@@ -62,9 +62,13 @@ export type PostType = z.infer<typeof PostFormSchema> & {
     name: string;
     image: string | null;
   };
-  districts: DistrictType;
-  cities: CityType;
-  countries: CountryType;
+  location: PostFormLocationType;
+  district: DistrictType;
+  city: CityType;
+  country: CountryType;
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
 };
 
 export type PostFormCountryType = z.infer<typeof PostFormCountrySchema>;
@@ -111,3 +115,20 @@ export type HomeCitiesType =
   | "경북"
   | "경남"
   | "제주";
+
+export type CommentFormType = z.infer<typeof CommentFormSchema>;
+export type CommentType = z.infer<typeof CommentFormSchema> & {
+  id: string;
+  createdAt: string;
+  user: {
+    id: string;
+    name: string;
+    image: string | null;
+  };
+};
+export type LocationType = {
+  id: string;
+  lat: number;
+  lng: number;
+  name: string;
+};

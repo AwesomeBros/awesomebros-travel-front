@@ -11,9 +11,9 @@ export default function PopularLatestPostsList() {
   const { data: postsAll, isLoading } = useFindPostsBySort(sort);
 
   return (
-    <div className="flex flex-col gap-5 mb-6">
+    <div className="flex flex-col gap-5 mb-6 bg-white p-4 rounded-xl shadow-md">
       <div className="flex items-center justify-between w-full">
-        <div className="text-black text-2xl font-medium">
+        <div className="text-xl font-medium">
           {sort === "latest" ? "최신 후기" : "인기 후기"}
         </div>
         <Tabs defaultValue="latest">

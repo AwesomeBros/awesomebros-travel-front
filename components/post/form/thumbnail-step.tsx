@@ -1,5 +1,5 @@
 import { imageUpload } from "@/actions/file.actions";
-import { useCreatePost } from "@/hooks/query/user-post";
+import { useCreatePost } from "@/hooks/query/use-post";
 import { usePostFormStore, usePostOpenStore } from "@/hooks/store";
 import useQuillImageReplacement from "@/hooks/use-image-replacement";
 import { PostFormType } from "@/type";

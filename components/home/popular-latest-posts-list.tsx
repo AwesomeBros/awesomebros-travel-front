@@ -11,7 +11,7 @@ export default function PopularLatestPostsList() {
   const { data: postsAll, isLoading } = useFindPostsBySort(sort);
 
   return (
-    <div className="flex flex-col gap-5 mb-6 bg-white p-4 rounded-xl shadow-md">
+    <div className="flex flex-col gap-5 mb-6">
       <div className="flex items-center justify-between w-full">
         <div className="text-xl font-medium">
           {sort === "latest" ? "최신 후기" : "인기 후기"}
@@ -30,8 +30,8 @@ export default function PopularLatestPostsList() {
       <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-6">
         {isLoading
           ? null
-          : postsAll.map((post: PostType) => (
-              <PostCard key={post.id} post={post} />
+          : postsAll.map((post: PostType, index: number) => (
+              <PostCard key={post.id} post={post} index={index} />
             ))}
       </div>
     </div>

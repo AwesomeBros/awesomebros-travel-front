@@ -29,7 +29,7 @@ export default async function HomePage() {
   console.log("session", session);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-white p-4 rounded-xl shadow-md">
       <HydrationBoundary state={state}>
         <PopularLatestPostsList />
         <CitiesPostsList />

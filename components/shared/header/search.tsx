@@ -2,12 +2,14 @@
 
 import { useDetailFilterStore, useFilterStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import { BiSearch } from "react-icons/bi";
 import { SearchFilter } from "./search-filter";
 
 export default function Search() {
   const { detailFilter, setDetailFilter } = useDetailFilterStore();
   const { filterValue, showFilter, setShowFilter } = useFilterStore();
+  const router = useRouter();
 
   return !showFilter ? (
     <div className="border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer">
@@ -107,6 +109,15 @@ export default function Search() {
           onClick={() => {
             setShowFilter(false);
             setDetailFilter(null);
+            router.replace(
+              `/posts?${
+                filterValue.country.name &&
+                "country=" + filterValue.country.name
+              }${filterValue.city.name && "&city=" + filterValue.city.name}${
+                filterValue.district.name &&
+                "&district=" + filterValue.district.name
+              }`
+            );
           }}
         >
           <BiSearch size={18} className="my-auto" />

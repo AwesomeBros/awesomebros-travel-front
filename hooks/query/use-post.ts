@@ -20,10 +20,14 @@ export const useCreatePost = () => {
   return mutation;
 };
 
-export const useFindPostsAll = () => {
+export const useFindPostsAll = (params: {
+  country?: string;
+  city?: string;
+  district?: string;
+}) => {
   const query = useQuery({
-    queryKey: ["posts"],
-    queryFn: findPostsAll,
+    queryKey: ["posts", params],
+    queryFn: () => findPostsAll(params),
   });
   return query;
 };

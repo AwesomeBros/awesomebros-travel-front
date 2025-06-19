@@ -24,9 +24,16 @@ export async function createPost(values: PostFormType) {
   }
 }
 
-export async function findPostsAll() {
+export async function findPostsAll(params: {
+  country?: string;
+  city?: string;
+  district?: string;
+  page?: string;
+}) {
   try {
-    const response = await axios.get(`${SERVER_URL}/post`);
+    const response = await axios.get(`${SERVER_URL}/post`, {
+      params,
+    });
     const { body } = response.data;
 
     return body;

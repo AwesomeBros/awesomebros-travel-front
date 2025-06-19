@@ -73,3 +73,20 @@ export const usePostFormStore = create<PostFormStore>()(
     }
   )
 );
+
+interface PostTypeStore {
+  postType: "list" | "gallery";
+  setPostType: (type: "list" | "gallery") => void;
+}
+
+export const usePostTypeStore = create<PostTypeStore>()(
+  persist(
+    (set) => ({
+      postType: "list",
+      setPostType: (type) => set({ postType: type }),
+    }),
+    {
+      name: "post-type",
+    }
+  )
+);

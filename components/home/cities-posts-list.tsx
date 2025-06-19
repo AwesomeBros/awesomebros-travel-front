@@ -34,8 +34,8 @@ export default function CitiesPostsList() {
                 </p>
               </div>
             ) : (
-              postsAll.map((post: PostType) => (
-                <PostItem key={post.id} post={post} />
+              postsAll.map((post: PostType, index: number) => (
+                <PostItem key={post.id} post={post} index={index} />
               ))
             )}
           </div>

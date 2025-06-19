@@ -3,9 +3,8 @@
 import { Loader } from "@/components/shared/loader";
 import { useFindCommentsByPostId } from "@/hooks/query/use-comment";
 import { CommentType } from "@/type";
-import { format } from "date-fns";
-import Image from "next/image";
 import { Fragment, useEffect, useRef } from "react";
+import CommentItem from "./comment-item";
 
 interface Props {
   postId?: number;
@@ -48,34 +47,8 @@ export default function CommentList({ postId }: Props) {
         ) : data?.pages[0].totalCount > 0 ? (
           data?.pages.map((page) => (
             <Fragment key={page.page}>
-              {page.data.map((comment: CommentType) => (
-                <div key={comment.id} className="flex flex-col gap-2">
-                  <div className="flex gap-2 items-center">
-                    <div className="relative overflow-hidden size-[48px] rounded-full shadow">
-                      <Image
-                        src={
-                          comment.user.image
-                            ? comment.user.image
-                            : "/images/noProfileImage.jpg"
-                        }
-                        alt={`Profile`}
-                        fill
-                        className="object-cover object-center"
-                      />
-                    </div>
-                    <div>
-                      <h1 className="font-semibold">
-                        {comment?.user?.name || "-"}
-                      </h1>
-                      <div className="text-gray-500 text-xs">
-                        {format(comment?.createdAt, "yyyy-MM-dd HH:mm")}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-w-md text-gray-600">
-                    {comment?.content}
-                  </div>
-                </div>
+              {page.data.map((comment: CommentType, index: number) => (
+                <CommentItem key={comment.id} comment={comment} index={index} />
               ))}
             </Fragment>
           ))

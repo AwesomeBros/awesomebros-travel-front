@@ -1,11 +1,11 @@
 import { Loader } from "@/components/shared/loader";
 import { Form } from "@/components/ui/form";
 import { usePostFormStore } from "@/hooks/store";
-import { PlaceType, PostFormCoordinateType } from "@/type/post.type"; // PostFormCoordinateType 정의 확인 필요!
-import { PostFormCoordinateSchema } from "@/validation/post.schema"; // PostFormCoordinateSchema 정의 확인 필요!
+import { PlaceType, PostFormLocationType } from "@/type/post.type";
+import { PostFormLocationSchema } from "@/validation/post.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
-import { Dispatch, useEffect, useState } from "react"; // useEffect 추가
+import { Dispatch, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ButtonWrap from "./button-wrap";
 import Stepper from "./stepper";
@@ -15,17 +15,20 @@ interface Props {
   setStep: Dispatch<React.SetStateAction<number>>;
 }
 
-const AddressMap = dynamic(() => import("@/components/post/form/address-map"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-1/2 h-[60vh] flex justify-center items-center">
-      <Loader />
-    </div>
-  ),
-});
+const AddressMap = dynamic(
+  () => import("@/components/post/form/location-map"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-1/2 h-[60vh] flex justify-center items-center">
+        <Loader />
+      </div>
+    ),
+  }
+);
 
 const AddressSearch = dynamic(
-  () => import("@/components/post/form/address-search"),
+  () => import("@/components/post/form/location-search"),
   {
     ssr: false,
     loading: () => (
@@ -40,15 +43,15 @@ export default function MapMarkerStep({ step, setStep }: Props) {
   const [selectPositions, setSelectPositions] = useState<PlaceType[] | []>([]);
   const { postForm, setPostForm } = usePostFormStore();
 
-  const form = useForm<PostFormCoordinateType>({
-    resolver: zodResolver(PostFormCoordinateSchema),
+  const form = useForm<PostFormLocationType>({
+    resolver: zodResolver(PostFormLocationSchema),
     defaultValues: {
-      coordinates:
-        postForm.coordinates && postForm.coordinates.length > 0
-          ? postForm.coordinates.map((coordinate) => ({
-              lat: coordinate.lat,
-              lng: coordinate.lng,
-              name: coordinate.name,
+      locations:
+        postForm.locations && postForm.locations.length > 0
+          ? postForm.locations.map((location) => ({
+              lat: location.lat,
+              lng: location.lng,
+              name: location.name,
             }))
           : [],
     },
@@ -58,37 +61,37 @@ export default function MapMarkerStep({ step, setStep }: Props) {
   console.log("form errors", form.formState.errors);
 
   useEffect(() => {
-    const coordinatesForForm = selectPositions.map((position) => ({
+    const locationsForForm = selectPositions.map((position) => ({
       lat: position.geometry.coordinates[1],
       lng: position.geometry.coordinates[0],
       name: position.properties.geocoding.name,
     }));
-    form.setValue("coordinates", coordinatesForForm, { shouldValidate: true });
+    form.setValue("locations", locationsForForm, { shouldValidate: true });
   }, [selectPositions, form.setValue]);
 
   useEffect(() => {
-    if (postForm.coordinates && postForm.coordinates.length > 0) {
-      postForm.coordinates.map((coordinate) => {
+    if (postForm.locations && postForm.locations.length > 0) {
+      postForm.locations.map((location) => {
         const place: PlaceType = {
           geometry: {
-            coordinates: [coordinate.lng, coordinate.lat],
+            coordinates: [location.lng, location.lat],
           },
           properties: {
             geocoding: {
-              name: coordinate.name || "",
+              name: location.name || "",
             },
           },
         };
         setSelectPositions((prev) => [...prev, place]);
       });
     }
-  }, [postForm.coordinates]);
+  }, [postForm.locations]);
 
-  const onSubmit = (data: PostFormCoordinateType) => {
+  const onSubmit = (data: PostFormLocationType) => {
     console.log("onSubmit data", data);
     setPostForm({
       ...postForm,
-      coordinates: data.coordinates,
+      locations: data.locations,
     });
 
     setStep(step + 1);

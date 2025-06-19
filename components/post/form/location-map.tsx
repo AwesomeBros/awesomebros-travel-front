@@ -19,7 +19,7 @@ const markerIcon = icon({
 
 const position: LatLngTuple = [37.56675, 126.97842];
 
-export default function AddressMap({
+export default function LocationMap({
   setSelectPositions,
   selectPositions,
 }: {
@@ -44,13 +44,11 @@ export default function AddressMap({
       if (marker) marker.off("popupclose");
     };
   }, []);
-  async function handleDeleteMarker(placeId: number) {
+  async function handleDeleteMarker(coordinates: [number, number]) {
     const ok = await confirm();
     if (ok) {
       setSelectPositions((prevItems) =>
-        prevItems.filter(
-          (item) => item.properties.geocoding.place_id !== placeId
-        )
+        prevItems.filter((item) => item.geometry.coordinates !== coordinates)
       );
     }
   }
@@ -67,9 +65,9 @@ export default function AddressMap({
           attribution='<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={`https://tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token=${JAWG_ACCESS_TOKEN}`}
         />
-        {selectPositions.map((position) => (
+        {selectPositions.map((position, index) => (
           <Marker
-            key={position.properties.geocoding.place_id}
+            key={index}
             ref={markerRef}
             position={
               [
@@ -80,9 +78,11 @@ export default function AddressMap({
             icon={markerIcon}
             eventHandlers={{
               click: () => {
-                const placeId = position.properties.geocoding.place_id;
-                if (placeId !== undefined) {
-                  handleDeleteMarker(placeId);
+                const coordinates = position.geometry.coordinates;
+                console.log("placeId", position);
+
+                if (coordinates !== undefined) {
+                  handleDeleteMarker(coordinates);
                 }
               },
               add: (e) => e.target.openPopup(),

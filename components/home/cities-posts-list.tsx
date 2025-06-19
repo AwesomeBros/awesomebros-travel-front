@@ -3,7 +3,7 @@
 import { CITIES } from "@/constants";
 import { useFindPostsByCities } from "@/hooks/query/use-home";
 import { PostType } from "@/type/post.type";
-import { HomeCitiesType } from "@/type/types";
+import { HomeCitiesType } from "@/type/type";
 import { useState } from "react";
 import PostItem from "../post/post-item";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";

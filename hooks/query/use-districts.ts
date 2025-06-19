@@ -1,11 +1,11 @@
-import { findDistrictsAll } from "@/actions/districts.actions";
+import { findDistrictsAllByCity } from "@/actions/districts.actions";
 import { useQuery } from "@tanstack/react-query";
 
-export const useFindDistrictsAll = (cityId?: number) => {
+export const useFindDistrictsAllByCity = (cities_id?: number) => {
   const query = useQuery({
-    enabled: !!cityId,
-    queryKey: ["districts", { cityId }],
-    queryFn: () => findDistrictsAll(cityId),
+    enabled: !!cities_id,
+    queryKey: ["districts", { cities_id }],
+    queryFn: () => findDistrictsAllByCity(cities_id),
   });
   return query;
 };

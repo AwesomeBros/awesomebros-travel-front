@@ -1,25 +1,16 @@
 import { getCoordinate } from "@/actions/posts.actions";
 import { Input } from "@/components/ui/input";
 import { PlaceType } from "@/type/post.type";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
-export default function AddressSearch({
+export default function LocationSearch({
   setSelectPositions,
 }: {
   setSelectPositions: Dispatch<SetStateAction<PlaceType[] | []>>;
 }) {
   const [listPlace, setListPlace] = useState<PlaceType[]>([]);
-
-  useEffect(() => {
-    console.log("listPlace", listPlace);
-  }, [listPlace]);
 
   const debounce = (func: (value: string) => void, delay: number) => {
     let timerId: NodeJS.Timeout;
@@ -33,6 +24,7 @@ export default function AddressSearch({
   async function handleDebounceSearch(value: string) {
     const response = await getCoordinate(value);
     console.log("response", response);
+
     setListPlace(response.features || []);
   }
 
@@ -65,23 +57,39 @@ export default function AddressSearch({
 
   return (
     <div className="flex flex-col w-full max-w-xl mx-auto px-4">
-      <p className="text-sm text-black font-medium mb-1.5">방문장소 검색</p>
-      <Input className="w-full" onChange={handleInputChange} />
+      <p className="text-sm text-black font-medium mb-1.5">
+        방문장소 검색{" "}
+        <span className="text-xs text-muted-foreground">(최대 3개 가능)</span>
+      </p>
+      <Input
+        className="w-full"
+        onChange={handleInputChange}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
+        }}
+      />
       <div>
-        <ul className="max-h-[450px] overflow-y-auto mt-2 rounded-lg shadow">
-          {listPlace.map((item, index) => {
-            return (
-              <div key={index}>
-                <li
-                  className="border p-2 cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleAddress(item)}
-                >
-                  <p>{item?.properties.geocoding.label} </p>
-                </li>
-              </div>
-            );
-          })}
-        </ul>
+        <ScrollArea className="w-full h-[450px] mt-2">
+          <ul className=" rounded-lg shadow">
+            {listPlace.map((item, index) => {
+              return (
+                <div key={index}>
+                  <li
+                    className="border p-2 cursor-pointer hover:bg-gray-100"
+                    onClick={() => {
+                      handleAddress(item);
+                      setListPlace([]);
+                    }}
+                  >
+                    <p>{item?.properties.geocoding.label} </p>
+                  </li>
+                </div>
+              );
+            })}
+          </ul>
+        </ScrollArea>
       </div>
     </div>
   );

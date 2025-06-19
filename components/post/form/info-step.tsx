@@ -45,9 +45,6 @@ export default function InfoStep({ setStep, step }: Props) {
     });
     setStep(step + 1);
   };
-
-  console.log("form errors", form.formState.errors);
-  console.log("postForm", postForm);
   return (
     <>
       <Form {...form}>

@@ -1,5 +1,5 @@
 import { PostFormType } from "@/type/post.type";
-import { DetailFilterType, FilterProps } from "@/type/types";
+import { DetailFilterType, FilterProps } from "@/type/type";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -46,14 +46,13 @@ export const usePostOpenStore = create<PostOpenState>((set) => ({
 }));
 
 const POST_FORM_INITIAL: PostFormType = {
-  url: "",
   title: "",
-  coordinates: [],
+  locations: [],
   content: "",
   cities_id: 0,
   countries_id: 0,
   districts_id: 0,
-  thumbnail: "",
+  url: "",
   slug: "",
 };
 

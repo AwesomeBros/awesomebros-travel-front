@@ -23,21 +23,34 @@ export const CITIES = [
   "인천",
 ];
 
-export const REGIONS = [
-  {
-    id: 1,
-    name: "서울",
-  },
-  { id: 2, name: "경기" },
-  { id: 3, name: "인천" },
-  { id: 4, name: "강원" },
-  { id: 5, name: "부산" },
-  { id: 6, name: "대전" },
-];
-
-export const COUNTRIES = [{ id: 1, name: "한국" }];
-
 export const BLUR_DATA_URL =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOcNX9WPQAGAgJUl8IWQgAAAABJRU5ErkJggg==";
 
 export const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search?";
+
+export const POST_SAMPLE = [{
+  id: 1,
+  title: "부산 해운대에서의 하루",
+  slug: "부산-해운대에서의-하루",
+  content: "부산 해운대에서의 하루는 정말 특별한 경험이었습니다. 해변을 따라 산책하고, 맛있는 해산물을 먹으며, 아름다운 일몰을 감상했습니다. 해운대의 분위기는 언제나 활기차고 즐거웠습니다.",
+  createdAt: "2023-10-01T12:00:00Z",
+  viewCount: 150,
+  users: {
+    id: "user123",
+    username: "travel_lover",
+    url: "https://example.com/user123.jpg"
+  },
+  imageUrl: "https://example.com/post-image.jpg",
+  districts: {
+    id: 1,
+    name: "해운대"
+  },
+  cities: {
+    id: 1,
+    name: "부산"
+  },
+  countries: {
+    id: 1,
+    name: "한국"
+  },
+}]

@@ -1,9 +1,9 @@
 import {
   PostFormCitySchema,
-  PostFormCoordinateSchema,
   PostFormCountrySchema,
   PostFormDistrictSchema,
   PostFormInfoSchema,
+  PostFormLocationSchema,
   PostFormSchema,
 } from "@/validation/post.schema";
 import { z } from "zod";
@@ -31,7 +31,7 @@ export type PostFormCountryType = z.infer<typeof PostFormCountrySchema>;
 export type PostFormCityType = z.infer<typeof PostFormCitySchema>;
 export type PostFormDistrictType = z.infer<typeof PostFormDistrictSchema>;
 export type PostFormInfoType = z.infer<typeof PostFormInfoSchema>;
-export type PostFormCoordinateType = z.infer<typeof PostFormCoordinateSchema>;
+export type PostFormLocationType = z.infer<typeof PostFormLocationSchema>;
 
 export type PlaceType = {
   geometry: {
@@ -50,4 +50,11 @@ export type PlaceType = {
       label?: string;
     };
   };
+};
+
+export type LocationType = {
+  id: number;
+  lat: number;
+  lng: number;
+  name: string;
 };

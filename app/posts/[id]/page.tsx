@@ -10,9 +10,7 @@ interface Props {
 export default async function PostRedirectPage({ params }: Props) {
   const { id } = await params;
   const response = await findPostById(id);
-  const post: PostType = response?.body;
-  console.log("post", post);
-
+  const post: PostType = response;
   if (!post) notFound();
   redirect(`/posts/${id}/${encodeURIComponent(post.slug)}`);
 }

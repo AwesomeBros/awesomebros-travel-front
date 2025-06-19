@@ -3,9 +3,9 @@ import { auth } from "@/auth";
 import CitiesPostsList from "@/components/home/cities-posts-list";
 import PopularLatestPostsList from "@/components/home/popular-latest-posts-list";
 import { getQueryClient } from "@/provider/get-query-client";
-import { HomeCitiesType } from "@/type/types";
+import { HomeCitiesType } from "@/type/type";
 
-import { HomeSortType } from "@/type/types";
+import { HomeSortType } from "@/type/type";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function HomePage() {

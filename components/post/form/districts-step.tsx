@@ -1,6 +1,7 @@
 import { Loader } from "@/components/shared/loader";
 import { Form } from "@/components/ui/form";
-import { useFindDistrictsAll } from "@/hooks/query/use-districts";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useFindDistrictsAllByCity } from "@/hooks/query/use-districts";
 import { usePostFormStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
 import { DistrictType } from "@/type/district.type";
@@ -19,24 +20,18 @@ interface Props {
 
 export default function DistrictsStep({ step, setStep }: Props) {
   const { postForm, setPostForm } = usePostFormStore();
-  const { data, isLoading } = useFindDistrictsAll(postForm.cities_id);
-  const [selectedDistrict, setSelectedDistrict] = useState<
-    number | undefined
-  >();
+  const { data, isLoading } = useFindDistrictsAllByCity(postForm.cities_id);
+  const [selectedDistrict, setSelectedDistrict] = useState<number>(0);
   const form = useForm<PostFormDistrictType>({
     resolver: zodResolver(PostFormDistrictSchema),
     defaultValues: {
-      districts_id: postForm.districts_id || undefined,
+      districts_id: postForm.districts_id || 0,
     },
   });
-  console.log("postForm", postForm);
-
-  console.log("form errors", form.formState.errors);
-
   const onSubmit = () => {
     setPostForm({
       ...postForm,
-      districts_id: selectedDistrict ?? 0,
+      districts_id: selectedDistrict ?? "",
     });
     setStep(step + 1);
   };
@@ -63,33 +58,35 @@ export default function DistrictsStep({ step, setStep }: Props) {
               <Loader />
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-10 px-10">
-              {data.map((district: DistrictType) => (
-                <button
-                  type="button"
-                  key={district.id}
-                  onClick={() => {
-                    setSelectedDistrict(district.id);
-                    if (district.id) {
-                      form.setValue("districts_id", district.id);
-                    }
-                  }}
-                  className={cn(
-                    "hover:bg-purple-50 rounded-md px-6 py-4 flex flex-col gap-2 cursor-pointer",
-                    {
-                      "border-2 border-primary":
-                        selectedDistrict === district.id,
-                      "border-2 border-purple-300":
-                        selectedDistrict !== district.id,
-                    }
-                  )}
-                >
-                  <h1 className="font-semibold text-xs md:text-lg">
-                    {district.name}
-                  </h1>
-                </button>
-              ))}
-            </div>
+            <ScrollArea className="w-full h-[600px]">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 py-5 px-10">
+                {data.map((district: DistrictType) => (
+                  <button
+                    type="button"
+                    key={district.id}
+                    onClick={() => {
+                      setSelectedDistrict(district.id!);
+                      if (district.id) {
+                        form.setValue("districts_id", district.id);
+                      }
+                    }}
+                    className={cn(
+                      "hover:bg-purple-50 rounded-md px-6 py-4 flex flex-col gap-2 cursor-pointer",
+                      {
+                        "border-2 border-primary":
+                          selectedDistrict === district.id,
+                        "border-2 border-purple-300":
+                          selectedDistrict !== district.id,
+                      }
+                    )}
+                  >
+                    <h1 className="font-semibold text-xs md:text-lg">
+                      {district.name}
+                    </h1>
+                  </button>
+                ))}
+              </div>
+            </ScrollArea>
           )}
           <ButtonWrap
             prevOnClick={() => setStep(step - 1)}

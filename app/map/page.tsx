@@ -4,13 +4,16 @@ import { PlaceType } from "@/type/post.type";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
-const AddressMap = dynamic(() => import("@/components/post/form/address-map"), {
-  ssr: false,
-  loading: () => <p>Loading map...</p>,
-});
+const AddressMap = dynamic(
+  () => import("@/components/post/form/location-map"),
+  {
+    ssr: false,
+    loading: () => <p>Loading map...</p>,
+  }
+);
 
 const AddressSearch = dynamic(
-  () => import("@/components/post/form/address-search"),
+  () => import("@/components/post/form/location-search"),
   { ssr: false, loading: () => <p>Loading map...</p> }
 );
 

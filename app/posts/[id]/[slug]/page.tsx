@@ -16,7 +16,7 @@ export default async function PostDetailPage({
   const session = await auth();
   const { id, slug } = await params;
   const response = await findPostById(id);
-  const post: PostType = response.body;
+  const post: PostType = response;
   console.log("post", post);
   if (!post) notFound();
   const currentURL = `/posts/${id}/${slug}`;
@@ -37,7 +37,7 @@ export default async function PostDetailPage({
               <div className="flex items-center gap-[8px]">
                 <div className="relative size-[32px] overflow-hidden rounded-full">
                   <Image
-                    src={post.users.url || NO_IMG}
+                    src={post.users?.url || NO_IMG}
                     fill
                     alt="user"
                     style={{
@@ -47,7 +47,7 @@ export default async function PostDetailPage({
                 </div>
 
                 <div className="text-[#000000b3] text-[16px] font-medium leading-[140%] cursor-pointer">
-                  {post.users.username}
+                  {post.users?.username}
                 </div>
                 <div className="text-[#00000066] text-[16px] font-normal leading-[140%]">
                   {"|"}
@@ -61,13 +61,12 @@ export default async function PostDetailPage({
                 <div className="icon more-icon"></div>
               </div>
             )} */}
-              {session?.user.id === post.users.id && (
-                <div className="board-detail-more-box">
-                  <div className="board-detail-update-button">{"수정"}</div>
-                  <div className="divider"></div>
-                  <div className="board-detail-delete-button">{"삭제"}</div>
-                </div>
-              )}
+
+              <div className="flex items-center gap-[12px]">
+                <div className="board-detail-update-button">{"수정"}</div>
+                <div className="divider"></div>
+                <div className="board-detail-delete-button">{"삭제"}</div>
+              </div>
             </div>
           </div>
           <Separator />

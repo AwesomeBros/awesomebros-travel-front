@@ -9,7 +9,7 @@ export async function createPost(values: PostFormType) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
   try {
-    const response = await axios.post(`${SERVER_URL}/post`, values, {
+    const response = await axios.post(`${SERVER_URL}/posts`, values, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -26,7 +26,7 @@ export async function createPost(values: PostFormType) {
 
 export async function findPostsAll() {
   try {
-    const response = await axios.get(`${SERVER_URL}/post`);
+    const response = await axios.get(`${SERVER_URL}/posts`);
     const { body } = response.data;
 
     return body;
@@ -41,7 +41,7 @@ export async function findPostsAll() {
 
 export async function findPostById(id: number) {
   try {
-    const response = await axios.get(`${SERVER_URL}/post/${id}`);
+    const response = await axios.get(`${SERVER_URL}/posts/${id}`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

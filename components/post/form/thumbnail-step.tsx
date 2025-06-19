@@ -1,4 +1,7 @@
-import { usePostFormStore } from "@/hooks/store";
+import { usePostFormStore, usePostOpenStore } from "@/hooks/store";
+// import useQuillImageReplacement from "@/hooks/use-image-replacement";
+import { imageUpload } from "@/actions/files.actions";
+import { useCreatePost } from "@/hooks/query/use-posts";
 import { PostFormType } from "@/type/post.type";
 import Image from "next/image";
 import { Dispatch, useCallback, useState } from "react";
@@ -14,12 +17,25 @@ interface Props {
 }
 
 export default function ThumbnailStep({ setStep, step, onSubmit }: Props) {
-  const { postForm, setPostForm } = usePostFormStore();
+  const { postForm, setPostForm, resetPostForm } = usePostFormStore();
+  // const { replaceImages } = useQuillImageReplacement();
+  const { onClose } = usePostOpenStore();
   const [image, setImage] = useState<string | null>(null);
-  const onDrop = useCallback((acceptedFiles: any) => {
+  const createPost = useCreatePost();
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
-      setImage(URL.createObjectURL(file));
+      const formData = new FormData();
+      formData.append("file", file);
+      const data = await imageUpload(formData);
+      if (data) {
+        setImage(data);
+        setPostForm({
+          ...postForm,
+          url: data,
+        });
+        console.log("ThumbnailStep image uploaded:", data);
+      }
     }
   }, []);
   const { getRootProps, isDragActive } = useDropzone({ onDrop });
@@ -28,11 +44,18 @@ export default function ThumbnailStep({ setStep, step, onSubmit }: Props) {
     setImage(null);
   };
   const handleSubmit = async () => {
+    // postForm.content = await replaceImages(postForm.content, postForm.slug);
     setPostForm({
       ...postForm,
-      thumbnail: image || "",
+      url: image || postForm.url,
     });
-    await onSubmit(postForm);
+    createPost.mutate(postForm, {
+      onSuccess: () => {
+        onSubmit(postForm);
+        resetPostForm();
+        onClose();
+      },
+    });
   };
 
   return (
@@ -56,7 +79,6 @@ export default function ThumbnailStep({ setStep, step, onSubmit }: Props) {
                   multiple
                   accept="image/*"
                   className="sr-only"
-                  // {...getInputProps()}
                 />
                 {!isDragActive ? (
                   <div className="text-center">

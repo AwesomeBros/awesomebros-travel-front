@@ -16,7 +16,7 @@ export type PostFormType = z.infer<typeof PostFormSchema>;
 export type PostType = z.infer<typeof PostFormSchema> & {
   viewCount: number;
   id: number;
-  createdAt: string;
+  created_at: string;
   users: {
     id: string;
     username: string;

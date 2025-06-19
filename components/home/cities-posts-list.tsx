@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 export default function CitiesPostsList() {
   const [city, setCity] = useState<HomeCitiesType>("서울");
   const { data: postsAll, isLoading } = useFindPostsByCities(city);
+  console.log("postsAll", postsAll);
 
   return (
     <>

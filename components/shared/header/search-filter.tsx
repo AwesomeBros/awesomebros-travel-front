@@ -1,5 +1,5 @@
-import { useFindCitiesAll } from "@/hooks/query/use-cities";
-import { useFindDistrictsAll } from "@/hooks/query/use-districts";
+import { useFindCitiesAllByCountry } from "@/hooks/query/use-cities";
+import { useFindDistrictsAllByCity } from "@/hooks/query/use-districts";
 import { useFindCountriesAll } from "@/hooks/query/user-country";
 import { useDetailFilterStore, useFilterStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
@@ -25,7 +25,6 @@ const CountryFilter = () => {
   if (isLoading) {
     return null;
   }
-
   return (
     <FilterContainer title="국가 선택하기" isShow={detailFilter === "country"}>
       <div className="flex flex-wrap items-center justify-start gap-4 mt-4">
@@ -70,16 +69,14 @@ const CountryFilter = () => {
 const CityFilter = () => {
   const { filterValue, setFilterValue } = useFilterStore();
   const { detailFilter, setDetailFilter } = useDetailFilterStore();
-  const { data: cities, isLoading } = useFindCitiesAll();
-  if (isLoading) return null;
-  const filteredCities =
-    cities?.filter(
-      (city: CityType) => city.countries_id === filterValue.country.id
-    ) ?? [];
+  const { data: cities, isLoading } = useFindCitiesAllByCountry(
+    filterValue.country.id
+  );
+  if (isLoading || !cities) return null;
   return (
     <FilterContainer title="도시 선택하기" isShow={detailFilter === "city"}>
       <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
-        {filteredCities.map((city: CityType) => (
+        {cities.map((city: CityType) => (
           <button
             key={city.id}
             type="button"
@@ -115,16 +112,14 @@ const CityFilter = () => {
 const DistrictFilter = () => {
   const { filterValue, setFilterValue } = useFilterStore();
   const { detailFilter, setDetailFilter } = useDetailFilterStore();
-  const { data: districts, isLoading } = useFindDistrictsAll();
-  if (isLoading) return null;
-  const filteredDistricts =
-    districts?.filter(
-      (district: DistrictType) => district.cities_id === filterValue.city.id
-    ) ?? [];
+  const { data: districts, isLoading } = useFindDistrictsAllByCity(
+    filterValue.city.id
+  );
+  if (isLoading || !districts) return null;
   return (
     <FilterContainer title="지역 선택하기" isShow={detailFilter === "district"}>
       <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
-        {filteredDistricts.map((district: DistrictType) => (
+        {districts.map((district: DistrictType) => (
           <button
             key={district.id}
             type="button"

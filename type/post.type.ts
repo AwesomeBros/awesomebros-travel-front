@@ -21,6 +21,7 @@ export type PostType = z.infer<typeof PostFormSchema> & {
     id: string;
     username: string;
     url: string | null;
+    nickname: string;
   };
   districts: DistrictType;
   cities: CityType;

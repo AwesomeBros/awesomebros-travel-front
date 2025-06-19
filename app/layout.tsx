@@ -29,7 +29,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} font-pretendard`}>
+      <body className={`${pretendard.variable} font-pretendard bg-[#f3f1ef]`}>
         <Provider session={session}>
           <Header session={session} />
           <main className="w-full max-w-[1200px] mx-auto px-2 py-10 md:px-0">

@@ -3,9 +3,7 @@ import { auth } from "@/auth";
 import CitiesPostsList from "@/components/home/cities-posts-list";
 import PopularLatestPostsList from "@/components/home/popular-latest-posts-list";
 import { getQueryClient } from "@/provider/get-query-client";
-import { HomeCitiesType } from "@/type/type";
-
-import { HomeSortType } from "@/type/type";
+import { HomeCitiesType, HomeSortType } from "@/type/type";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function HomePage() {
@@ -29,7 +27,7 @@ export default async function HomePage() {
   console.log("session", session);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-white p-4 rounded-xl shadow-md">
       <HydrationBoundary state={state}>
         <PopularLatestPostsList />
         <CitiesPostsList />

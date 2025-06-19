@@ -36,7 +36,7 @@ export default function CountriesStep({ step, setStep }: Props) {
     const currentCountryId = postForm.countries_id;
     const updatedPostForm = {
       ...postForm,
-      countryId: newCountryId,
+      countries_id: newCountryId,
     };
 
     if (newCountryId !== currentCountryId) {

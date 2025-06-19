@@ -35,7 +35,7 @@ export default function CitiesStep({ step, setStep }: Props) {
     const currentCityId = postForm.cities_id;
     const updatedPostForm = {
       ...postForm,
-      cityId: newCityId,
+      cities_id: newCityId,
     };
 
     if (newCityId !== currentCityId) {
@@ -44,6 +44,7 @@ export default function CitiesStep({ step, setStep }: Props) {
     setPostForm(updatedPostForm);
     setStep(step + 1);
   };
+
   useEffect(() => {
     if (postForm.cities_id) {
       setSelectedCity(postForm.cities_id);

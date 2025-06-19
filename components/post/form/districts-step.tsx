@@ -28,10 +28,14 @@ export default function DistrictsStep({ step, setStep }: Props) {
       districts_id: postForm.districts_id || 0,
     },
   });
+  console.log("postForm", postForm);
+
+  console.log("form errors", form.formState.errors);
+
   const onSubmit = () => {
     setPostForm({
       ...postForm,
-      districts_id: selectedDistrict ?? "",
+      districts_id: selectedDistrict ?? 0,
     });
     setStep(step + 1);
   };

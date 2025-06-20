@@ -1,5 +1,6 @@
 "use client";
-import { PostFormType } from "@/type/post.type";
+
+import { PostFormType } from "@/type";
 import { useState } from "react";
 import CitiesStep from "./form/cities-step";
 import CountriesStep from "./form/countries-step";

@@ -1,4 +1,9 @@
-import { createPost, findPostById, findPostsAll } from "@/actions/post.actions";
+import {
+  createPost,
+  findPostById,
+  findPostsAll,
+  incrementViewCount,
+} from "@/actions/post.actions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -38,4 +43,21 @@ export const useFindPostById = (id: number) => {
     queryFn: () => findPostById(id),
   });
   return query;
+};
+
+export const useIncrementViewCount = (id?: number) => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: () => incrementViewCount(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["post", { id }] });
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
+  return mutation;
 };

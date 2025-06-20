@@ -23,7 +23,6 @@ const CountryFilter = () => {
   if (isLoading) {
     return null;
   }
-
   return (
     <FilterContainer title="국가 선택하기" isShow={detailFilter === "country"}>
       <div className="flex flex-wrap items-center justify-start gap-4 mt-4">
@@ -71,15 +70,11 @@ const CityFilter = () => {
   const { data: cities, isLoading } = useFindCitiesAllByCountry(
     filterValue.country.id
   );
-  if (isLoading) return null;
-  const filteredCities =
-    cities?.filter(
-      (city: CityType) => city.countryId === filterValue.country.id
-    ) ?? [];
+  if (isLoading || !cities) return null;
   return (
     <FilterContainer title="도시 선택하기" isShow={detailFilter === "city"}>
       <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
-        {filteredCities.map((city: CityType) => (
+        {cities.map((city: CityType) => (
           <button
             key={city.id}
             type="button"
@@ -118,15 +113,11 @@ const DistrictFilter = () => {
   const { data: districts, isLoading } = useFindDistrictsAllByCity(
     filterValue.city.id
   );
-  if (isLoading) return null;
-  const filteredDistricts =
-    districts?.filter(
-      (district: DistrictType) => district.cityId === filterValue.city.id
-    ) ?? [];
+  if (isLoading || !districts) return null;
   return (
     <FilterContainer title="지역 선택하기" isShow={detailFilter === "district"}>
       <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
-        {filteredDistricts.map((district: DistrictType) => (
+        {districts.map((district: DistrictType) => (
           <button
             key={district.id}
             type="button"

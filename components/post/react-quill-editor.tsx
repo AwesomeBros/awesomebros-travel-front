@@ -59,7 +59,7 @@ const ReactQuillEditor = ({ ...props }: any) => {
 
   return (
     <div className="mb-11">
-      <div ref={quillRef} className="min-h-[180px] max-h-[800px]" />
+      <div ref={quillRef} className="min-h-[180px] max-h-[400px]" />
     </div>
   );
 };

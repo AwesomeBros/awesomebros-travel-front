@@ -29,8 +29,7 @@ export default function CountriesStep({ step, setStep }: Props) {
   });
   console.log("form errors", form.formState.errors);
 
-  const onSubmit = (data: PostFormCountryType) => {
-    console.log("onSubmit data", data);
+  const onSubmit = () => {
     const newCountryId = selectedCountry ?? "";
     const currentCountryId = postForm.countryId;
     const updatedPostForm = {

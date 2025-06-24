@@ -9,6 +9,7 @@ import {
   SignupFormSchema,
 } from "@/validation";
 import axios from "axios";
+import { redirect } from "next/navigation";
 
 export const signup = async (value: SignupFormType) => {
   const data = SignupFormSchema.parse(value);
@@ -53,8 +54,9 @@ export async function login(value: LoginFormType) {
   await signIn("credentials", {
     email: data.email,
     password: data.password,
-    redirect: true,
+    redirect: false,
   });
+  redirect("/");
 }
 
 export async function getMe() {

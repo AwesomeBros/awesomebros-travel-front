@@ -4,12 +4,55 @@ import { auth } from "@/auth";
 import { NOMINATIM_URL, SERVER_URL } from "@/constants";
 import { PostFormType } from "@/type";
 import axios from "axios";
+import { cookies } from "next/headers";
 
 export async function createPost(values: PostFormType) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
   try {
     const response = await axios.post(`${SERVER_URL}/post/create`, values, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}
+
+export async function updatePost(values: PostFormType, id?: number) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.put(
+      `${SERVER_URL}/post/update/${id}`,
+      values,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}
+
+export async function deletePost(id?: number) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.delete(`${SERVER_URL}/post/delete/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,9 +89,18 @@ export async function findPostsAll(params: {
   }
 }
 
-export async function findPostById(id: number) {
+export async function findPostById(id?: number) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  const visitorIdCookie = (await cookies()).get("visitor_id");
+
   try {
-    const response = await axios.get(`${SERVER_URL}/post/${id}`);
+    const response = await axios.get(`${SERVER_URL}/post/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     return response.data.body;
   } catch (error) {
     if (axios.isAxiosError(error)) {

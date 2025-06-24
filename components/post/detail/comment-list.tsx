@@ -21,7 +21,7 @@ export default function CommentList({ postId }: Props) {
   } = useFindCommentsByPostId(postId);
   const observerRef = useRef<HTMLDivElement>(null);
 
-  console.log("CommentList data", data);
+  // console.log("CommentList data", data);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

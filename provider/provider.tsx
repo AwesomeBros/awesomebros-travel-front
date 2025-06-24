@@ -1,16 +1,15 @@
-import { Session } from "next-auth";
+import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
 import OpenProvider from "./open-porvider";
 import QueryProvider from "./query-provider";
 
-export default function Provider({
+export default async function Provider({
   children,
-  session,
 }: {
   children: React.ReactNode;
-  session: Session | null;
 }) {
+  const session = await auth();
   return (
     <div>
       <QueryProvider>

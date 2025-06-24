@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 export default function Stepper({ count = 1, className = "" }) {
-  console.log("Stepper count:", count);
+  // console.log("Stepper count:", count);
 
   return (
     <div className={cn("grid grid-cols-6 gap-3 h-1", className)}>

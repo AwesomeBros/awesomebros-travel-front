@@ -10,9 +10,6 @@ export const useLogin = () => {
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      router.push("/");
-    },
     onError: (error) => {
       if (error instanceof Error) {
         if (error.message !== "NEXT_REDIRECT") {

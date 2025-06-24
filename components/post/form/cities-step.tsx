@@ -2,60 +2,40 @@ import { Form } from "@/components/ui/form";
 
 import { Loader } from "@/components/shared/loader";
 import { useFindCitiesAllByCountry } from "@/hooks/query/use-city";
-import { usePostFormStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
-import { CityType, PostFormCityType } from "@/type";
-import { PostFormCitySchema } from "@/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { CityType, PostFormType } from "@/type";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import React, { Dispatch, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
 import ButtonWrap from "./button-wrap";
 import Stepper from "./stepper";
 
 interface Props {
   step: number;
-  setStep: Dispatch<React.SetStateAction<number>>;
+  form: UseFormReturn<PostFormType>;
+  handleNextStep: () => Promise<void>;
+  handlePrevStep: () => void;
 }
 
-export default function CitiesStep({ step, setStep }: Props) {
-  const { postForm, setPostForm } = usePostFormStore();
-  const { data, isLoading } = useFindCitiesAllByCountry(postForm.countryId);
-  const [selectedCity, setSelectedCity] = useState<string>("");
-  const form = useForm<PostFormCityType>({
-    resolver: zodResolver(PostFormCitySchema),
-    defaultValues: {
-      cityId: postForm.cityId || undefined,
-    },
-  });
-  console.log("postForm", postForm);
+export default function CitiesStep({
+  step,
+  form,
+  handleNextStep,
+  handlePrevStep,
+}: Props) {
+  const { data, isLoading } = useFindCitiesAllByCountry(
+    form.getValues("countryId") || ""
+  );
+  const [selectedCity, setSelectedCity] = useState<string>(
+    form.getValues("cityId") || ""
+  );
 
-  console.log("form errors", form.formState.errors);
-
-  const onSubmit = () => {
-    const newCityId = selectedCity ?? 0;
-    const currentCityId = postForm.cityId;
-    const updatedPostForm = {
-      ...postForm,
-      cityId: newCityId,
-    };
-
-    if (newCityId !== currentCityId) {
-      updatedPostForm.districtId = "";
-    }
-    setPostForm(updatedPostForm);
-    setStep(step + 1);
-  };
-  useEffect(() => {
-    if (postForm.cityId) {
-      setSelectedCity(postForm.cityId);
-    }
-  }, [postForm.cityId]);
+  // console.log("form errors", form.formState.errors);
 
   useEffect(() => {
     form.setValue("cityId", selectedCity ?? 0);
   }, [selectedCity, form.setValue]);
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <>
@@ -100,9 +80,9 @@ export default function CitiesStep({ step, setStep }: Props) {
           )}
           <ButtonWrap
             prevDisabled={step === 1}
-            prevOnClick={() => setStep(step - 1)}
+            prevOnClick={handlePrevStep}
             nextDisabled={!selectedCity}
-            nextOnClick={form.handleSubmit(onSubmit)}
+            nextOnClick={handleNextStep}
           />
         </form>
       </Form>

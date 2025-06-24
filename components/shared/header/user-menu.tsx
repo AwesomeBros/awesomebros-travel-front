@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { usePostOpenStore } from "@/hooks/store";
+import { usePostWriteOpenStore } from "@/hooks/store";
 
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
@@ -38,17 +38,26 @@ const privateRoute = [
   },
 ];
 export default function UserMenu({ session }: { session: Session | null }) {
-  const { onOpen } = usePostOpenStore();
+  const { onOpen } = usePostWriteOpenStore();
   const router = useRouter();
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
-        <button
-          className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-          onClick={() => onOpen()}
-        >
-          글작성 하기
-        </button>
+        {session && session.user ? (
+          <button
+            className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+            onClick={() => onOpen()}
+          >
+            글작성 하기
+          </button>
+        ) : (
+          <button
+            className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+            onClick={() => router.push("/login")}
+          >
+            로그인 후 글작성 하기
+          </button>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition">
@@ -58,8 +67,8 @@ export default function UserMenu({ session }: { session: Session | null }) {
                 <Avatar>
                   <AvatarImage
                     src={
-                      session.user.url
-                        ? session.user.url
+                      session.user.image
+                        ? session.user.image
                         : "/images/noProfileImage.jpg"
                     }
                     alt="profile"

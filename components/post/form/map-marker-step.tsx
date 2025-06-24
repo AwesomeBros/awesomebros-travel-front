@@ -1,18 +1,17 @@
 import { Loader } from "@/components/shared/loader";
 import { Form } from "@/components/ui/form";
-import { usePostFormStore } from "@/hooks/store";
-import { PlaceType, PostFormLocationType } from "@/type";
-import { PostFormLocationSchema } from "@/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { LocationType, PlaceType, PostFormType } from "@/type";
 import dynamic from "next/dynamic";
-import { Dispatch, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
 import ButtonWrap from "./button-wrap";
 import Stepper from "./stepper";
 
 interface Props {
   step: number;
-  setStep: Dispatch<React.SetStateAction<number>>;
+  form: UseFormReturn<PostFormType>;
+  handleNextStep: () => Promise<void>;
+  handlePrevStep: () => void;
 }
 
 const AddressMap = dynamic(
@@ -39,68 +38,59 @@ const AddressSearch = dynamic(
   }
 );
 
-export default function MapMarkerStep({ step, setStep }: Props) {
-  const [selectPositions, setSelectPositions] = useState<PlaceType[] | []>([]);
-  const { postForm, setPostForm } = usePostFormStore();
-
-  const form = useForm<PostFormLocationType>({
-    resolver: zodResolver(PostFormLocationSchema),
-    defaultValues: {
-      location:
-        postForm.location && postForm.location.length > 0
-          ? postForm.location.map((location) => ({
-              lat: location.lat,
-              lng: location.lng,
-              name: location.name,
-            }))
-          : [],
-    },
-  });
-
-  console.log("MapMarkerStep selectPositions", selectPositions);
-  console.log("form errors", form.formState.errors);
+export default function MapMarkerStep({
+  step,
+  form,
+  handleNextStep,
+  handlePrevStep,
+}: Props) {
+  const [selectPositions, setSelectPositions] = useState<PlaceType[]>([]);
 
   useEffect(() => {
-    const coordinatesForForm = selectPositions.map((position) => ({
-      lat: position.geometry.coordinates[1],
-      lng: position.geometry.coordinates[0],
-      name: position.properties.geocoding.name,
-    }));
-    form.setValue("location", coordinatesForForm, { shouldValidate: true });
-  }, [selectPositions, form.setValue]);
-
-  useEffect(() => {
-    if (postForm.location && postForm.location.length > 0) {
-      postForm.location.map((location) => {
-        const place: PlaceType = {
+    const initialFormLocations = form.getValues("location");
+    if (
+      initialFormLocations &&
+      initialFormLocations.length > 0 &&
+      selectPositions.length === 0
+    ) {
+      const convertedToPlaceType: PlaceType[] = initialFormLocations.map(
+        (loc, idx) => ({
+          type: "Feature",
           geometry: {
-            coordinates: [location.lng, location.lat],
+            type: "Point",
+            coordinates: [loc.lng, loc.lat],
           },
           properties: {
             geocoding: {
-              name: location.name || "",
+              name: loc.name,
+              label: loc.name,
+              place_id: idx,
             },
           },
-        };
-        setSelectPositions((prev) => [...prev, place]);
-      });
+        })
+      );
+      setSelectPositions(convertedToPlaceType);
     }
-  }, [postForm.location]);
+  }, [form.getValues("location")]);
 
-  const onSubmit = (data: PostFormLocationType) => {
-    console.log("onSubmit data", data);
-    setPostForm({
-      ...postForm,
-      location: data.location,
-    });
+  useEffect(() => {
+    const coordinatesForForm: LocationType[] = selectPositions.map(
+      (position) => ({
+        lat: position.geometry.coordinates[1],
+        lng: position.geometry.coordinates[0],
+        name: position.properties.geocoding.name,
+      })
+    );
+    form.setValue("location", coordinatesForForm, { shouldValidate: true });
+  }, [selectPositions, form.setValue]);
 
-    setStep(step + 1);
-  };
+  // console.log("MapMarkerStep selectPositions", selectPositions);
+  // console.log("form errors", form.formState.errors);
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form>
           <Stepper count={5} />
           <div className="space-y-4 mt-10">
             <div className="flex w-full size-full">
@@ -116,9 +106,10 @@ export default function MapMarkerStep({ step, setStep }: Props) {
             </div>
           </div>
           <ButtonWrap
-            prevOnClick={() => setStep(step - 1)}
-            nextDisabled={selectPositions.length === 0}
-            nextOnClick={form.handleSubmit(onSubmit)}
+            prevDisabled={step === 1}
+            prevOnClick={handlePrevStep}
+            nextDisabled={!selectPositions.length}
+            nextOnClick={handleNextStep}
           />
         </form>
       </Form>

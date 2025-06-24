@@ -127,8 +127,17 @@ export type CommentType = z.infer<typeof CommentFormSchema> & {
   };
 };
 export type LocationType = {
-  id: string;
+  id?: string;
   lat: number;
   lng: number;
   name: string;
+};
+
+export type UserType = {
+  id: string;
+  email: string;
+  name: string;
+  image: string | null;
+  provider: string | null;
+  createdAt: string;
 };

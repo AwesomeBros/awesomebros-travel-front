@@ -13,7 +13,7 @@ export default function useQuillImageReplacement() {
     let match;
     while ((match = gainSource.exec(content)) !== null) {
       const result = match[1];
-      console.log("src 추출 결과:", result);
+      // console.log("src 추출 결과:", result);
       srcArray.push(result);
     }
 

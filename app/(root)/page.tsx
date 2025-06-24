@@ -26,7 +26,7 @@ export default async function HomePage() {
   ]);
 
   const state = dehydrate(queryClient);
-  console.log("session", session);
+  // console.log("session", session);
 
   return (
     <div className="flex flex-col bg-white p-4 rounded-xl shadow-md">

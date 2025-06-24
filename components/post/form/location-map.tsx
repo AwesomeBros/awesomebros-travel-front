@@ -2,11 +2,11 @@
 
 import { useConfirm } from "@/hooks/use-confirm";
 import { PlaceType } from "@/type";
-import type { LatLngTuple, Marker as LeafletMarker } from "leaflet";
+import type { LatLngTuple } from "leaflet";
 import { icon, latLng } from "leaflet";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";
 import "leaflet/dist/leaflet.css";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 const markerIcon = icon({
@@ -17,38 +17,29 @@ const markerIcon = icon({
   shadowSize: [41, 41],
 });
 
-const position: LatLngTuple = [37.56675, 126.97842];
+const initialMapPosition: LatLngTuple = [37.56675, 126.97842];
 
 export default function LocationMap({
   setSelectPositions,
   selectPositions,
 }: {
-  setSelectPositions: Dispatch<SetStateAction<PlaceType[] | []>>;
-  selectPositions: PlaceType[] | [];
+  setSelectPositions: Dispatch<SetStateAction<PlaceType[]>>;
+  selectPositions: PlaceType[];
 }) {
   const [ConfirmDialog, confirm] = useConfirm(
     "정말로 방문장소를 삭제하시겠습니까?",
     ""
   );
+
   const JAWG_ACCESS_TOKEN = process.env.NEXT_PUBLIC_JAWG_ACCESS_TOKEN;
-  const markerRef = useRef<LeafletMarker | null>(null);
-  useEffect(() => {
-    const marker = markerRef.current;
-    if (marker) {
-      marker.openPopup();
-      marker.on("popupclose", () => {
-        setTimeout(() => marker.openPopup(), 0);
-      });
-    }
-    return () => {
-      if (marker) marker.off("popupclose");
-    };
-  }, []);
-  async function handleDeleteMarker(coordinates: [number, number]) {
+
+  async function handleDeleteMarker(placeId: string) {
     const ok = await confirm();
     if (ok) {
       setSelectPositions((prevItems) =>
-        prevItems.filter((item) => item.geometry.coordinates !== coordinates)
+        prevItems.filter(
+          (item) => String(item.properties.geocoding.place_id) !== placeId
+        )
       );
     }
   }
@@ -57,7 +48,7 @@ export default function LocationMap({
     <>
       <ConfirmDialog />
       <MapContainer
-        center={position}
+        center={initialMapPosition}
         zoom={15}
         className="size-full rounded-lg"
       >
@@ -65,31 +56,27 @@ export default function LocationMap({
           attribution='<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={`https://tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token=${JAWG_ACCESS_TOKEN}`}
         />
-        {selectPositions.map((position, index) => (
+        {selectPositions.map((positionItem) => (
           <Marker
-            key={index}
-            ref={markerRef}
+            key={positionItem.properties.geocoding.place_id}
             position={
               [
-                position.geometry.coordinates[1],
-                position.geometry.coordinates[0],
+                positionItem.geometry.coordinates[1],
+                positionItem.geometry.coordinates[0],
               ] as LatLngTuple
             }
             icon={markerIcon}
             eventHandlers={{
               click: () => {
-                const coordinates = position.geometry.coordinates;
-                console.log("placeId", position);
-
-                if (coordinates !== undefined) {
-                  handleDeleteMarker(coordinates);
-                }
+                handleDeleteMarker(
+                  String(positionItem.properties.geocoding.place_id)
+                );
               },
               add: (e) => e.target.openPopup(),
             }}
           >
             <Popup autoClose={false} closeOnClick={false} closeButton={false}>
-              {position.properties.geocoding.name}
+              {positionItem.properties.geocoding.name}
             </Popup>
           </Marker>
         ))}
@@ -102,7 +89,7 @@ export default function LocationMap({
 function ResetCenterView({
   selectPositions,
 }: {
-  selectPositions: PlaceType[] | [];
+  selectPositions: PlaceType[];
 }) {
   const map = useMap();
   useEffect(() => {

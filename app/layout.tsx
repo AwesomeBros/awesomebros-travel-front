@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { APP_DESCRIPTION, APP_NAME } from "@/constants";
 import Provider from "@/provider/provider";
 import "@/style/globals.css";
@@ -25,11 +24,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard bg-[#f3f1ef]`}>
-        <Provider session={session}>{children}</Provider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

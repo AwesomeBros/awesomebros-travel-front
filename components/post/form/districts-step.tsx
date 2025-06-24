@@ -2,47 +2,32 @@ import { Loader } from "@/components/shared/loader";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useFindDistrictsAllByCity } from "@/hooks/query/use-district";
-import { usePostFormStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
-import { DistrictType, PostFormDistrictType } from "@/type";
-import { PostFormDistrictSchema } from "@/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { Dispatch, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { DistrictType, PostFormType } from "@/type";
+import { useEffect, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
 import ButtonWrap from "./button-wrap";
 import Stepper from "./stepper";
 
 interface Props {
   step: number;
-  setStep: Dispatch<React.SetStateAction<number>>;
+  form: UseFormReturn<PostFormType>;
+  handleNextStep: () => Promise<void>;
+  handlePrevStep: () => void;
 }
 
-export default function DistrictsStep({ step, setStep }: Props) {
-  const { postForm, setPostForm } = usePostFormStore();
-  const { data, isLoading } = useFindDistrictsAllByCity(postForm.cityId);
-  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
-  const form = useForm<PostFormDistrictType>({
-    resolver: zodResolver(PostFormDistrictSchema),
-    defaultValues: {
-      districtId: postForm.districtId || undefined,
-    },
-  });
-  console.log("postForm", postForm);
-
-  console.log("form errors", form.formState.errors);
-
-  const onSubmit = () => {
-    setPostForm({
-      ...postForm,
-      districtId: selectedDistrict ?? "",
-    });
-    setStep(step + 1);
-  };
-  useEffect(() => {
-    if (postForm.districtId) {
-      setSelectedDistrict(postForm.districtId);
-    }
-  }, [postForm.districtId]);
+export default function DistrictsStep({
+  step,
+  form,
+  handleNextStep,
+  handlePrevStep,
+}: Props) {
+  const { data, isLoading } = useFindDistrictsAllByCity(
+    form.getValues("cityId") || ""
+  );
+  const [selectedDistrict, setSelectedDistrict] = useState<string>(
+    form.getValues("districtId") || ""
+  );
 
   useEffect(() => {
     form.setValue("districtId", selectedDistrict ?? "");
@@ -92,9 +77,10 @@ export default function DistrictsStep({ step, setStep }: Props) {
             </ScrollArea>
           )}
           <ButtonWrap
-            prevOnClick={() => setStep(step - 1)}
+            prevDisabled={step === 1}
+            prevOnClick={handlePrevStep}
             nextDisabled={!selectedDistrict}
-            nextOnClick={form.handleSubmit(onSubmit)}
+            nextOnClick={handleNextStep}
           />
         </form>
       </Form>

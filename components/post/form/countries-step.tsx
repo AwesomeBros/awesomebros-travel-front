@@ -2,66 +2,34 @@ import { Loader } from "@/components/shared/loader";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useFindCountriesAll } from "@/hooks/query/use-country";
-import { usePostFormStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
-import { CountryType, PostFormCountryType } from "@/type";
-import { PostFormCountrySchema } from "@/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { Dispatch, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { CountryType, PostFormType } from "@/type";
+import { useEffect, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
 import ButtonWrap from "./button-wrap";
 import Stepper from "./stepper";
 
 interface Props {
   step: number;
-  setStep: Dispatch<React.SetStateAction<number>>;
+  form: UseFormReturn<PostFormType>;
+  handleNextStep: () => Promise<void>;
+  handlePrevStep: () => void;
 }
 
-export default function CountriesStep({ step, setStep }: Props) {
-  const { postForm, setPostForm } = usePostFormStore();
+export default function CountriesStep({
+  step,
+  form,
+  handleNextStep,
+  handlePrevStep,
+}: Props) {
   const { data, isLoading } = useFindCountriesAll();
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const form = useForm<PostFormCountryType>({
-    resolver: zodResolver(PostFormCountrySchema),
-    defaultValues: {
-      countryId: postForm.countryId || "",
-    },
-  });
-  console.log("form errors", form.formState.errors);
-
-  const onSubmit = (data: PostFormCountryType) => {
-    console.log("onSubmit data", data);
-    const newCountryId = selectedCountry ?? "";
-    const currentCountryId = postForm.countryId;
-    const updatedPostForm = {
-      ...postForm,
-      countryId: newCountryId,
-    };
-
-    if (newCountryId !== currentCountryId) {
-      updatedPostForm.cityId = "";
-      updatedPostForm.districtId = "";
-    }
-    setPostForm(updatedPostForm);
-    setStep(step + 1);
-  };
-  useEffect(() => {
-    if (postForm.countryId) {
-      setSelectedCountry(postForm.countryId);
-    }
-  }, [postForm.countryId]);
+  const [selectedCountry, setSelectedCountry] = useState<string>(
+    form.getValues("countryId") || ""
+  );
 
   useEffect(() => {
     form.setValue("countryId", selectedCountry ?? "");
   }, [selectedCountry, form.setValue]);
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="w-full h-full flex justify-center items-center">
-  //       <Loader />
-  //     </div>
-  //   );
-  // }
   return (
     <>
       <Stepper count={1} />
@@ -102,8 +70,9 @@ export default function CountriesStep({ step, setStep }: Props) {
           )}
           <ButtonWrap
             prevDisabled={step === 1}
+            prevOnClick={handlePrevStep}
             nextDisabled={!selectedCountry}
-            nextOnClick={form.handleSubmit(onSubmit)}
+            nextOnClick={handleNextStep}
           />
         </form>
       </Form>

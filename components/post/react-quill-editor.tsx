@@ -41,7 +41,7 @@ const ReactQuillEditor = ({ ...props }: any) => {
           try {
             const formData = new FormData();
             formData.append("file", file);
-            console.log("formData", formData.get("file"));
+            // console.log("formData", formData.get("file"));
 
             const url = await imageUpload(formData);
             const range = quill.getSelection(true);
@@ -59,7 +59,7 @@ const ReactQuillEditor = ({ ...props }: any) => {
 
   return (
     <div className="mb-11">
-      <div ref={quillRef} className="min-h-[180px] max-h-[800px]" />
+      <div ref={quillRef} className="min-h-[180px] max-h-[400px]" />
     </div>
   );
 };

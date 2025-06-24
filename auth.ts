@@ -13,22 +13,19 @@ async function refreshToken(token: JWT): Promise<JWT> {
       {},
       {
         headers: {
-          authorization: `Refresh ${token.serverTokens?.refreshToken}`,
+          authorization: `Refresh ${token.serverTokens.refreshToken}`,
         },
       }
     );
 
-    const { body } = await response.data;
-
-    const newRefreshToken = await body;
-    // console.log("newRefreshToken", newRefreshToken);
+    const newRefreshToken = await response.data.body;
 
     return {
       ...token,
       serverTokens: newRefreshToken,
     };
   } catch (error) {
-    console.error("Failed to refresh token", error);
+    await signOut();
     return { ...token, error: "RefreshToken Error", user: token.user || null };
   }
 }
@@ -52,6 +49,7 @@ export const config = {
       },
     },
   },
+  debug: process.env.NODE_ENV === "development",
   providers: [
     CredentialsProvider({
       credentials: {
@@ -66,8 +64,8 @@ export const config = {
           email,
           password,
         });
-        const result = await response.data.body;
-        return result;
+        const user = await response.data.body;
+        return user;
       },
     }),
     KakaoProvider({
@@ -78,9 +76,8 @@ export const config = {
           id: String(profile.id),
           name: profile.properties.nickname,
           email: profile.kakao_account.email,
-          password: "",
-          url: profile.properties.profile_image,
-          provider: "카카오",
+          image: profile.properties.profile_image,
+          provider: "kakao",
         };
 
         const response = await axios.post(
@@ -88,7 +85,6 @@ export const config = {
           user
         );
         const result = await response.data.body;
-
         return result;
       },
     }),
@@ -97,12 +93,11 @@ export const config = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       async profile(profile) {
         const user = {
-          id: Number(profile.sub),
+          id: profile.sub,
           name: profile.name,
-          password: "",
           email: profile.email,
-          url: profile.picture,
-          provider: "구글",
+          image: profile.picture,
+          provider: "google",
         };
 
         const response = await axios.post(
@@ -118,11 +113,9 @@ export const config = {
   callbacks: {
     async jwt({ token, user, trigger, session }: any) {
       if (user) return { ...token, ...user };
-      const REFRESH_THRESHOLD_MILLIS = 5 * 1000;
       if (
         token.serverTokens &&
-        new Date().getTime() >
-          token.serverTokens.expiresIn - REFRESH_THRESHOLD_MILLIS
+        new Date().getTime() > token.serverTokens.expiresIn
       ) {
         token = await refreshToken(token);
       }
@@ -136,13 +129,14 @@ export const config = {
       // const updatedData = {
       //   user: {
       //     name: "Updated Name",
-      //     url: "https://example.com/updated-image.jpg",
+      //     image: "https://example.com/updated-image.jpg",
       //   }
       // }
       // void update(updatedData);
       return token;
     },
     async session({ session, token }: any) {
+      console.log("Session Callback - Incoming Token:", token); // ✨ token 내용 확인
       session.user = {
         id: token.user.id,
         role: token.user.role,
@@ -153,10 +147,21 @@ export const config = {
       };
 
       session.serverTokens = token.serverTokens;
-
+      console.log("Session Callback - Outgoing Session:", session);
       return session;
     },
   },
+  // events: {
+  //   async signOut({ token }: any) {
+  //     try {
+  //       await axios.post(`${SERVER_URL}/auth/logout`, {
+  //         userId: token.user.id,
+  //       });
+  //     } catch (error) {
+  //       console.error("Logout error:", error);
+  //     }
+  //   },
+  // },
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);

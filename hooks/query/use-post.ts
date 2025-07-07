@@ -1,6 +1,5 @@
 import {
   createPost,
-<<<<<<< HEAD
   deletePost,
   findPostById,
   findPostsAll,
@@ -15,13 +14,6 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-=======
-  findPostById,
-  findPostsAll,
-  incrementViewCount,
-} from "@/actions/post.actions";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
->>>>>>> a64d6dcd6b52e22ea92dc8b6e8ff486a615095c9
 import { toast } from "sonner";
 
 export const useCreatePost = () => {

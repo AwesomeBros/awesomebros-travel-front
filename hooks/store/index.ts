@@ -31,6 +31,18 @@ export const useFilterStore = create<FilterStore>((set) => ({
   setFilterValue: (filterValue) => set({ filterValue }),
 }));
 
+interface PostWriteOpenStore {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}
+
+export const usePostWriteOpenStore = create<PostWriteOpenStore>((set) => ({
+  isOpen: false,
+  onOpen: () => set({ isOpen: true }),
+  onClose: () => set({ isOpen: false }),
+}));
+
 interface PostOpenState {
   id?: number;
   isOpen: boolean;
@@ -40,6 +52,19 @@ interface PostOpenState {
 
 export const usePostOpenStore = create<PostOpenState>((set) => ({
   id: undefined,
+  isOpen: false,
+  onOpen: (id) => set({ isOpen: true, id }),
+  onClose: () => set({ isOpen: false }),
+}));
+
+interface PostEditOpenStore {
+  id?: number;
+  isOpen: boolean;
+  onOpen: (id?: number) => void;
+  onClose: () => void;
+}
+
+export const usePostEditOpenStore = create<PostEditOpenStore>((set) => ({
   isOpen: false,
   onOpen: (id) => set({ isOpen: true, id }),
   onClose: () => set({ isOpen: false }),

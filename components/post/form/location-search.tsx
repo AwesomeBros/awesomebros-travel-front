@@ -8,7 +8,7 @@ import { toast } from "sonner";
 export default function LocationSearch({
   setSelectPositions,
 }: {
-  setSelectPositions: Dispatch<SetStateAction<PlaceType[] | []>>;
+  setSelectPositions: Dispatch<SetStateAction<PlaceType[]>>;
 }) {
   const [listPlace, setListPlace] = useState<PlaceType[]>([]);
 
@@ -22,8 +22,12 @@ export default function LocationSearch({
     };
   };
   async function handleDebounceSearch(value: string) {
+    if (!value) {
+      setListPlace([]);
+      return;
+    }
     const response = await getCoordinate(value);
-    console.log("response", response);
+    // console.log("response", response);
 
     setListPlace(response.features || []);
   }
@@ -53,6 +57,7 @@ export default function LocationSearch({
       }
       return newItems;
     });
+    setListPlace([]);
   }
 
   return (
@@ -80,7 +85,6 @@ export default function LocationSearch({
                     className="border p-2 cursor-pointer hover:bg-gray-100"
                     onClick={() => {
                       handleAddress(item);
-                      setListPlace([]);
                     }}
                   >
                     <p>{item?.properties.geocoding.label} </p>

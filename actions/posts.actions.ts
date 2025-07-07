@@ -25,6 +25,25 @@ export async function createPost(values: PostFormType) {
   }
 }
 
+export async function updatePost(values: PostFormType, id?: number) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.put(`${SERVER_URL}/posts/${id}`, values, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}
+
 export async function findPostsAll(sort?: string) {
   try {
     const response = await axios.get(`${SERVER_URL}/posts`, {
@@ -44,7 +63,7 @@ export async function findPostsAll(sort?: string) {
   }
 }
 
-export async function findPostById(id: number) {
+export async function findPostById(id?: number) {
   try {
     const response = await axios.get(`${SERVER_URL}/posts/${id}`);
     return response.data;

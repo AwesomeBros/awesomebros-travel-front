@@ -7,44 +7,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { usePostFormStore } from "@/hooks/store";
-import { PostFormInfoType } from "@/type/post.type";
-import { PostFormInfoSchema } from "@/validation/post.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { PostFormType } from "@/type/post.type";
 import dynamic from "next/dynamic";
-import { Dispatch } from "react";
-import { useForm } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import ButtonWrap from "./button-wrap";
 import Stepper from "./stepper";
 
 interface Props {
   step: number;
-  setStep: Dispatch<React.SetStateAction<number>>;
+  form: UseFormReturn<PostFormType>;
+  handleNextStep: () => Promise<void>;
+  handlePrevStep: () => void;
 }
 
 const ReactQuillEditor = dynamic(() => import("../react-quill-editor"), {
   ssr: false,
 });
 
-export default function InfoStep({ setStep, step }: Props) {
-  const { postForm, setPostForm } = usePostFormStore();
-  const form = useForm<PostFormInfoType>({
-    resolver: zodResolver(PostFormInfoSchema),
-    defaultValues: {
-      title: postForm.title || "",
-      slug: postForm.slug || "",
-      content: postForm.content || "",
-    },
-  });
-  const onSubmit = (data: PostFormInfoType) => {
-    setPostForm({
-      ...postForm,
-      title: data.title,
-      slug: data.slug,
-      content: data.content,
-    });
-    setStep(step + 1);
-  };
+export default function InfoStep({
+  step,
+  form,
+  handleNextStep,
+  handlePrevStep,
+}: Props) {
   return (
     <>
       <Form {...form}>
@@ -112,9 +97,8 @@ export default function InfoStep({ setStep, step }: Props) {
             />
           </div>
           <ButtonWrap
-            prevOnClick={() => setStep(step - 1)}
-            nextDisabled={!form.formState.isValid}
-            nextOnClick={form.handleSubmit(onSubmit)}
+            prevOnClick={handlePrevStep}
+            nextOnClick={handleNextStep}
           />
         </form>
       </Form>

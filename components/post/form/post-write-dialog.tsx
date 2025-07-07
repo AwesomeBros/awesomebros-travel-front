@@ -1,6 +1,7 @@
 "use client";
 
-import { usePostOpenStore } from "@/hooks/store";
+import { useCreatePost } from "@/hooks/query/use-posts";
+import { usePostFormStore, usePostWriteOpenStore } from "@/hooks/store";
 import { PostFormType } from "@/type/post.type";
 import {
   Dialog,
@@ -11,28 +12,20 @@ import {
 import PostForm from "../post-form";
 
 export default function PostWriteDialog() {
-  const { isOpen, onClose } = usePostOpenStore();
-  // const defaultValues: PostFormType = {
-  //   url: "",
-  //   title: "",
-  //   coordinate: [
-  //     {
-  //       lat: 0,
-  //       lng: 0,
-  //       name: "",
-  //     },
-  //   ],
-  //   content: "",
-  //   cities_id: 0,
-  //   countries_id: 0,
-  //   districts_id: 0,
-  //   slug: "",
-  // };
-  // const createPost = useCreatePost();
+  const { isOpen, onClose } = usePostWriteOpenStore();
+  const { postForm, setPostForm, resetPostForm } = usePostFormStore();
+  const createPost = useCreatePost();
   function onSubmit(data: PostFormType) {
-    console.log("Submitted data:", data);
+    createPost.mutate(data, {
+      onSuccess: () => {
+        onClose();
+        resetPostForm();
+      },
+    });
+  }
 
-    // createPost.mutate(data);
+  function onStepSave(data: PostFormType) {
+    setPostForm(data);
   }
 
   return (
@@ -44,7 +37,12 @@ export default function PostWriteDialog() {
           </DialogTitle>
         </DialogHeader>
         <section className="w-full mx-auto px-4 min-h-[80vh] overflow-auto">
-          <PostForm onSubmit={onSubmit} />
+          <PostForm
+            onSubmit={onSubmit}
+            defaultValues={postForm}
+            isUpdateMode={false}
+            onStepSave={onStepSave}
+          />
         </section>
       </DialogContent>
     </Dialog>

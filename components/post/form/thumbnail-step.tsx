@@ -1,27 +1,29 @@
-import { usePostFormStore, usePostOpenStore } from "@/hooks/store";
-// import useQuillImageReplacement from "@/hooks/use-image-replacement";
 import { imageUpload } from "@/actions/files.actions";
-import { useCreatePost } from "@/hooks/query/use-posts";
 import { PostFormType } from "@/type/post.type";
 import Image from "next/image";
-import { Dispatch, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { UseFormReturn } from "react-hook-form";
 import { AiFillCamera } from "react-icons/ai";
 import ButtonWrap from "./button-wrap";
 import Stepper from "./stepper";
 
 interface Props {
   step: number;
-  setStep: Dispatch<React.SetStateAction<number>>;
-  onSubmit: (data: PostFormType) => void;
+  form: UseFormReturn<PostFormType>;
+  handleNextStep: () => Promise<void>;
+  handlePrevStep: () => void;
 }
 
-export default function ThumbnailStep({ setStep, step, onSubmit }: Props) {
-  const { postForm, setPostForm, resetPostForm } = usePostFormStore();
-  // const { replaceImages } = useQuillImageReplacement();
-  const { onClose } = usePostOpenStore();
-  const [image, setImage] = useState<string | null>(null);
-  const createPost = useCreatePost();
+export default function ThumbnailStep({
+  step,
+  form,
+  handlePrevStep,
+  handleNextStep,
+}: Props) {
+  const [image, setImage] = useState<string | null>(
+    form.getValues("url") || null
+  );
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
@@ -30,32 +32,14 @@ export default function ThumbnailStep({ setStep, step, onSubmit }: Props) {
       const data = await imageUpload(formData);
       if (data) {
         setImage(data);
-        setPostForm({
-          ...postForm,
-          url: data,
-        });
-        console.log("ThumbnailStep image uploaded:", data);
+        form.setValue("url", data);
       }
     }
   }, []);
-  const { getRootProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, isDragActive, getInputProps } = useDropzone({ onDrop });
 
   const handleImageRemove = () => {
     setImage(null);
-  };
-  const handleSubmit = async () => {
-    // postForm.content = await replaceImages(postForm.content, postForm.slug);
-    setPostForm({
-      ...postForm,
-      url: image || postForm.url,
-    });
-    createPost.mutate(postForm, {
-      onSuccess: () => {
-        onSubmit(postForm);
-        resetPostForm();
-        onClose();
-      },
-    });
   };
 
   return (
@@ -68,18 +52,11 @@ export default function ThumbnailStep({ setStep, step, onSubmit }: Props) {
         <div className="flex flex-col gap-2">
           <div className="col-span-full">
             {!image ? (
-              <label
-                htmlFor="file-upload"
+              <div
                 className="mt-2 flex justify-center rounded-lg w-full aspect-2/1 border border-dashed border-gray-900/25 px-6 py-30 cursor-pointer"
                 {...getRootProps()}
               >
-                <input
-                  id="file-upload"
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  className="sr-only"
-                />
+                <input {...getInputProps()} className="sr-only" />
                 {!isDragActive ? (
                   <div className="text-center">
                     <AiFillCamera className="mx-auto h-12 w-12 text-gray-300" />
@@ -101,7 +78,7 @@ export default function ThumbnailStep({ setStep, step, onSubmit }: Props) {
                     </div>
                   </div>
                 )}
-              </label>
+              </div>
             ) : null}
           </div>
         </div>
@@ -120,10 +97,10 @@ export default function ThumbnailStep({ setStep, step, onSubmit }: Props) {
         )}
       </div>
       <ButtonWrap
-        prevOnClick={() => setStep(step - 1)}
-        // nextDisabled={image === null}
+        prevDisabled={step === 1}
+        prevOnClick={handlePrevStep}
+        nextOnClick={handleNextStep}
         nextText="완료"
-        nextOnClick={handleSubmit}
       />
     </>
   );

@@ -36,7 +36,7 @@ export default function ThumbnailStep({
       }
     }
   }, []);
-  const { getRootProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, isDragActive, getInputProps } = useDropzone({ onDrop });
 
   const handleImageRemove = () => {
     setImage(null);
@@ -52,18 +52,11 @@ export default function ThumbnailStep({
         <div className="flex flex-col gap-2">
           <div className="col-span-full">
             {!image ? (
-              <label
-                htmlFor="file-upload"
+              <div
                 className="mt-2 flex justify-center rounded-lg w-full aspect-2/1 border border-dashed border-gray-900/25 px-6 py-30 cursor-pointer"
                 {...getRootProps()}
               >
-                <input
-                  id="file-upload"
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  className="sr-only"
-                />
+                <input {...getInputProps()} className="sr-only" />
                 {!isDragActive ? (
                   <div className="text-center">
                     <AiFillCamera className="mx-auto h-12 w-12 text-gray-300" />
@@ -85,7 +78,7 @@ export default function ThumbnailStep({
                     </div>
                   </div>
                 )}
-              </label>
+              </div>
             ) : null}
           </div>
         </div>

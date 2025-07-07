@@ -98,9 +98,6 @@ export default function InfoStep({
           </div>
           <ButtonWrap
             prevOnClick={handlePrevStep}
-            nextDisabled={
-              !form.getValues("title") || !form.getValues("content")
-            }
             nextOnClick={handleNextStep}
           />
         </form>

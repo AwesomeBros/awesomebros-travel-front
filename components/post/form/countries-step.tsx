@@ -23,41 +23,9 @@ export default function CountriesStep({
   handlePrevStep,
 }: Props) {
   const { data, isLoading } = useFindCountriesAll();
-<<<<<<< HEAD
   const [selectedCountry, setSelectedCountry] = useState<string>(
     form.getValues("countryId") || ""
   );
-=======
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const form = useForm<PostFormCountryType>({
-    resolver: zodResolver(PostFormCountrySchema),
-    defaultValues: {
-      countryId: postForm.countryId || "",
-    },
-  });
-  console.log("form errors", form.formState.errors);
-
-  const onSubmit = () => {
-    const newCountryId = selectedCountry ?? "";
-    const currentCountryId = postForm.countryId;
-    const updatedPostForm = {
-      ...postForm,
-      countryId: newCountryId,
-    };
-
-    if (newCountryId !== currentCountryId) {
-      updatedPostForm.cityId = "";
-      updatedPostForm.districtId = "";
-    }
-    setPostForm(updatedPostForm);
-    setStep(step + 1);
-  };
-  useEffect(() => {
-    if (postForm.countryId) {
-      setSelectedCountry(postForm.countryId);
-    }
-  }, [postForm.countryId]);
->>>>>>> a64d6dcd6b52e22ea92dc8b6e8ff486a615095c9
 
   useEffect(() => {
     form.setValue("countryId", selectedCountry ?? "");

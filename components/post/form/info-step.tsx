@@ -24,34 +24,12 @@ const ReactQuillEditor = dynamic(() => import("../react-quill-editor"), {
   ssr: false,
 });
 
-<<<<<<< HEAD
 export default function InfoStep({
   step,
   form,
   handleNextStep,
   handlePrevStep,
 }: Props) {
-=======
-export default function InfoStep({ setStep, step }: Props) {
-  const { postForm, setPostForm } = usePostFormStore();
-  const form = useForm<PostFormInfoType>({
-    resolver: zodResolver(PostFormInfoSchema),
-    defaultValues: {
-      title: postForm.title || "",
-      slug: postForm.slug || "",
-      content: postForm.content || "",
-    },
-  });
-  const onSubmit = (data: PostFormInfoType) => {
-    setPostForm({
-      ...postForm,
-      title: data.title,
-      slug: data.slug,
-      content: data.content,
-    });
-    setStep(step + 1);
-  };
->>>>>>> a64d6dcd6b52e22ea92dc8b6e8ff486a615095c9
   return (
     <>
       <Form {...form}>

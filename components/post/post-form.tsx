@@ -1,13 +1,9 @@
 "use client";
 
-<<<<<<< HEAD
 import { usePostFormStore } from "@/hooks/store";
 import { PostFormType } from "@/type";
 import { PostFormSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-=======
-import { PostFormType } from "@/type";
->>>>>>> a64d6dcd6b52e22ea92dc8b6e8ff486a615095c9
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CitiesStep from "./form/cities-step";

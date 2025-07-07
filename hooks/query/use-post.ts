@@ -3,6 +3,7 @@ import {
   deletePost,
   findPostById,
   findPostsAll,
+  incrementViewCount,
   updatePost,
 } from "@/actions/post.actions";
 import { findPostsByUserId } from "@/actions/user.actions";
@@ -13,7 +14,6 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import axios from "axios";
 import { toast } from "sonner";
 
 export const useCreatePost = () => {
@@ -105,18 +105,18 @@ export const useFindPostById = (id?: number) => {
   return query;
 };
 
-export const useIncreaseViewCount = (id: number) => {
+export const useIncrementViewCount = (id?: number) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async () =>
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/post/${id}/view`,
-        {},
-        { withCredentials: true }
-      ),
+    mutationFn: () => incrementViewCount(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post", { id }] });
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["post", { id }] });
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     },
   });
   return mutation;

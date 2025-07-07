@@ -3,11 +3,20 @@
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { NO_IMG } from "@/constants";
+import { useIncrementViewCount } from "@/hooks/query/use-posts";
 import { PostType } from "@/type/post.type";
 import { format } from "date-fns";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function HeaderSection({ post }: { post: PostType }) {
+  const incrementView = useIncrementViewCount(post.id);
+
+  useEffect(() => {
+    if (post.id) {
+      incrementView.mutate();
+    }
+  }, [post.id, incrementView.mutate]);
   return (
     <div className="flex flex-col gap-5">
       <div className="text-3xl font-medium">{post.title}</div>

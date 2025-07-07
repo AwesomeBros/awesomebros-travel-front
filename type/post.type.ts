@@ -23,6 +23,7 @@ export type PostType = z.infer<typeof PostFormSchema> & {
     url: string | null;
     nickname: string;
   };
+  like: { userId: string }[];
   districts: DistrictType;
   cities: CityType;
   countries: CountryType;

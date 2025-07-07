@@ -2,11 +2,16 @@
 
 import { useFindPostsBySort } from "@/hooks/query/use-home";
 import { PostType } from "@/type/post.type";
+import { Session } from "next-auth";
 import { useState } from "react";
 import PostCard from "../post/post-card";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
-export default function PopularLatestPostsList() {
+export default function PopularLatestPostsList({
+  session,
+}: {
+  session: Session | null;
+}) {
   const [sort, setSort] = useState<"latest" | "popular">("latest");
   const { data: postsAll, isLoading } = useFindPostsBySort(sort);
 
@@ -31,7 +36,12 @@ export default function PopularLatestPostsList() {
         {isLoading
           ? null
           : postsAll.map((post: PostType, index: number) => (
-              <PostCard key={post.id} post={post} index={index} />
+              <PostCard
+                key={post.id}
+                post={post}
+                index={index}
+                userId={session?.user.id}
+              />
             ))}
       </div>
     </div>

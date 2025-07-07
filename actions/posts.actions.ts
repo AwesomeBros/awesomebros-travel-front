@@ -95,7 +95,7 @@ export async function incrementViewCount(id?: number) {
 
   try {
     const response = await axios.post(
-      `${SERVER_URL}/post/${id}/view`,
+      `${SERVER_URL}/posts/${id}/view`,
       {},
       {
         headers,

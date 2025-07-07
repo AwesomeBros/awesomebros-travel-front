@@ -7,6 +7,7 @@ import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { PiEyesFill } from "react-icons/pi";
+import LikeButton from "./like-button";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -16,9 +17,11 @@ const variants = {
 export default function PostItem({
   post,
   index,
+  userId,
 }: {
   post: PostType;
   index: number;
+  userId?: string;
 }) {
   return (
     <motion.div
@@ -95,6 +98,7 @@ export default function PostItem({
               objectFit: "cover",
             }}
           />
+          <LikeButton post={post} userId={userId} />
         </div>
       </Link>
     </motion.div>

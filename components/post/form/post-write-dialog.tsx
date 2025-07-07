@@ -1,7 +1,7 @@
 "use client";
 
 import { useCreatePost } from "@/hooks/query/use-posts";
-import { usePostFormStore, usePostWriteOpenStore } from "@/hooks/store";
+import { usePostFormStore, usePostOpenStore } from "@/hooks/store";
 import { PostFormType } from "@/type/post.type";
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
 import PostForm from "../post-form";
 
 export default function PostWriteDialog() {
-  const { isOpen, onClose } = usePostWriteOpenStore();
+  const { isOpen, onClose } = usePostOpenStore();
   const { postForm, setPostForm, resetPostForm } = usePostFormStore();
   const createPost = useCreatePost();
   function onSubmit(data: PostFormType) {

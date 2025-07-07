@@ -19,7 +19,6 @@ const AddressSearch = dynamic(
 
 export default function MapPage() {
   const [selectPositions, setSelectPositions] = useState<PlaceType[] | []>([]);
-  console.log("selectPositions", selectPositions);
 
   return (
     <div className="flex w-screen h-screen">

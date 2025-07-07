@@ -1,8 +1,12 @@
+import { auth } from "@/auth";
 import { APP_DESCRIPTION, APP_NAME } from "@/constants";
-import Provider from "@/provider/provider";
+import OpenProvider from "@/provider/open-porvider";
+import QueryProvider from "@/provider/query-provider";
 import "@/style/globals.css";
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
+import { Toaster } from "sonner";
 
 const pretendard = localFont({
   src: "../public/fonts/PretendardVariable.woff2",
@@ -24,10 +28,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard bg-[#f3f1ef]`}>
-        <Provider>{children}</Provider>
+        <QueryProvider>
+          <SessionProvider session={session}>
+            {children}
+            <OpenProvider />
+            <Toaster />
+          </SessionProvider>
+        </QueryProvider>
       </body>
     </html>
   );

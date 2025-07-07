@@ -6,7 +6,11 @@ import { useState } from "react";
 import PostCard from "../post/post-card";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
-export default function PopularLatestPostsList() {
+export default function PopularLatestPostsList({
+  userId,
+}: {
+  userId?: string;
+}) {
   const [sort, setSort] = useState<"latest" | "popular">("latest");
   const { data: postsAll, isLoading } = useFindPostsBySort(sort);
 
@@ -31,7 +35,12 @@ export default function PopularLatestPostsList() {
         {isLoading
           ? null
           : postsAll.map((post: PostType, index: number) => (
-              <PostCard key={post.id} post={post} index={index} />
+              <PostCard
+                key={post.id}
+                post={post}
+                index={index}
+                userId={userId}
+              />
             ))}
       </div>
     </div>

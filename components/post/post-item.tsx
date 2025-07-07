@@ -2,11 +2,13 @@ import { BLUR_DATA_URL, NO_IMG, NO_THUMBNAIL } from "@/constants";
 import { PostType } from "@/type";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
+import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { PiEyesFill } from "react-icons/pi";
+import LikeButton from "./like-button";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -16,9 +18,11 @@ const variants = {
 export default function PostItem({
   post,
   index,
+  session,
 }: {
   post: PostType;
   index: number;
+  session: Session | null;
 }) {
   return (
     <motion.div
@@ -32,11 +36,11 @@ export default function PostItem({
       }}
       viewport={{ amount: 0 }}
     >
-      <Link
-        href={`/posts/${post.id}/${encodeURIComponent(post.slug)}`}
-        className="p-4 bg-white flex items-center gap-[30px] cursor-pointer hover:bg-[#00000005] rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
-      >
-        <div className="flex-1 flex flex-col gap-4">
+      <div className="p-4 bg-white flex items-center gap-[30px] cursor-pointer hover:bg-[#00000005] rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out">
+        <Link
+          href={`/posts/${post.id}/${encodeURIComponent(post.slug)}`}
+          className="flex-1 flex flex-col gap-4"
+        >
           <div className="flex items-center gap-2">
             <div className="relative size-8 rounded-full overflow-hidden shadow-md">
               <Image
@@ -82,21 +86,24 @@ export default function PostItem({
               {post.district?.name}
             </p>
           </div>
-        </div>
+        </Link>
         <div className="relative w-[180px] h-[130px] overflow-hidden">
-          <Image
-            src={post.image ? post.image : NO_THUMBNAIL}
-            alt="Board Image"
-            placeholder="blur"
-            blurDataURL={BLUR_DATA_URL}
-            fill
-            className="rounded-[10px]"
-            style={{
-              objectFit: "cover",
-            }}
-          />
+          <Link href={`posts/${post.id}/${encodeURIComponent(post.slug)}`}>
+            <Image
+              src={post.image ? post.image : NO_THUMBNAIL}
+              alt="Board Image"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
+              fill
+              className="rounded-[10px]"
+              style={{
+                objectFit: "cover",
+              }}
+            />
+          </Link>
+          <LikeButton post={post} userId={session?.user.id} />
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 }

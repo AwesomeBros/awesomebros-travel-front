@@ -15,7 +15,7 @@ export default function PostEditDialog() {
   const { isOpen, onClose, id } = usePostEditOpenStore();
   const updatePost = useUpdatePost(id);
   const { data: post, isLoading } = useFindPostById(id);
-  if (isLoading || !post) return <div>Loading...</div>;
+  if (isLoading || !post) return null;
   // console.log("Post data:", post);
 
   const defaultValues: PostFormType = {

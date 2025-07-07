@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { PiEyesFill } from "react-icons/pi";
+import LikeButton from "./like-button";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -15,9 +16,11 @@ const variants = {
 export default function PostCard({
   post,
   index,
+  userId,
 }: {
   post: PostType;
   index: number;
+  userId?: string;
 }) {
   return (
     <motion.div
@@ -32,11 +35,11 @@ export default function PostCard({
       viewport={{ amount: 0 }}
       className="hover:bg-[#00000005] rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
     >
-      <Link
-        href={`posts/${post.id}/${encodeURIComponent(post.slug)}`}
-        key={post.id}
-      >
-        <div className="relative aspect-[2/1.5] rounded-lg overflow-hidden">
+      <div className="relative aspect-[2/1.5] rounded-lg overflow-hidden">
+        <Link
+          href={`posts/${post.id}/${encodeURIComponent(post.slug)}`}
+          key={post.id}
+        >
           <Image
             src={post.image ? post.image : NO_THUMBNAIL}
             alt="Board Image"
@@ -45,11 +48,20 @@ export default function PostCard({
             fill
             className="object-cover object-center"
           />
-        </div>
+        </Link>
+        <LikeButton post={post} userId={userId} />
+      </div>
+      <Link
+        href={`posts/${post.id}/${encodeURIComponent(post.slug)}`}
+        key={post.id}
+      >
         <div className="p-2">
-          <h2 className="text-lg font-bold mt-2 line-clamp-1">{post.title}</h2>
+          <h2 className="text-lg font-bold mt-2 line-clamp-1 hover:underline">
+            {post.title}
+          </h2>
+
           <div
-            className="text-muted-foreground text-sm leading-[140%] line-clamp-1"
+            className="text-muted-foreground text-sm line-clamp-1"
             dangerouslySetInnerHTML={{
               __html: post.content.replace(/<img.*?\/?>/g, ""),
             }}

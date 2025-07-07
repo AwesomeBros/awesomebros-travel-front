@@ -136,7 +136,7 @@ export const config = {
       return token;
     },
     async session({ session, token }: any) {
-      console.log("Session Callback - Incoming Token:", token); // ✨ token 내용 확인
+      // console.log("Session Callback - Incoming Token:", token);
       session.user = {
         id: token.user.id,
         role: token.user.role,
@@ -147,7 +147,7 @@ export const config = {
       };
 
       session.serverTokens = token.serverTokens;
-      console.log("Session Callback - Outgoing Session:", session);
+      // console.log("Session Callback - Outgoing Session:", session);
       return session;
     },
   },

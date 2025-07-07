@@ -26,13 +26,12 @@ export default async function HomePage() {
   ]);
 
   const state = dehydrate(queryClient);
-  // console.log("session", session);
 
   return (
     <div className="flex flex-col bg-white p-4 rounded-xl shadow-md">
       <HydrationBoundary state={state}>
-        <PopularLatestPostsList />
-        <CitiesPostsList />
+        <PopularLatestPostsList userId={session?.user.id} />
+        <CitiesPostsList session={session} />
       </HydrationBoundary>
     </div>
   );

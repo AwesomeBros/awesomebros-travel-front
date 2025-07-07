@@ -3,11 +3,16 @@
 import { CITIES } from "@/constants";
 import { useFindPostsByCity } from "@/hooks/query/use-home";
 import { HomeCitiesType, PostType } from "@/type";
+import { Session } from "next-auth";
 import { useState } from "react";
 import PostItem from "../post/post-item";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
-export default function CitiesPostsList() {
+export default function CitiesPostsList({
+  session,
+}: {
+  session: Session | null;
+}) {
   const [city, setCity] = useState<HomeCitiesType>("서울");
   const { data: postsAll, isLoading } = useFindPostsByCity(city);
 
@@ -35,7 +40,12 @@ export default function CitiesPostsList() {
               </div>
             ) : (
               postsAll.map((post: PostType, index: number) => (
-                <PostItem key={post.id} post={post} index={index} />
+                <PostItem
+                  key={post.id}
+                  post={post}
+                  index={index}
+                  session={session}
+                />
               ))
             )}
           </div>

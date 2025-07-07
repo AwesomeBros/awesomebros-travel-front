@@ -12,7 +12,11 @@ export default auth(async (req) => {
   console.log(session, role, pathname);
 
   const protectedPaths = [/^\/user(\/.*)?$/];
+<<<<<<< HEAD
   const adminPaths = [/^\/admin(\/.*)?$/];
+=======
+  const adminPaths = [/^\/user(\/.*)?$/];
+>>>>>>> a64d6dcd6b52e22ea92dc8b6e8ff486a615095c9
 
   if (!session && protectedPaths.some((p) => p.test(pathname))) {
     return NextResponse.redirect(new URL("/login", req.url));

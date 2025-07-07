@@ -17,6 +17,10 @@ export default function HeaderSection({ post }: { post: PostType }) {
       incrementView.mutate();
     }
   }, [post.id, incrementView.mutate]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> a64d6dcd6b52e22ea92dc8b6e8ff486a615095c9
   return (
     <div className="flex flex-col gap-5">
       <div className="text-3xl font-medium">{post.title}</div>

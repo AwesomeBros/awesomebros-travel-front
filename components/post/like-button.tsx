@@ -3,7 +3,6 @@
 import { useToggleLike } from "@/hooks/query/use-like";
 import { cn } from "@/lib/utils";
 import { PostType } from "@/type";
-import { useSession } from "next-auth/react";
 import { Icon } from "../ui/icon";
 
 export default function LikeButton({
@@ -13,7 +12,6 @@ export default function LikeButton({
   post: PostType;
   userId?: string;
 }) {
-  const { data: session, status } = useSession();
   const toggleLike = useToggleLike();
   function toggleLikeHandler() {
     toggleLike.mutate(post.id);

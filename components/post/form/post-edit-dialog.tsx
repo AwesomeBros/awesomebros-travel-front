@@ -29,7 +29,6 @@ export default function PostEditDialog() {
     slug: post.slug || "",
   };
   function onSubmit(data: PostFormType) {
-    console.log("Submitting post data:", data);
     updatePost.mutate(data, {
       onSuccess: () => {
         onClose();

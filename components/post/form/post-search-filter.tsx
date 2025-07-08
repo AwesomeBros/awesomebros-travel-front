@@ -29,7 +29,7 @@ export default function PostSearchFilter() {
         <Input
           type="search"
           onChange={handleInputChange}
-          placeholder="게시글 검색"
+          placeholder={"검색어를 입력하세요."}
         />
         <AiOutlineSearch className="size-6" />
       </div>

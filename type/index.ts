@@ -126,6 +126,10 @@ export type CommentType = z.infer<typeof CommentFormSchema> & {
     name: string;
     image: string | null;
   };
+  post: {
+    id: number;
+    slug: string;
+  };
 };
 export type LocationType = {
   id?: string;

@@ -17,7 +17,7 @@ export default function FeatureSection({ post }: { post: PostType }) {
   return (
     <div className="flex flex-col gap-5">
       <div className=" md:relative md:flex-row flex flex-col-reverse gap-5">
-        <div className="md:sticky md:top-30 md:max-w-2/6 h-80 w-full rounded-lg shadow-md">
+        <div className="md:sticky md:top-30 z-10 md:max-w-2/6 h-80 w-full rounded-lg shadow-md">
           <DetailMap post={post} />
         </div>
         <div className="w-full flex flex-col gap-2.5">

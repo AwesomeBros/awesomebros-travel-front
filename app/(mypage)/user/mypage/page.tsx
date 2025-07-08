@@ -1,9 +1,49 @@
 import { auth } from "@/auth";
+import MypageItem from "@/components/mypage/mypage-item";
+import { NO_IMG } from "@/constants";
 import Image from "next/image";
-import Link from "next/link";
 import { AiOutlineComment, AiOutlineUser } from "react-icons/ai";
 import { TbHeart, TbPencilCheck, TbPencilPlus } from "react-icons/tb";
 import { VscKey } from "react-icons/vsc";
+
+const MYPAGE_ITEMS = [
+  {
+    href: "/user/info",
+    icon: <AiOutlineUser className="text-xl md:text-3xl" />,
+    title: "유저 정보",
+    description: "유저 정보 및 프로필 이미지",
+  },
+  {
+    href: "#",
+    icon: <TbPencilPlus className="text-xl md:text-3xl" />,
+    title: "게시글 작성",
+    description: "게시글 작성하기",
+  },
+  {
+    href: "/user/posts",
+    icon: <TbPencilCheck className="text-xl md:text-3xl" />,
+    title: "게시글 관리",
+    description: "게시글 관리하기",
+  },
+  {
+    href: "/user/like",
+    icon: <TbHeart className="text-xl md:text-3xl" />,
+    title: "좋아요",
+    description: "좋아요 목록 모아보기",
+  },
+  {
+    href: "/user/comments",
+    icon: <AiOutlineComment className="text-xl md:text-3xl" />,
+    title: "나의 댓글",
+    description: "나의 댓글 모아보기",
+  },
+  {
+    href: "#",
+    icon: <VscKey className="text-xl md:text-3xl" />,
+    title: "로그아웃",
+    description: "로그아웃",
+  },
+];
 
 export default async function MyPage() {
   const session = await auth();
@@ -15,11 +55,7 @@ export default async function MyPage() {
         <div className="flex gap-2 mt-2 text-lg">
           <div className="relative overflow-hidden size-[32px] rounded-full">
             <Image
-              src={
-                session?.user.image
-                  ? session.user.image
-                  : "/images/noProfileImage.jpg"
-              }
+              src={session?.user.image ? session.user.image : NO_IMG}
               alt={`Profile`}
               fill
               className="object-cover object-center"
@@ -30,68 +66,9 @@ export default async function MyPage() {
           <div className="text-gray-700">{session?.user.email}</div>
         </div>
         <div className="grid md:grid-cols-3 gap-4 mt-12 mb-20">
-          <Link
-            href={"/user/info"}
-            className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 hover:shadow-xl"
-          >
-            <AiOutlineUser className="text-xl md:text-3xl" />
-            <div>
-              <h1 className="font-semibold">유저 정보</h1>
-              <h2 className="text-sm text-gray-500">
-                유저 정보 및 프로필 이미지
-              </h2>
-            </div>
-          </Link>
-          <Link
-            href={"#"}
-            className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 hover:shadow-xl cursor-pointer"
-          >
-            <TbPencilPlus className="text-xl md:text-3xl" />
-            <div>
-              <h1 className="font-semibold">게시글 작성</h1>
-              <h2 className="text-sm text-gray-500">게시글 작성하기</h2>
-            </div>
-          </Link>
-          <Link
-            href={"/user/posts"}
-            className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 hover:shadow-xl"
-          >
-            <TbPencilCheck className="text-xl md:text-3xl" />
-            <div>
-              <h1 className="font-semibold">게시글 관리</h1>
-              <h2 className="text-sm text-gray-500">게시글 관리하기</h2>
-            </div>
-          </Link>
-          <Link
-            href={"/user/like"}
-            className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 hover:shadow-xl"
-          >
-            <TbHeart className="text-xl md:text-3xl" />
-            <div>
-              <h1 className="font-semibold">좋아요</h1>
-              <h2 className="text-sm text-gray-500">좋아요 목록 모아보기</h2>
-            </div>
-          </Link>
-          <Link
-            href={"/user/comments"}
-            className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 hover:shadow-xl"
-          >
-            <AiOutlineComment className="text-xl md:text-3xl" />
-            <div>
-              <h1 className="font-semibold">나의 댓글</h1>
-              <h2 className="text-sm text-gray-500">나의 댓글 모아보기</h2>
-            </div>
-          </Link>
-          <Link
-            href={"#"}
-            className="shadow-lg rounded-lg flex flex-col justify-between p-4 gap-12 hover:shadow-xl"
-          >
-            <VscKey className="text-xl md:text-3xl" />
-            <div>
-              <h1 className="font-semibold">로그아웃</h1>
-              <h2 className="text-sm text-gray-500">로그아웃</h2>
-            </div>
-          </Link>
+          {MYPAGE_ITEMS.map((item) => (
+            <MypageItem key={item.title} item={item} />
+          ))}
         </div>
       </div>
     </main>

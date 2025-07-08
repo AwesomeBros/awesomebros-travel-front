@@ -30,13 +30,13 @@ export const useFilterStore = create<FilterStore>((set) => ({
   setFilterValue: (filterValue) => set({ filterValue }),
 }));
 
-interface PostWriteOpenStore {
+interface OpenStore {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
-export const usePostWriteOpenStore = create<PostWriteOpenStore>((set) => ({
+export const usePostWriteOpenStore = create<OpenStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
@@ -110,4 +110,10 @@ interface SearchStore {
 export const useSearchStore = create<SearchStore>((set) => ({
   q: "",
   setQ: (q) => set({ q }),
+}));
+
+export const useShareOpenStore = create<OpenStore>((set) => ({
+  isOpen: false,
+  onOpen: () => set({ isOpen: true }),
+  onClose: () => set({ isOpen: false }),
 }));

@@ -26,7 +26,7 @@ const MYPAGE_ITEMS = [
     description: "게시글 관리하기",
   },
   {
-    href: "/user/like",
+    href: "/user/likes",
     icon: <TbHeart className="text-xl md:text-3xl" />,
     title: "좋아요",
     description: "좋아요 목록 모아보기",

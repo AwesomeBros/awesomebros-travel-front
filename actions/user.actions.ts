@@ -46,3 +46,26 @@ export async function findPostsByUserId(params: {
     throw error;
   }
 }
+
+export async function findLikesByUserId(params: {
+  title?: string;
+  page?: number;
+}) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.get(`${SERVER_URL}/user/likes`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params,
+    });
+    return response.data.body;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}

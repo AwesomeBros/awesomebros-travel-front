@@ -1,5 +1,10 @@
 import { toggleLike } from "@/actions/like.actions";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { findLikesByUserId } from "@/actions/user.actions";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { toast } from "sonner";
 
 // export function useFindLikePostById(id?: number, userId?: string) {
@@ -26,3 +31,18 @@ export function useToggleLike() {
   });
   return mutation;
 }
+
+export const useFindLikesByUserId = (params: {
+  title?: string;
+  userId?: string;
+}) => {
+  const query = useInfiniteQuery({
+    queryKey: ["likes", params],
+    initialPageParam: 1,
+    queryFn: ({ pageParam = 1 }) =>
+      findLikesByUserId({ ...params, page: pageParam }),
+    getNextPageParam: (lastPage, pages) =>
+      lastPage.data.length > 0 ? lastPage.page + 1 : undefined,
+  });
+  return query;
+};

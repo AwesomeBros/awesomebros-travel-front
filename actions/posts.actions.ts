@@ -51,9 +51,9 @@ export async function findPostsAll(sort?: string) {
         sort,
       },
     });
-    const { body } = response.data;
+    const data = response.data;
 
-    return body;
+    return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message;
@@ -125,6 +125,48 @@ export async function incrementViewCount(id?: number) {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}
+
+export async function deletePost(id?: number) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.delete(`${SERVER_URL}/post/delete/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}
+
+export async function findPostsByUserId(params: {
+  title?: string;
+  page?: number;
+}) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.get(`${SERVER_URL}/posts`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
       throw new Error(message);
     }
     throw error;

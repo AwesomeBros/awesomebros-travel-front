@@ -87,3 +87,13 @@ export const usePostFormStore = create<PostFormStore>()(
     }
   )
 );
+
+interface SearchStore {
+  q?: string;
+  setQ: (q: string) => void;
+}
+
+export const useSearchStore = create<SearchStore>((set) => ({
+  q: "",
+  setQ: (q) => set({ q }),
+}));

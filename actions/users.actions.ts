@@ -57,7 +57,7 @@ export async function login(value: LoginFormType) {
 export async function getMe() {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
-  const response = await axios.get(`${SERVER_URL}/user/me`, {
+  const response = await axios.get(`${SERVER_URL}/users/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

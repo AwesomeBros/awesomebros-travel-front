@@ -1,12 +1,12 @@
 "use client";
 
-import { useGetMe, useUpdateUser } from "@/actions/users.actions";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useGetMe, useUpdateUser } from "@/hooks/query/use-users";
 import { useUserEditOpenStore } from "@/hooks/store";
 import { UserFormType } from "@/type/user.type";
 import { useSession } from "next-auth/react";

@@ -13,9 +13,7 @@ import {
   ResetPasswordFormSchema,
   SignupFormSchema,
 } from "@/validation/auth.schema";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "sonner";
 
 export const signup = async (value: SignupFormType) => {
   const data = SignupFormSchema.parse(value);
@@ -128,36 +126,3 @@ export async function deleteUser(userId?: string) {
     throw error;
   }
 }
-
-export const useGetMe = (userId?: string) => {
-  const query = useQuery({
-    enabled: !!userId,
-    queryKey: ["user", userId],
-    queryFn: getMe,
-  });
-  return query;
-};
-
-export const useUpdateUser = () => {
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: (values: UserFormType) => updateUser(values),
-    onSuccess: (data) => {
-      toast.success(data.message);
-      queryClient.invalidateQueries({ queryKey: ["user", data.body.id] });
-    },
-  });
-  return mutation;
-};
-
-export const useDeleteUser = () => {
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: (userId?: string) => deleteUser(userId),
-    onSuccess: (data) => {
-      toast.success(data.message);
-      queryClient.invalidateQueries({ queryKey: ["user", data.body.id] });
-    },
-  });
-  return mutation;
-};

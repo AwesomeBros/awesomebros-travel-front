@@ -1,8 +1,16 @@
 "use client";
 import { sendEmail, verifyToken } from "@/actions/email.actions";
-import { login, resetPassword, signup } from "@/actions/users.actions";
+import {
+  deleteUser,
+  getMe,
+  login,
+  resetPassword,
+  signup,
+  updateUser,
+} from "@/actions/users.actions";
 import { EmailFormType } from "@/type/auth.type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { UserFormType } from "@/type/user.type";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -79,6 +87,39 @@ export const useResetPassword = () => {
       if (error instanceof Error) {
         toast.error(error.message);
       }
+    },
+  });
+  return mutation;
+};
+
+export const useGetMe = (userId?: string) => {
+  const query = useQuery({
+    enabled: !!userId,
+    queryKey: ["user", userId],
+    queryFn: getMe,
+  });
+  return query;
+};
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (values: UserFormType) => updateUser(values),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["user", data.body.id] });
+    },
+  });
+  return mutation;
+};
+
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (userId?: string) => deleteUser(userId),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["user", data.body.id] });
     },
   });
   return mutation;

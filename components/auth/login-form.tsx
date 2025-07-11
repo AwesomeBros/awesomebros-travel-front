@@ -2,8 +2,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useLogin } from "@/hooks/query/use-users";
-import { LoginFormType } from "@/type/auth.type";
-import { LoginFormSchema } from "@/validation/auth.schema";
+import { LoginFormType } from "@/type";
+import { LoginFormSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -105,7 +105,7 @@ export function LoginForm() {
             <div className="text-sm text-center text-muted-foreground">
               계정이 없나요?{" "}
               <Link
-                href={"/users/register"}
+                href={"/signup"}
                 target="_self"
                 className="text-foreground link hover:underline underline-offset-2"
               >

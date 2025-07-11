@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { ResetPasswordForm } from "@/components/user/reset-password-form";
+import EmailForm from "@/components/auth/email-form";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -7,10 +7,10 @@ export const metadata: Metadata = {
   title: "비밀번호 찾기",
 };
 
-export default async function Signup() {
+export default async function ResetPassword() {
   const session = await auth();
   if (session && session.user) {
     return redirect("/");
   }
-  return <ResetPasswordForm />;
+  return <EmailForm type="reset" />;
 }

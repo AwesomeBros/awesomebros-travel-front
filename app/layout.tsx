@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import Header from "@/components/shared/header/header";
 import { APP_DESCRIPTION, APP_NAME } from "@/constants";
 import Provider from "@/provider/provider";
 import "@/style/globals.css";
@@ -30,12 +29,7 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard bg-[#f3f1ef]`}>
-        <Provider session={session}>
-          <Header session={session} />
-          <main className="w-full max-w-[1200px] mx-auto px-2 md:px-0">
-            {children}
-          </main>
-        </Provider>
+        <Provider session={session}>{children}</Provider>
       </body>
     </html>
   );

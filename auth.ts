@@ -18,7 +18,7 @@ async function refreshToken(token: JWT): Promise<JWT> {
       }
     );
 
-    const newRefreshToken = response.data;
+    const newRefreshToken = response.data.body;
     // console.log("newRefreshToken", newRefreshToken);
 
     return {
@@ -64,7 +64,7 @@ export const config = {
           username,
           password,
         });
-        return response.data;
+        return response.data.body;
       },
     }),
     KakaoProvider({

@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "../ui/form";
 
-export function RegisterForm() {
+export function SignupForm() {
   const form = useForm<SignupFormType>({
     resolver: zodResolver(SignupFormSchema),
     defaultValues: {
@@ -29,8 +29,6 @@ export function RegisterForm() {
     },
   });
   const signup = useSignup();
-
-  console.error(form.formState.errors);
   function onSubmit(values: SignupFormType) {
     signup.mutate(values);
   }
@@ -133,7 +131,7 @@ export function RegisterForm() {
                 <div className="text-sm text-center text-muted-foreground">
                   이미 계정이 있나요?{" "}
                   <Link
-                    href={"/users/login"}
+                    href={"/login"}
                     className="text-foreground link hover:underline underline-offset-2"
                   >
                     로그인

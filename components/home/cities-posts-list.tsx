@@ -15,8 +15,6 @@ export default function CitiesPostsList({
 }) {
   const [city, setCity] = useState<HomeCitiesType>("서울");
   const { data: postsAll, isLoading } = useFindPostsByCities(city);
-  console.log("postsAll", postsAll);
-
   return (
     <>
       <div className="text-black text-2xl font-medium mb-5">도시별 후기</div>

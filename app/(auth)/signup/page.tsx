@@ -1,16 +1,16 @@
 import { auth } from "@/auth";
-import EmailForm from "@/components/user/email-form";
+import { SignupForm } from "@/components/auth/signup-form";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "비밀번호 찾기",
+  title: "회원가입",
 };
 
-export default async function ResetPassword() {
+export default async function Signup() {
   const session = await auth();
   if (session && session.user) {
     return redirect("/");
   }
-  return <EmailForm type="reset" />;
+  return <SignupForm />;
 }

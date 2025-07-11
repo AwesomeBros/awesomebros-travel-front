@@ -9,7 +9,9 @@ import axios from "axios";
 export const signup = async (value: SignupFormType) => {
   const data = SignupFormSchema.parse(value);
   const { username, email, nickname, password } = data;
-  await axios.post(`${SERVER_URL}/users/register`, {
+  console.log(email);
+
+  await axios.post(`${SERVER_URL}/auth/signup`, {
     username,
     email,
     nickname,

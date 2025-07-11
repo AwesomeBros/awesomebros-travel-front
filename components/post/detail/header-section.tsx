@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { NO_IMG } from "@/constants";
 import { useIncrementViewCount } from "@/hooks/query/use-posts";
 import { useShareOpenStore } from "@/hooks/store";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { format } from "date-fns";
 import Image from "next/image";
 import { useEffect } from "react";

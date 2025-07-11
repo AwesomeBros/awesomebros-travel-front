@@ -60,7 +60,7 @@ export const config = {
         if (!credentials?.username || !credentials?.password) return null;
         const { username, password } = credentials;
 
-        const response = await axios.post(`${SERVER_URL}/users/login`, {
+        const response = await axios.post(`${SERVER_URL}/auth/login`, {
           username,
           password,
         });

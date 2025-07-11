@@ -5,11 +5,16 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-export default function MypageItem({
-  item,
-}: {
-  item: { href: string; icon: ReactNode; title: string; description: string };
-}) {
+interface Props {
+  item: {
+    href: string;
+    icon: ReactNode;
+    title: string;
+    description: string;
+  };
+}
+
+export default function MypageItem({ item }: Props) {
   const { onOpen } = usePostOpenStore();
   const handleClick = (e: React.MouseEvent) => {
     if (item.title === "게시글 작성") {

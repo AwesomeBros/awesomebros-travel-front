@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader } from "@/components/shared/loader";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import DetailLikeButton from "./detail-like-button";

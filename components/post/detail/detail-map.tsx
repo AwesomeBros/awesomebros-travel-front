@@ -1,6 +1,6 @@
 "use client";
 
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import type { LatLngTuple } from "leaflet";
 import L, { icon } from "leaflet";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";

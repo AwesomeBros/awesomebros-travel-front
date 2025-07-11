@@ -3,9 +3,7 @@ import { useFindDistrictsAllByCity } from "@/hooks/query/use-districts";
 import { useFindCountriesAll } from "@/hooks/query/user-country";
 import { useDetailFilterStore, useFilterStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
-import { CityType } from "@/type/citiy.type";
-import { CountryType } from "@/type/country.type";
-import { DistrictType } from "@/type/district.type";
+import { CityType, CountryType, DistrictType } from "@/type";
 import FilterContainer from "./filter-container";
 
 export function SearchFilter() {

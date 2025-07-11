@@ -2,8 +2,7 @@
 
 import { CITIES } from "@/constants";
 import { useFindPostsByCities } from "@/hooks/query/use-home";
-import { PostType } from "@/type/post.type";
-import { HomeCitiesType } from "@/type/type";
+import { HomeCitiesType, PostType } from "@/type";
 import { Session } from "next-auth";
 import { useState } from "react";
 import PostItem from "../post/post-item";

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { RegisterForm } from "@/components/users/register-form";
+import { RegisterForm } from "@/components/user/register-form";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 

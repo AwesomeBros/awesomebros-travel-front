@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { SERVER_URL } from "@/constants";
-import { CommentFormType } from "@/type/comment.type";
+import { CommentFormType } from "@/type";
 import axios from "axios";
 
 export async function findCommentsByPostId(pageParam: number, postId?: number) {

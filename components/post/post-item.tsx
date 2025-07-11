@@ -1,5 +1,5 @@
 import { BLUR_DATA_URL, NO_IMG, NO_THUMBNAIL } from "@/constants";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import Image from "next/image";

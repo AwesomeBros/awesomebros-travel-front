@@ -1,5 +1,5 @@
 import { imageUpload } from "@/actions/files.actions";
-import { PostFormType } from "@/type/post.type";
+import { PostFormType } from "@/type";
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";

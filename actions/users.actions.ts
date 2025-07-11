@@ -1,32 +1,10 @@
 "use server";
 
-import { auth, signIn } from "@/auth";
+import { auth } from "@/auth";
 import { SERVER_URL } from "@/constants";
-import {
-  LoginFormType,
-  ResetPasswordFormType,
-  SignupFormType,
-} from "@/type/auth.type";
-import { UserFormType } from "@/type/user.type";
-import {
-  LoginFormSchema,
-  ResetPasswordFormSchema,
-  SignupFormSchema,
-} from "@/validation/auth.schema";
+import { ResetPasswordFormType, UserFormType } from "@/type";
+import { ResetPasswordFormSchema } from "@/validation";
 import axios from "axios";
-
-export const signup = async (value: SignupFormType) => {
-  const data = SignupFormSchema.parse(value);
-  const { username, email, nickname, password } = data;
-  await axios.post(`${SERVER_URL}/users/register`, {
-    username,
-    email,
-    nickname,
-    password,
-  });
-
-  return { message: "회원가입에 성공하였습니다." };
-};
 
 export const resetPassword = async (value: ResetPasswordFormType) => {
   const data = ResetPasswordFormSchema.parse(value);
@@ -45,15 +23,6 @@ export const resetPassword = async (value: ResetPasswordFormType) => {
     throw error;
   }
 };
-
-export async function login(value: LoginFormType) {
-  const data = LoginFormSchema.parse(value);
-  await signIn("credentials", {
-    username: data.username,
-    password: data.password,
-    redirect: true,
-  });
-}
 
 export async function getMe() {
   const session = await auth();

@@ -1,7 +1,7 @@
 "use client";
 
 import { useConfirm } from "@/hooks/use-confirm";
-import { PlaceType } from "@/type/post.type";
+import { PlaceType } from "@/type";
 import type { LatLngTuple } from "leaflet";
 import { icon, latLng } from "leaflet";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";

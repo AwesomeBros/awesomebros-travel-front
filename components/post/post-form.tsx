@@ -1,7 +1,7 @@
 "use client";
 
-import { PostFormType } from "@/type/post.type";
-import { PostFormSchema } from "@/validation/post.schema";
+import { PostFormType } from "@/type";
+import { PostFormSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

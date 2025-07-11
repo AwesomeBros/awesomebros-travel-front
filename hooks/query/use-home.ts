@@ -1,5 +1,5 @@
 import { findPostsByCities, findPostsBySort } from "@/actions/home.actions";
-import { HomeCitiesType, HomeSortType } from "@/type/type";
+import { HomeCitiesType, HomeSortType } from "@/type";
 import { useQuery } from "@tanstack/react-query";
 
 export function useFindPostsBySort(sort: HomeSortType) {

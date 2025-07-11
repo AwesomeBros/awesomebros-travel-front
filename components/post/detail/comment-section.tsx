@@ -1,8 +1,7 @@
 "use client";
 
 import { useCreateComment } from "@/hooks/query/use-comment";
-import { CommentFormType } from "@/type/comment.type";
-import { PostType } from "@/type/post.type";
+import { CommentFormType, PostType } from "@/type";
 import { Session } from "next-auth";
 import CommentForm from "./comment-form";
 import CommentList from "./comment-list";

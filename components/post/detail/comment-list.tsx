@@ -2,7 +2,7 @@
 
 import { Loader } from "@/components/shared/loader";
 import { useFindCommentsByPostId } from "@/hooks/query/use-comment";
-import { CommentType } from "@/type/comment.type";
+import { CommentType } from "@/type";
 import { Fragment, useEffect, useRef } from "react";
 import CommentItem from "./comment-item";
 

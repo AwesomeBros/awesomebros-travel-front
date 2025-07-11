@@ -6,7 +6,7 @@ import {
   updateComment,
 } from "@/actions/comments.actions";
 import { findCommentsByUserId } from "@/actions/users.actions";
-import { CommentFormType } from "@/type/comment.type";
+import { CommentFormType } from "@/type";
 import {
   useInfiniteQuery,
   useMutation,

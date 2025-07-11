@@ -2,7 +2,7 @@
 
 import { useToggleLike } from "@/hooks/query/use-like";
 import { cn } from "@/lib/utils";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { Icon } from "../ui/icon";
 
 export default function LikeButton({

@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PostFormType } from "@/type/post.type";
+import { PostFormType } from "@/type";
 import dynamic from "next/dynamic";
 import { UseFormReturn } from "react-hook-form";
 import ButtonWrap from "./button-wrap";

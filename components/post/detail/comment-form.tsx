@@ -9,8 +9,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { CommentFormType } from "@/type/comment.type";
-import { CommentFormSchema } from "@/validation/comment.schema";
+import { CommentFormType } from "@/type";
+import { CommentFormSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 export default function CommentForm({

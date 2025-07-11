@@ -2,7 +2,7 @@
 
 import { useFindPostById, useUpdatePost } from "@/hooks/query/use-posts";
 import { usePostEditOpenStore } from "@/hooks/store";
-import { PostFormType } from "@/type/post.type";
+import { PostFormType } from "@/type";
 import {
   Dialog,
   DialogContent,

@@ -1,15 +1,13 @@
 "use client";
+import { login, signup } from "@/actions/auth.actions";
 import { sendEmail, verifyToken } from "@/actions/email.actions";
 import {
   deleteUser,
   getMe,
-  login,
   resetPassword,
-  signup,
   updateUser,
 } from "@/actions/users.actions";
-import { EmailFormType } from "@/type/auth.type";
-import { UserFormType } from "@/type/user.type";
+import { EmailFormType, UserFormType } from "@/type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

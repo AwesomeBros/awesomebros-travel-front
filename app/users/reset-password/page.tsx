@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import EmailForm from "@/components/users/email-form";
+import EmailForm from "@/components/user/email-form";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 

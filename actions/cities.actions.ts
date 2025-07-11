@@ -9,5 +9,5 @@ export async function findCitiesAllByCountry(countries_id?: number) {
       countries_id,
     },
   });
-  return response.data;
+  return response.data.body;
 }

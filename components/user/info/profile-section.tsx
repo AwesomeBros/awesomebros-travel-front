@@ -1,8 +1,8 @@
 "use client";
 
-import { useGetMe } from "@/actions/users.actions";
 import { Loader } from "@/components/shared/loader";
 import { NO_IMG } from "@/constants";
+import { useGetMe } from "@/hooks/query/use-users";
 import Image from "next/image";
 
 export default function ProfileSection({ userId }: { userId?: string }) {

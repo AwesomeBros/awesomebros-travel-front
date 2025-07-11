@@ -7,7 +7,7 @@ import {
   incrementViewCount,
   updatePost,
 } from "@/actions/posts.actions";
-import { PostFormType } from "@/type/post.type";
+import { PostFormType } from "@/type";
 import {
   useInfiniteQuery,
   useMutation,

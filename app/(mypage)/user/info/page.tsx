@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
-import ProfileSection from "@/components/users/info/profile-section";
-import UserButton from "@/components/users/info/user-button";
+import ProfileSection from "@/components/user/info/profile-section";
+import UserButton from "@/components/user/info/user-button";
 
 export default async function UserInfoPage() {
   const session = await auth();

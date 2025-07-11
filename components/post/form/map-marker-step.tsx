@@ -1,6 +1,6 @@
 import { Loader } from "@/components/shared/loader";
 import { Form } from "@/components/ui/form";
-import { LocationType, PlaceType, PostFormType } from "@/type/post.type";
+import { LocationType, PlaceType, PostFormType } from "@/type";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";

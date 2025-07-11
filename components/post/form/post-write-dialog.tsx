@@ -2,7 +2,7 @@
 
 import { useCreatePost } from "@/hooks/query/use-posts";
 import { usePostFormStore, usePostOpenStore } from "@/hooks/store";
-import { PostFormType } from "@/type/post.type";
+import { PostFormType } from "@/type";
 import {
   Dialog,
   DialogContent,

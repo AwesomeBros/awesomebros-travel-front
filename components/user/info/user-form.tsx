@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserFormType, UserType } from "@/type/user.type";
-import { UserFormSchema } from "@/validation/auth.schema";
+import { UserFormSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";

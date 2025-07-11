@@ -1,7 +1,7 @@
 "use client";
 
-import { useDeleteUser } from "@/actions/users.actions";
 import { Button } from "@/components/ui/button";
+import { useDeleteUser } from "@/hooks/query/use-users";
 import { useUserEditOpenStore } from "@/hooks/store";
 import { useConfirm } from "@/hooks/use-confirm";
 import { signOut } from "next-auth/react";

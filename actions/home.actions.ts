@@ -1,7 +1,7 @@
 "use server";
 
 import { SERVER_URL } from "@/constants";
-import { HomeCitiesType, HomeSortType } from "@/type/type";
+import { HomeCitiesType, HomeSortType } from "@/type";
 import axios from "axios";
 
 export async function findPostsBySort(sort: HomeSortType) {

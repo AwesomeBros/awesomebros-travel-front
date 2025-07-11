@@ -1,7 +1,7 @@
 "use client";
 
 import { useFindPostsBySort } from "@/hooks/query/use-home";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { Session } from "next-auth";
 import { useState } from "react";
 import PostCard from "../post/post-card";

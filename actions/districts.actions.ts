@@ -9,5 +9,5 @@ export async function findDistrictsAllByCity(cities_id?: number) {
       cities_id,
     },
   });
-  return response.data;
+  return response.data.body;
 }

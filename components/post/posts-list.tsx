@@ -8,7 +8,7 @@ import { IoGrid } from "react-icons/io5";
 
 import { useFindPostsAll } from "@/hooks/query/use-posts";
 import { usePostTypeStore } from "@/hooks/store";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { PaginationWithLinks } from "../ui/pagination-with-links";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import PostCard from "./post-card";

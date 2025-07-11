@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { NOMINATIM_URL, SERVER_URL } from "@/constants";
-import { PostFormType } from "@/type/post.type";
+import { PostFormType } from "@/type";
 import axios from "axios";
 import { cookies } from "next/headers";
 

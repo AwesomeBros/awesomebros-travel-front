@@ -1,6 +1,6 @@
 import { getCoordinate } from "@/actions/posts.actions";
 import { Input } from "@/components/ui/input";
-import { PlaceType } from "@/type/post.type";
+import { PlaceType } from "@/type";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";

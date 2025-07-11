@@ -43,14 +43,14 @@ export const usePostOpenStore = create<OpenStore>((set) => ({
   onClose: () => set({ isOpen: false }),
 }));
 
-interface PostEditOpenStore {
+interface EditOpenStore {
   id?: number;
   isOpen: boolean;
   onOpen: (id?: number) => void;
   onClose: () => void;
 }
 
-export const usePostEditOpenStore = create<PostEditOpenStore>((set) => ({
+export const usePostEditOpenStore = create<EditOpenStore>((set) => ({
   isOpen: false,
   onOpen: (id) => set({ isOpen: true, id }),
   onClose: () => set({ isOpen: false }),
@@ -99,5 +99,12 @@ export const useSearchStore = create<SearchStore>((set) => ({
 export const useShareOpenStore = create<OpenStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
+  onClose: () => set({ isOpen: false }),
+}));
+
+export const useCommentEditOpenStore = create<EditOpenStore>((set) => ({
+  id: undefined,
+  isOpen: false,
+  onOpen: (id) => set({ isOpen: true, id }),
   onClose: () => set({ isOpen: false }),
 }));

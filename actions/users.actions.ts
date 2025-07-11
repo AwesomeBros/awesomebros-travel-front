@@ -64,3 +64,26 @@ export async function getMe() {
   });
   return response.data;
 }
+
+export async function findCommentsByUserId(params: {
+  content?: string;
+  page?: number;
+}) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.get(`${SERVER_URL}/user/comments`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params,
+    });
+    return response.data.body;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}

@@ -6,10 +6,10 @@ import axios from "axios";
 
 export async function findPostsBySort(sort: HomeSortType) {
   try {
-    const response = await axios.get(`${SERVER_URL}/posts`, {
+    const response = await axios.get(`${SERVER_URL}/posts/sort`, {
       params: { sort },
     });
-    return response.data;
+    return response.data.body;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message;
@@ -21,10 +21,10 @@ export async function findPostsBySort(sort: HomeSortType) {
 
 export async function findPostsByCities(city: HomeCitiesType) {
   try {
-    const response = await axios.get(`${SERVER_URL}/posts/cities`, {
+    const response = await axios.get(`${SERVER_URL}/posts/city`, {
       params: { city },
     });
-    return response.data;
+    return response.data.body;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message;

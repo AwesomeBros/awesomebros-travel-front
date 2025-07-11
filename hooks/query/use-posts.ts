@@ -67,6 +67,7 @@ export const useFindPostsAll = (params: {
 
 export const useFindPostById = (id?: number) => {
   const query = useQuery({
+    enabled: !!id,
     queryKey: ["post", { id }],
     queryFn: () => findPostById(id),
   });

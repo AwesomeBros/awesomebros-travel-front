@@ -54,7 +54,7 @@ export default function PostItem({
                 {post.users?.nickname}
               </div>
               <div className="text-[#00000066] text-xs font-normal leading-[140%]">
-                {format(post.created_at, "yyyy-MM-dd HH:mm")}
+                {format(post.createdAt, "yyyy-MM-dd HH:mm")}
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function PostItem({
               </p>
             </div>
             <p className="text-end text-primary font-bold">
-              {post.districts?.name}
+              {post.district?.name}
             </p>
           </div>
         </div>

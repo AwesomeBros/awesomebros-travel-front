@@ -78,7 +78,7 @@ export default function PostCard({
                 <PiEyesFill className="text-lg" /> {post.viewCount || 0}
               </p>
             </div>
-            <p className="text-primary font-bold">{post?.districts?.name}</p>
+            <p className="text-primary font-bold">{post?.district?.name}</p>
           </div>
         </div>
       </Link>

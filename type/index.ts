@@ -104,7 +104,7 @@ export type PostFormType = z.infer<typeof PostFormSchema>;
 export type PostType = z.infer<typeof PostFormSchema> & {
   viewCount: number;
   id: number;
-  created_at: string;
+  createdAt: string;
   users: {
     id: string;
     username: string;
@@ -112,7 +112,7 @@ export type PostType = z.infer<typeof PostFormSchema> & {
     nickname: string;
   };
   like: { userId: string }[];
-  districts: DistrictType;
+  district: DistrictType;
   cities: CityType;
   countries: CountryType;
 };

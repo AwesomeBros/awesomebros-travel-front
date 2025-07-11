@@ -22,9 +22,9 @@ export interface FilterStore {
 
 export const useFilterStore = create<FilterStore>((set) => ({
   filterValue: {
-    country: { name: "", id: 0 },
-    city: { name: "", id: 0 },
-    district: { name: "", id: 0 },
+    countries: { name: "", id: 0 },
+    cities: { name: "", id: 0 },
+    districts: { name: "", id: 0 },
   },
   showFilter: false,
   setShowFilter: (show) => set({ showFilter: show }),
@@ -86,6 +86,23 @@ export const usePostFormStore = create<PostFormStore>()(
   )
 );
 
+interface PostTypeStore {
+  postType: "list" | "gallery";
+  setPostType: (type: "list" | "gallery") => void;
+}
+
+export const usePostTypeStore = create<PostTypeStore>()(
+  persist(
+    (set) => ({
+      postType: "list",
+      setPostType: (type) => set({ postType: type }),
+    }),
+    {
+      name: "post-type",
+    }
+  )
+);
+
 interface SearchStore {
   q?: string;
   setQ: (q: string) => void;
@@ -103,6 +120,20 @@ export const useShareOpenStore = create<OpenStore>((set) => ({
 }));
 
 export const useCommentEditOpenStore = create<EditOpenStore>((set) => ({
+  id: undefined,
+  isOpen: false,
+  onOpen: (id) => set({ isOpen: true, id }),
+  onClose: () => set({ isOpen: false }),
+}));
+
+interface UserEditOpenStore {
+  id?: string;
+  isOpen: boolean;
+  onOpen: (id?: string) => void;
+  onClose: () => void;
+}
+
+export const useUserEditOpenStore = create<UserEditOpenStore>((set) => ({
   id: undefined,
   isOpen: false,
   onOpen: (id) => set({ isOpen: true, id }),

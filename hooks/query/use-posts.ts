@@ -52,10 +52,15 @@ export const useUpdatePost = (id?: number) => {
   return mutation;
 };
 
-export const useFindPostsAll = (sort?: string) => {
+export const useFindPostsAll = (params: {
+  country?: string;
+  city?: string;
+  district?: string;
+  sort?: string;
+}) => {
   const query = useQuery({
-    queryKey: ["posts", { sort }],
-    queryFn: () => findPostsAll(sort),
+    queryKey: ["posts", params],
+    queryFn: () => findPostsAll(params),
   });
   return query;
 };

@@ -7,12 +7,15 @@ import {
   ResetPasswordFormType,
   SignupFormType,
 } from "@/type/auth.type";
+import { UserFormType } from "@/type/user.type";
 import {
   LoginFormSchema,
   ResetPasswordFormSchema,
   SignupFormSchema,
 } from "@/validation/auth.schema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "sonner";
 
 export const signup = async (value: SignupFormType) => {
   const data = SignupFormSchema.parse(value);
@@ -87,3 +90,74 @@ export async function findCommentsByUserId(params: {
     throw error;
   }
 }
+
+export async function updateUser(values: UserFormType) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.put(`${SERVER_URL}/user/update`, values, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}
+
+export async function deleteUser(userId?: string) {
+  const session = await auth();
+  const token = session?.serverTokens?.accessToken;
+  try {
+    const response = await axios.delete(`${SERVER_URL}/user/delete/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message);
+    }
+    throw error;
+  }
+}
+
+export const useGetMe = (userId?: string) => {
+  const query = useQuery({
+    enabled: !!userId,
+    queryKey: ["user", userId],
+    queryFn: getMe,
+  });
+  return query;
+};
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (values: UserFormType) => updateUser(values),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["user", data.body.id] });
+    },
+  });
+  return mutation;
+};
+
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (userId?: string) => deleteUser(userId),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["user", data.body.id] });
+    },
+  });
+  return mutation;
+};

@@ -44,12 +44,15 @@ export async function updatePost(values: PostFormType, id?: number) {
   }
 }
 
-export async function findPostsAll(sort?: string) {
+export async function findPostsAll(params: {
+  country?: string;
+  city?: string;
+  district?: string;
+  sort?: string;
+}) {
   try {
     const response = await axios.get(`${SERVER_URL}/posts`, {
-      params: {
-        sort,
-      },
+      params,
     });
     const data = response.data;
 

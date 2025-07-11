@@ -6,9 +6,9 @@ import { DistrictType } from "./district.type";
 export type DetailFilterType = "country" | "city" | "district" | "";
 
 export interface FilterProps {
-  country: CountryType;
-  city: CityType;
-  district: DistrictType;
+  countries: CountryType;
+  cities: CityType;
+  districts: DistrictType;
 }
 
 export interface FilterComponentProps {

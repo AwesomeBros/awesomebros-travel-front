@@ -15,13 +15,11 @@ import { PostType } from "@/type/post.type";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useRef } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 export default function MyPostsPage() {
   const { data: session } = useSession();
-  const router = useRouter();
   const { q } = useSearchStore();
   const { onOpen } = usePostEditOpenStore();
   const [ConfirmDialog, confirm] = useConfirm(

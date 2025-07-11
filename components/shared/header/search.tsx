@@ -2,12 +2,14 @@
 
 import { useDetailFilterStore, useFilterStore } from "@/hooks/store";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import { BiSearch } from "react-icons/bi";
 import { SearchFilter } from "./search-filter";
 
 export default function Search() {
   const { detailFilter, setDetailFilter } = useDetailFilterStore();
   const { filterValue, showFilter, setShowFilter } = useFilterStore();
+  const router = useRouter();
 
   return !showFilter ? (
     <div className="border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer">
@@ -17,14 +19,14 @@ export default function Search() {
         onClick={() => setShowFilter(true)}
       >
         <div className="text-sm font-semibold px-6">
-          {filterValue.country.name || "국가 선택"}
+          {filterValue.countries.name || "국가 선택"}
         </div>
         <div className="hidden sm:block text-sm font-semibold px-6 border-x-[1px] flex-1 text-center">
-          {filterValue.city.name || "도시 선택"}
+          {filterValue.cities.name || "도시 선택"}
         </div>
         <div className="text-sm pl-6 pr-2 text-gray-600 flex flex-row items-center gap-3">
           <div className="hidden sm:block">
-            {filterValue.district.name || "지역 선택"}
+            {filterValue.districts.name || "지역 선택"}
           </div>
           <button
             onClick={() => setShowFilter(true)}
@@ -66,7 +68,7 @@ export default function Search() {
           >
             국가
             <div className="text-gray-500 text-xs mt-1">
-              {filterValue.country.name || "국가 추가"}
+              {filterValue.countries.name || "국가 추가"}
             </div>
           </button>
           <button
@@ -81,7 +83,7 @@ export default function Search() {
           >
             도시
             <div className="text-gray-500 text-xs mt-1">
-              {filterValue.city.name || "도시 추가"}
+              {filterValue.cities.name || "도시 추가"}
             </div>
           </button>
           <button
@@ -96,7 +98,7 @@ export default function Search() {
           >
             지역
             <div className="text-gray-500 text-xs mt-1">
-              {filterValue.district.name || "지역 추가"}
+              {filterValue.districts.name || "지역 추가"}
             </div>
           </button>
           <SearchFilter />
@@ -107,6 +109,17 @@ export default function Search() {
           onClick={() => {
             setShowFilter(false);
             setDetailFilter(null);
+            router.replace(
+              `/posts?${
+                filterValue.countries.name &&
+                "country=" + filterValue.countries.name
+              }${
+                filterValue.cities.name && "&city=" + filterValue.cities.name
+              }${
+                filterValue.districts.name &&
+                "&district=" + filterValue.districts.name
+              }`
+            );
           }}
         >
           <BiSearch size={18} className="my-auto" />

@@ -1,3 +1,6 @@
+import { UserFormSchema } from "@/validation/auth.schema";
+import z from "zod";
+
 export type UserType = {
   id: string;
   username: string;
@@ -7,3 +10,5 @@ export type UserType = {
   provider?: string;
   created_at: string;
 };
+
+export type UserFormType = z.infer<typeof UserFormSchema>;

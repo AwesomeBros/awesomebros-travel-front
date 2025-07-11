@@ -72,3 +72,8 @@ export const ResetPasswordFormSchema = z
       });
     }
   });
+
+export const UserFormSchema = z.object({
+  nickname: z.string().optional(),
+  url: z.string().optional(),
+});

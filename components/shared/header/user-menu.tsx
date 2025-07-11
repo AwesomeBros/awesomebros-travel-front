@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,9 +8,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NO_IMG } from "@/constants";
 import { usePostOpenStore } from "@/hooks/store";
-
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AiOutlineMenu } from "react-icons/ai";
 import { LuUserRound } from "react-icons/lu";
@@ -19,11 +18,11 @@ import { LuUserRound } from "react-icons/lu";
 const publicRoute = [
   {
     label: "로그인",
-    href: "/users/login",
+    href: "/login",
   },
   {
     label: "회원가입",
-    href: "/users/register",
+    href: "/signup",
   },
 ];
 
@@ -39,6 +38,7 @@ const privateRoute = [
   },
 ];
 export default function UserMenu({ session }: { session: Session | null }) {
+  const { data } = useSession();
   const { onOpen } = usePostOpenStore();
   const router = useRouter();
   return (
@@ -54,7 +54,7 @@ export default function UserMenu({ session }: { session: Session | null }) {
         ) : (
           <button
             className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-            onClick={() => router.push("/users/login")}
+            onClick={() => router.push("/login")}
           >
             로그인 후 글작성 하기
           </button>
@@ -65,12 +65,14 @@ export default function UserMenu({ session }: { session: Session | null }) {
               <AiOutlineMenu className="cursor-pointer sm:ml-2" />
 
               {session?.user ? (
-                <Avatar>
-                  <AvatarImage
-                    src={session.user.url ? session.user.url : NO_IMG}
-                    alt="profile"
+                <div className="relative overflow-hidden size-[32px] rounded-full">
+                  <Image
+                    src={session.user.url ? data?.user.url ?? NO_IMG : NO_IMG}
+                    alt={`Profile`}
+                    fill
+                    className="object-cover object-center"
                   />
-                </Avatar>
+                </div>
               ) : (
                 <div className="p-0 sm:p-1.5">
                   <LuUserRound className="size-5" />

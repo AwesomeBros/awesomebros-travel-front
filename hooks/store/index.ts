@@ -131,3 +131,10 @@ export const useCommentEditOpenStore = create<EditOpenStore>((set) => ({
   onOpen: (id) => set({ isOpen: true, id }),
   onClose: () => set({ isOpen: false }),
 }));
+
+export const useUserEditOpenStore = create<EditOpenStore>((set) => ({
+  id: undefined,
+  isOpen: false,
+  onOpen: (id) => set({ isOpen: true, id }),
+  onClose: () => set({ isOpen: false }),
+}));

@@ -137,7 +137,11 @@ export default function MyCommentsPage() {
             </Fragment>
           ))}
         </div>
-        {(isFetching || isLoading) && <Loader />}
+        {(isFetching || isLoading) && (
+          <div className="flex justify-center items-center mt-4">
+            <Loader />
+          </div>
+        )}
         <div className="w-full touch-none h-10" ref={observerRef} />
       </div>
     </div>

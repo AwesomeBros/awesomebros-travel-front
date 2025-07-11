@@ -5,6 +5,7 @@ import { useFindPostsAll } from "@/hooks/query/use-post";
 import { usePostTypeStore } from "@/hooks/store";
 import { useHydratedStore } from "@/hooks/store/use-hydrate-store";
 import { PostType } from "@/type";
+import { useSession } from "next-auth/react";
 import { FaThList } from "react-icons/fa";
 import { IoGrid } from "react-icons/io5";
 import { PaginationWithLinks } from "../ui/pagination-with-links";
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export default function PostsList({ params }: Props) {
+  const { data: session } = useSession();
   const isHydrated = useHydratedStore(
     usePostTypeStore,
     (state) => state !== undefined
@@ -66,7 +68,12 @@ export default function PostsList({ params }: Props) {
         <div className="w-full grid gap-6">
           {postsAll.length > 0 ? (
             postsAll.map((post: PostType, index: number) => (
-              <PostItem key={post.id} post={post} index={index} />
+              <PostItem
+                key={post.id}
+                post={post}
+                index={index}
+                session={session}
+              />
             ))
           ) : (
             <div className="w-full h-30 flex justify-center items-center">

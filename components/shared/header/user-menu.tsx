@@ -1,16 +1,16 @@
 "use client";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NO_IMG } from "@/constants";
 import { usePostWriteOpenStore } from "@/hooks/store";
-
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AiOutlineMenu } from "react-icons/ai";
 import { LuUserRound } from "react-icons/lu";
@@ -38,6 +38,7 @@ const privateRoute = [
   },
 ];
 export default function UserMenu({ session }: { session: Session | null }) {
+  const { data } = useSession();
   const { onOpen } = usePostWriteOpenStore();
   const router = useRouter();
   return (
@@ -64,16 +65,16 @@ export default function UserMenu({ session }: { session: Session | null }) {
               <AiOutlineMenu className="cursor-pointer sm:ml-2" />
 
               {session?.user ? (
-                <Avatar>
-                  <AvatarImage
+                <div className="relative overflow-hidden size-[32px] rounded-full">
+                  <Image
                     src={
-                      session.user.image
-                        ? session.user.image
-                        : "/images/noProfileImage.jpg"
+                      session.user.image ? data?.user.image ?? NO_IMG : NO_IMG
                     }
-                    alt="profile"
+                    alt={`Profile`}
+                    fill
+                    className="object-cover object-center"
                   />
-                </Avatar>
+                </div>
               ) : (
                 <div className="p-0 sm:p-1.5">
                   <LuUserRound className="size-5" />

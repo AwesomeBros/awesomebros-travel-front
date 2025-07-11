@@ -9,6 +9,7 @@ import {
   PostFormSchema,
   ResetPasswordFormSchema,
   SignupFormSchema,
+  UserFormSchema,
 } from "@/validation";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
@@ -138,11 +139,11 @@ export type LocationType = {
   name: string;
 };
 
-export type UserType = {
+export type UserType = z.infer<typeof UserFormSchema> & {
   id: string;
   email: string;
-  name: string;
-  image: string | null;
   provider: string | null;
   createdAt: string;
 };
+
+export type UserFormType = z.infer<typeof UserFormSchema>;

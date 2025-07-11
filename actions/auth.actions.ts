@@ -1,6 +1,6 @@
 "use server";
 
-import { auth, signIn } from "@/auth";
+import { signIn } from "@/auth";
 import { SERVER_URL } from "@/constants";
 import { LoginFormType, ResetPasswordFormType, SignupFormType } from "@/type";
 import {
@@ -24,7 +24,7 @@ export const signup = async (value: SignupFormType) => {
   await signIn("credentials", {
     email,
     password,
-    redirect: false,
+    redirect: true,
   });
 
   return { message: "회원가입에 성공하였습니다." };
@@ -54,18 +54,7 @@ export async function login(value: LoginFormType) {
   await signIn("credentials", {
     email: data.email,
     password: data.password,
-    redirect: false,
+    redirect: true,
   });
   redirect("/");
-}
-
-export async function getMe() {
-  const session = await auth();
-  const token = session?.serverTokens?.accessToken;
-  const response = await axios.get(`${SERVER_URL}/user/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
 }

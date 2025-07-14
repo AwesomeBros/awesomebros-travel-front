@@ -51,7 +51,7 @@ export async function findPostsAll(params: {
   sort?: string;
 }) {
   try {
-    const response = await axios.get(`${SERVER_URL}/posts`, {
+    const response = await axios.get(`${SERVER_URL}/posts/all`, {
       params,
     });
     const data = response.data;
@@ -69,7 +69,7 @@ export async function findPostsAll(params: {
 export async function findPostById(id?: number) {
   try {
     const response = await axios.get(`${SERVER_URL}/posts/${id}`);
-    return response.data;
+    return response.data.body;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data.message;

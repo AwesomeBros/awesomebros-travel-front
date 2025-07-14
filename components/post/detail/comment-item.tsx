@@ -26,15 +26,15 @@ export default function CommentItem({
         duration: 0.5,
       }}
       viewport={{ amount: 0 }}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-2 px-5"
     >
       <div>
         <div className="flex gap-2 items-center">
           <div className="relative overflow-hidden size-[48px] rounded-full shadow">
             <Image
               src={
-                comment.users.url
-                  ? comment.users.url
+                comment.user.url
+                  ? comment.user.url
                   : "/images/noProfileImage.jpg"
               }
               alt={`Profile`}
@@ -43,15 +43,15 @@ export default function CommentItem({
             />
           </div>
           <div>
-            <h1 className="font-semibold">{comment?.users?.nickname || "-"}</h1>
+            <h1 className="font-semibold">{comment?.user?.nickname || "-"}</h1>
             <div className="text-gray-500 text-xs">
-              {comment?.created_at
-                ? format(comment.created_at, "yyyy-MM-dd HH:mm")
+              {comment?.createdAt
+                ? format(comment.createdAt, "yyyy-MM-dd HH:mm")
                 : "-"}
             </div>
           </div>
         </div>
-        <div className="max-w-md text-gray-600">{comment?.content}</div>
+        <div className="max-w-md mt-2 text-gray-600">{comment?.content}</div>
       </div>
     </motion.div>
   );

@@ -66,8 +66,8 @@ export type CommentFormType = z.infer<typeof CommentFormSchema>;
 
 export type CommentType = z.infer<typeof CommentFormSchema> & {
   id: number;
-  created_at: string;
-  users: {
+  createdAt: string;
+  user: {
     id: string;
     username: string;
     url: string | null;

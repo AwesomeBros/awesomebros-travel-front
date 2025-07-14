@@ -41,7 +41,7 @@ export default function HeaderSection({ post }: { post: PostType }) {
               {post.users?.nickname}
             </p>
             <div className="text-xs text-muted-foreground">
-              {format(post.created_at, "yyyy-MM-dd HH:mm")}
+              {format(post.createdAt, "yyyy-MM-dd HH:mm")}
             </div>
           </div>
         </div>

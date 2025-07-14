@@ -7,9 +7,11 @@ import axios from "axios";
 
 export async function findCommentsByPostId(pageParam: number, postId?: number) {
   try {
-    const response = await axios.get(`${SERVER_URL}/comment/post/${postId}`, {
+    const response = await axios.get(`${SERVER_URL}/comments/all`, {
       params: {
-        pageParam,
+        page: pageParam,
+        limit: 8,
+        postId,
       },
     });
     return response.data.body;

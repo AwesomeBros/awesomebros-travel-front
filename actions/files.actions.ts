@@ -7,7 +7,7 @@ import { auth } from "../auth";
 export async function imageUpload(formData: FormData) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
-  const response = await axios.post(`${SERVER_URL}/file/image`, formData, {
+  const response = await axios.post(`${SERVER_URL}/files/images`, formData, {
     headers: {
       authorization: `Bearer ${token}`,
     },

@@ -21,7 +21,7 @@ export const useCreatePost = () => {
   const mutation = useMutation({
     mutationFn: createPost,
     onSuccess: (data) => {
-      toast.success(data);
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["post"] });
     },
@@ -39,7 +39,7 @@ export const useUpdatePost = (id?: number) => {
   const mutation = useMutation({
     mutationFn: (values: PostFormType) => updatePost(values, id),
     onSuccess: (data) => {
-      toast.success(data);
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["post", { id }] });
     },

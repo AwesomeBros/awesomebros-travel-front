@@ -16,6 +16,8 @@ export default function PostWriteDialog() {
   const { postForm, setPostForm, resetPostForm } = usePostFormStore();
   const createPost = useCreatePost();
   function onSubmit(data: PostFormType) {
+    console.log("PostWriteDialog onSubmit data:", data);
+
     createPost.mutate(data, {
       onSuccess: () => {
         onClose();

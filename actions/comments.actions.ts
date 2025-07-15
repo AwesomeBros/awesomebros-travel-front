@@ -18,7 +18,7 @@ export async function findCommentsByPostId(
         },
       }
     );
-    return response.data.body;
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message;

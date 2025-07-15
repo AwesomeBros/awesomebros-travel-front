@@ -15,14 +15,23 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+// export function useFindCommentsByPostId(postId?: number) {
+//   const query = useInfiniteQuery({
+//     enabled: !!postId,
+//     queryKey: ["comments", { postId }],
+//     initialPageParam: 1,
+//     queryFn: ({ pageParam = 1 }) => findCommentsByPostId(pageParam, postId),
+//     getNextPageParam: (lastPage, pages) =>
+//       lastPage.data.length > 0 ? lastPage.page + 1 : undefined,
+//   });
+//   return query;
+// }
+
 export function useFindCommentsByPostId(postId?: number) {
-  const query = useInfiniteQuery({
+  const query = useQuery({
     enabled: !!postId,
     queryKey: ["comments", { postId }],
-    initialPageParam: 1,
-    queryFn: ({ pageParam = 1 }) => findCommentsByPostId(pageParam, postId),
-    getNextPageParam: (lastPage, pages) =>
-      lastPage.data.length > 0 ? lastPage.page + 1 : undefined,
+    queryFn: () => findCommentsByPostId(1, postId),
   });
   return query;
 }

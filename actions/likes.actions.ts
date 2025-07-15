@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { SERVER_URL } from "@/constants";
 import axios from "axios";
 
-export async function toggleLike(postId?: number) {
+export async function toggleLike(posts_id?: number) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
 
@@ -12,7 +12,7 @@ export async function toggleLike(postId?: number) {
     const response = await axios.post(
       `${SERVER_URL}/likes`,
       {
-        postId,
+        posts_id,
       },
       {
         headers: {
@@ -20,7 +20,7 @@ export async function toggleLike(postId?: number) {
         },
       }
     );
-    return response.data.body;
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message;

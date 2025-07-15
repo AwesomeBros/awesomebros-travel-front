@@ -5,13 +5,19 @@ import { SERVER_URL } from "@/constants";
 import { CommentFormType } from "@/type/comment.type";
 import axios from "axios";
 
-export async function findCommentsByPostId(pageParam: number, postId?: number) {
+export async function findCommentsByPostId(
+  pageParam: number,
+  posts_id?: number
+) {
   try {
-    const response = await axios.get(`${SERVER_URL}/comment/post/${postId}`, {
-      params: {
-        pageParam,
-      },
-    });
+    const response = await axios.get(
+      `${SERVER_URL}/comments/posts/${posts_id}`,
+      {
+        params: {
+          page: pageParam,
+        },
+      }
+    );
     return response.data.body;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -22,12 +28,15 @@ export async function findCommentsByPostId(pageParam: number, postId?: number) {
   }
 }
 
-export async function createComment(values: CommentFormType, postId?: number) {
+export async function createComment(
+  values: CommentFormType,
+  posts_id?: number
+) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
   const requestBody = {
     ...values,
-    postId,
+    posts_id,
   };
   try {
     const response = await axios.post(`${SERVER_URL}/comments`, requestBody, {
@@ -49,7 +58,7 @@ export async function findCommentById(id?: number) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
   try {
-    const response = await axios.get(`${SERVER_URL}/comment/${id}`, {
+    const response = await axios.get(`${SERVER_URL}/comments/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -64,15 +73,12 @@ export async function findCommentById(id?: number) {
   }
 }
 
-export async function updateComment(
-  values: CommentFormType,
-  commentId?: number
-) {
+export async function updateComment(values: CommentFormType, id?: number) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
   try {
     const response = await axios.put(
-      `${SERVER_URL}/comment/update/${commentId}`,
+      `${SERVER_URL}/comments/update/${id}`,
       values,
       {
         headers: {
@@ -94,7 +100,7 @@ export async function deleteComment(id?: number) {
   const session = await auth();
   const token = session?.serverTokens?.accessToken;
   try {
-    const response = await axios.delete(`${SERVER_URL}/comment/delete/${id}`, {
+    const response = await axios.delete(`${SERVER_URL}/comments/delete/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

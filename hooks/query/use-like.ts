@@ -1,4 +1,4 @@
-import { toggleLike } from "@/actions/like.actions";
+import { toggleLike } from "@/actions/likes.actions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 

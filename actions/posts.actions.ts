@@ -101,20 +101,11 @@ export async function getCoordinate(value: string) {
 }
 
 export async function incrementViewCount(id?: number) {
-  const session = await auth();
-  const token = session?.serverTokens?.accessToken;
   const visitorIdCookie = (await cookies()).get("visitor_id");
-
   let headers: Record<string, string> = {};
-
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-
-  if (!token && visitorIdCookie) {
+  if (visitorIdCookie) {
     headers["X-Visitor-Id"] = visitorIdCookie.value;
   }
-
   try {
     const response = await axios.post(
       `${SERVER_URL}/posts/${id}/view`,

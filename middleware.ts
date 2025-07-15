@@ -22,21 +22,19 @@ export default auth(async (req) => {
     return NextResponse.redirect(new URL("/", req.url));
   }
   if (POST_DETAIL_PATH_REGEX.test(pathname)) {
-    if (!session) {
-      const visitorIdCookie = (await cookies()).get("visitor_id");
+    const visitorIdCookie = (await cookies()).get("visitor_id");
 
-      if (!visitorIdCookie) {
-        const newVisitorId = uuidv4();
-        const response = NextResponse.next();
+    if (!visitorIdCookie) {
+      const newVisitorId = uuidv4();
+      const response = NextResponse.next();
 
-        response.cookies.set("visitor_id", newVisitorId, {
-          maxAge: 1000 * 60 * 60 * 24 * 365,
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "lax",
-        });
-        return response;
-      }
+      response.cookies.set("visitor_id", newVisitorId, {
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+      });
+      return response;
     }
   }
   return NextResponse.next();

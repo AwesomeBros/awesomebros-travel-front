@@ -22,7 +22,7 @@ export default function PostCard({
   index: number;
   userId?: string;
 }) {
-  console.log("PostCard post:", post);
+  // console.log("PostCard post:", post);
 
   return (
     <motion.div

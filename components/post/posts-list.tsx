@@ -31,13 +31,13 @@ export default function PostsList({ params }: Props) {
     (state) => state !== undefined
   );
   const { postType, setPostType } = usePostTypeStore();
-  const { data } = useFindPostsAll(params);
-  if (!data) return null;
-  const postsAll = data.data.posts || [];
-  const page = data.page || 1;
-  const take = data.limit || 12;
-  const totalCount = data.totalCount || 0;
-  console.log("PostsList data:", data);
+  const { data: body } = useFindPostsAll(params);
+  if (!body) return null;
+  const postsAll = body.data || [];
+  const page = body.page || 1;
+  const take = body.limit || 12;
+  const totalCount = body.totalCount || 0;
+  // console.log("PostsList data:", body);
   if (!isHydrated) {
     return (
       <div className="w-full h-[calc(100vh-97px-80px)] flex justify-center items-center">

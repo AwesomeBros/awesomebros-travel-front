@@ -1,9 +1,19 @@
+"use client";
+
+import { useFilterStore } from "@/hooks/store";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Logo() {
+  const router = useRouter();
+  const { resetFilterValue } = useFilterStore();
   return (
-    <Link href={"/"}>
+    <button
+      onClick={() => {
+        router.push("/");
+        resetFilterValue();
+      }}
+    >
       <Image
         src={"/logo/logo.png"}
         alt="Logo"
@@ -11,6 +21,6 @@ export default function Logo() {
         width={100}
         className="hidden md:block cursor-pointer"
       />
-    </Link>
+    </button>
   );
 }

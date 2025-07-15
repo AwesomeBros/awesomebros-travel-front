@@ -29,7 +29,7 @@ export default function Header({ session }: { session: Session | null }) {
       </header>
       {showFilter && (
         <div
-          className="fixed inset-0 bg-black/20 z-[15]"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[15]"
           onClick={() => setShowFilter(false)}
         />
       )}

@@ -17,9 +17,9 @@ import { z } from "zod";
 export type DetailFilterType = "country" | "city" | "district" | "";
 
 export interface FilterProps {
-  countries: CountryType;
-  cities: CityType;
-  districts: DistrictType;
+  country: CountryType;
+  city: CityType;
+  district: DistrictType;
 }
 
 export interface FilterComponentProps {

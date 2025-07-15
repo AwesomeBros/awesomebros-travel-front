@@ -19,14 +19,14 @@ export default function Search() {
         onClick={() => setShowFilter(true)}
       >
         <div className="text-sm font-semibold px-6">
-          {filterValue.countries.name || "국가 선택"}
+          {filterValue.country.name || "국가 선택"}
         </div>
         <div className="hidden sm:block text-sm font-semibold px-6 border-x-[1px] flex-1 text-center">
-          {filterValue.cities.name || "도시 선택"}
+          {filterValue.city.name || "도시 선택"}
         </div>
         <div className="text-sm pl-6 pr-2 text-gray-600 flex flex-row items-center gap-3">
           <div className="hidden sm:block">
-            {filterValue.districts.name || "지역 선택"}
+            {filterValue.district.name || "지역 선택"}
           </div>
           <button
             onClick={() => setShowFilter(true)}
@@ -68,7 +68,7 @@ export default function Search() {
           >
             국가
             <div className="text-gray-500 text-xs mt-1">
-              {filterValue.countries.name || "국가 추가"}
+              {filterValue.country.name || "국가 추가"}
             </div>
           </button>
           <button
@@ -83,7 +83,7 @@ export default function Search() {
           >
             도시
             <div className="text-gray-500 text-xs mt-1">
-              {filterValue.cities.name || "도시 추가"}
+              {filterValue.city.name || "도시 추가"}
             </div>
           </button>
           <button
@@ -98,7 +98,7 @@ export default function Search() {
           >
             지역
             <div className="text-gray-500 text-xs mt-1">
-              {filterValue.districts.name || "지역 추가"}
+              {filterValue.district.name || "지역 추가"}
             </div>
           </button>
           <SearchFilter />
@@ -111,13 +111,11 @@ export default function Search() {
             setDetailFilter(null);
             router.replace(
               `/posts?${
-                filterValue.countries.name &&
-                "country=" + filterValue.countries.name
-              }${
-                filterValue.cities.name && "&city=" + filterValue.cities.name
-              }${
-                filterValue.districts.name &&
-                "&district=" + filterValue.districts.name
+                filterValue.country.name &&
+                "country=" + filterValue.country.name
+              }${filterValue.city.name && "&city=" + filterValue.city.name}${
+                filterValue.district.name &&
+                "&district=" + filterValue.district.name
               }`
             );
           }}

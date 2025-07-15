@@ -32,10 +32,12 @@ export default function PostsList({ params }: Props) {
   );
   const { postType, setPostType } = usePostTypeStore();
   const { data } = useFindPostsAll(params);
-  const postsAll = data.posts || [];
+  if (!data) return null;
+  const postsAll = data.data.posts || [];
   const page = data.page || 1;
-  const take = data.take || 12;
+  const take = data.limit || 12;
   const totalCount = data.totalCount || 0;
+  console.log("PostsList data:", data);
   if (!isHydrated) {
     return (
       <div className="w-full h-[calc(100vh-97px-80px)] flex justify-center items-center">

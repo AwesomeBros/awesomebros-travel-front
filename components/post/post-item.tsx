@@ -37,7 +37,7 @@ export default function PostItem({
     >
       <Link
         href={`/posts/${post.id}/${encodeURIComponent(post.slug)}`}
-        className="p-4 bg-white flex items-center gap-[30px] cursor-pointer hover:bg-[#00000005] rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
+        className="relative p-4 bg-white flex items-center md:gap-[30px] cursor-pointer hover:bg-[#00000005] rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
       >
         <div className="flex-1 flex flex-col gap-4">
           <div className="flex items-center gap-2">
@@ -86,18 +86,31 @@ export default function PostItem({
             </p>
           </div>
         </div>
-        <div className="relative w-[180px] h-[130px] overflow-hidden">
+        <div className="hidden md:block relative w-[180px] h-[130px] overflow-hidden">
           <Image
             src={post.url ? post.url : NO_THUMBNAIL}
             alt="Board Image"
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             fill
-            className="rounded-[10px]"
-            style={{
-              objectFit: "cover",
-            }}
+            className="rounded-[10px] object-cover object-center"
           />
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+            <LikeButton post={post} userId={userId} />
+          </div>
+        </div>
+        <div
+          className="md:hidden"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
           <LikeButton post={post} userId={userId} />
         </div>
       </Link>

@@ -10,7 +10,7 @@ export default function FilterContainer({ children, title, isShow }: Props) {
   return (
     <div
       className={cn(
-        "absolute top-76 sm:top-[75px] border border-gray-200 px-8 py-10 flex flex-col bg-white w-full sm:max-w-3xl rounded-xl",
+        "absolute top-65 sm:top-[75px] border border-gray-200 px-8 py-10 flex flex-col bg-white w-full sm:max-w-3xl rounded-xl",
         {
           hidden: !isShow,
         }

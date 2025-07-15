@@ -1,5 +1,4 @@
-import { PostFormType } from "@/type/post.type";
-import { DetailFilterType, FilterProps } from "@/type/type";
+import { DetailFilterType, FilterProps, PostFormType } from "@/type";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -22,9 +21,9 @@ export interface FilterStore {
 
 export const useFilterStore = create<FilterStore>((set) => ({
   filterValue: {
-    countries: { name: "", id: 0 },
-    cities: { name: "", id: 0 },
-    districts: { name: "", id: 0 },
+    country: { name: "", id: 0 },
+    city: { name: "", id: 0 },
+    district: { name: "", id: 0 },
   },
   showFilter: false,
   setShowFilter: (show) => set({ showFilter: show }),

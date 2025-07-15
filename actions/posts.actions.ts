@@ -54,7 +54,7 @@ export async function findPostsAll(params: {
     const response = await axios.get(`${SERVER_URL}/posts/all`, {
       params,
     });
-    const data = response.data;
+    const data = response.data.body;
 
     return data;
   } catch (error) {

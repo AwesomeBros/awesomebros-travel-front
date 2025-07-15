@@ -68,7 +68,7 @@ export default function PostCard({
               __html: post.content.replace(/<img.*?\/?>/g, ""),
             }}
           />
-          <div className="flex justify-end xl:justify-between items-center mt-3">
+          <div className="flex justify-between items-center mt-3">
             <div className="text-md font-medium  text-muted-foreground flex items-center gap-3">
               <p className="flex items-center gap-1">
                 <FaRegCommentDots /> {0}

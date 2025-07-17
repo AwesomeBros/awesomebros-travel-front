@@ -31,7 +31,7 @@ export function useFindCommentsByPostId(postId?: number) {
   const query = useQuery({
     enabled: !!postId,
     queryKey: ["comments", { postId }],
-    queryFn: () => findCommentsByPostId(1, postId),
+    queryFn: () => findCommentsByPostId(postId),
   });
   return query;
 }

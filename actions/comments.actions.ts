@@ -5,18 +5,10 @@ import { SERVER_URL } from "@/constants";
 import { CommentFormType } from "@/type/comment.type";
 import axios from "axios";
 
-export async function findCommentsByPostId(
-  pageParam: number,
-  posts_id?: number
-) {
+export async function findCommentsByPostId(posts_id?: number) {
   try {
     const response = await axios.get(
-      `${SERVER_URL}/comments/posts/${posts_id}`,
-      {
-        params: {
-          page: pageParam,
-        },
-      }
+      `${SERVER_URL}/comments/posts/${posts_id}`
     );
     return response.data;
   } catch (error) {

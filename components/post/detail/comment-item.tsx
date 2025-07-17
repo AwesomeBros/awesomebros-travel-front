@@ -30,31 +30,16 @@ export default function CommentItem({
     >
       <div>
         <div className="flex gap-2 items-center">
-          {comment.users ? (
-            <div className="relative overflow-hidden size-[48px] rounded-full shadow">
-              <Image
-                src={
-                  comment.users?.url
-                    ? comment.users?.url
-                    : "/images/noProfileImage.jpg"
-                }
-                alt={`Profile`}
-                fill
-                className="object-cover object-center"
-              />
-            </div>
-          ) : (
-            <div className="relative overflow-hidden size-[48px] rounded-full shadow">
-              <Image
-                src={"/images/noProfileImage.jpg"}
-                alt={`Profile`}
-                fill
-                className="object-cover object-center"
-              />
-            </div>
-          )}
+          <div className="relative overflow-hidden size-[48px] rounded-full shadow">
+            <Image
+              src={comment.url ? comment.url : "/images/noProfileImage.jpg"}
+              alt={`Profile`}
+              fill
+              className="object-cover object-center"
+            />
+          </div>
           <div>
-            <h1 className="font-semibold">{"이름없음"}</h1>
+            <h1 className="font-semibold">{comment.nickname}</h1>
             <div className="text-gray-500 text-xs">
               {comment?.created_at
                 ? format(comment.created_at, "yyyy-MM-dd HH:mm")

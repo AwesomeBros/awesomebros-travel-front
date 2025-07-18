@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useSignup } from "@/hooks/query/use-users";
+import { useSignup } from "@/hooks/query/use-auth";
 import { SignupFormType } from "@/type";
 import { SignupFormSchema } from "@/validation";
 import { zodResolver } from "@hookform/resolvers/zod";

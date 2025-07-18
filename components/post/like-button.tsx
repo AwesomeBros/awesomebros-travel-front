@@ -3,17 +3,24 @@
 import { useIsLiked, useToggleLike } from "@/hooks/query/use-likes";
 import { cn } from "@/lib/utils";
 import { PostType } from "@/type";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Icon } from "../ui/icon";
 
-export default function LikeButton({
-  post,
-}: {
-  post: PostType;
-}) {
+export default function LikeButton({ post }: { post: PostType }) {
+  const { data: session, status } = useSession({ required: true });
   const toggleLike = useToggleLike();
   const { data: isLiked } = useIsLiked(post.id);
+  console.log("session", session);
+  const router = useRouter();
   function toggleLikeHandler() {
-    toggleLike.mutate(post.id);
+    if (!session) {
+      toast.error("로그인이 필요한 서비스입니다.");
+      router.push("/login");
+    } else {
+      toggleLike.mutate(post.id);
+    }
   }
 
   return (

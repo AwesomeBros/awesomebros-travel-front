@@ -1,18 +1,13 @@
 "use client";
 
-import { useToggleLike } from "@/hooks/query/use-like";
+import { useIsLiked, useToggleLike } from "@/hooks/query/use-likes";
 import { cn } from "@/lib/utils";
 import { PostType } from "@/type/post.type";
 import { Icon } from "../ui/icon";
 
-export default function LikeButton({
-  post,
-  userId,
-}: {
-  post: PostType;
-  userId?: string;
-}) {
+export default function LikeButton({ post }: { post: PostType }) {
   const toggleLike = useToggleLike();
+  const { data: isLiked } = useIsLiked(post.id);
   function toggleLikeHandler() {
     toggleLike.mutate(post.id);
   }
@@ -26,9 +21,7 @@ export default function LikeButton({
         className={cn({
           "size-6 stroke-2 stroke-white fill-[#00000080] like-drop-shadow":
             true,
-          "fill-[#ff385c]": post?.like?.some(
-            (like: { userId: string }) => like.userId === userId
-          ),
+          "fill-[#ff385c]": isLiked,
         })}
       />
     </button>

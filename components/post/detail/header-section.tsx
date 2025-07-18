@@ -9,10 +9,8 @@ import { PostType } from "@/type/post.type";
 import { format } from "date-fns";
 import Image from "next/image";
 import { useEffect } from "react";
-import { FaRegHeart } from "react-icons/fa";
-import { FaRegCommentDots } from "react-icons/fa6";
 import { IoShareSocialOutline } from "react-icons/io5";
-import { PiEyesFill } from "react-icons/pi";
+import CountSection from "../count-section";
 
 export default function HeaderSection({ post }: { post: PostType }) {
   const incrementView = useIncrementViewCount(post.id);
@@ -56,17 +54,7 @@ export default function HeaderSection({ post }: { post: PostType }) {
       <div>
         <Separator className="mb-2" />
         <div className="flex justify-between">
-          <div className="text-md font-medium text-muted-foreground flex items-center gap-3">
-            <p className="flex items-center gap-1">
-              <FaRegCommentDots /> {0}
-            </p>
-            <p className="flex items-center gap-1">
-              <FaRegHeart /> {0}
-            </p>
-            <p className="flex items-center gap-1">
-              <PiEyesFill className="text-lg" /> {post.viewCount || 0}
-            </p>
-          </div>
+          <CountSection post={post} />
           <div
             className="flex items-center gap-1 text-md py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
             onClick={onOpen}

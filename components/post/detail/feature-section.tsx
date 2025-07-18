@@ -2,7 +2,6 @@
 
 import { Loader } from "@/components/shared/loader";
 import { PostType } from "@/type/post.type";
-import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import DetailLikeButton from "./detail-like-button";
 
@@ -16,7 +15,6 @@ const DetailMap = dynamic(() => import("./detail-map"), {
 });
 
 export default function FeatureSection({ post }: { post: PostType }) {
-  const { data: session } = useSession();
   return (
     <div className="flex flex-col gap-5">
       <div className=" md:relative md:flex-row flex flex-col-reverse gap-5">
@@ -31,12 +29,12 @@ export default function FeatureSection({ post }: { post: PostType }) {
             }}
           />
           <div className="flex md:hidden justify-center">
-            <DetailLikeButton postId={post.id} userId={session?.user.id} />
+            <DetailLikeButton postId={post.id} />
           </div>
         </div>
       </div>
       <div className="hidden md:flex justify-center">
-        <DetailLikeButton postId={post.id} userId={session?.user.id} />
+        <DetailLikeButton postId={post.id} />
       </div>
     </div>
   );

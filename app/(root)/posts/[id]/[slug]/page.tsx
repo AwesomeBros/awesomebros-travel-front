@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import CommentSection from "@/components/post/detail/comment-section";
 import FeatureSection from "@/components/post/detail/feature-section";
 import HeaderSection from "@/components/post/detail/header-section";
-import { PostType } from "@/type/post.type";
+import { PostType } from "@/type";
 import { notFound, redirect } from "next/navigation";
 
 export default async function PostDetailPage({

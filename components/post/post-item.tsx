@@ -4,9 +4,7 @@ import { format } from "date-fns";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FaRegHeart } from "react-icons/fa";
-import { FaRegCommentDots } from "react-icons/fa6";
-import { PiEyesFill } from "react-icons/pi";
+import CountSection from "./count-section";
 import LikeButton from "./like-button";
 
 const variants = {
@@ -17,11 +15,9 @@ const variants = {
 export default function PostItem({
   post,
   index,
-  userId,
 }: {
   post: PostType;
   index: number;
-  userId?: string;
 }) {
   return (
     <motion.div
@@ -70,17 +66,7 @@ export default function PostItem({
             />
           </div>
           <div className="flex justify-between items-center">
-            <div className="text-md font-medium text-muted-foreground flex items-center gap-3">
-              <p className="flex items-center gap-1">
-                <FaRegCommentDots /> {0}
-              </p>
-              <p className="flex items-center gap-1">
-                <FaRegHeart /> {0}
-              </p>
-              <p className="flex items-center gap-1">
-                <PiEyesFill className="text-lg" /> {post.viewCount || 0}
-              </p>
-            </div>
+            <CountSection post={post} />
             <p className="text-end text-primary font-bold">
               {post.district?.name}
             </p>
@@ -101,7 +87,7 @@ export default function PostItem({
               e.stopPropagation();
             }}
           >
-            <LikeButton post={post} userId={userId} />
+            <LikeButton post={post} />
           </div>
         </div>
         <div
@@ -111,7 +97,7 @@ export default function PostItem({
             e.stopPropagation();
           }}
         >
-          <LikeButton post={post} userId={userId} />
+          <LikeButton post={post} />
         </div>
       </Link>
     </motion.div>

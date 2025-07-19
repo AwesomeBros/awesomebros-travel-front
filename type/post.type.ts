@@ -8,6 +8,7 @@ import {
 } from "@/validation/post.schema";
 import { z } from "zod";
 import { CityType } from "./citiy.type";
+import { CountType } from "./count.type";
 import { CountryType } from "./country.type";
 import { DistrictType } from "./district.type";
 
@@ -23,11 +24,7 @@ export type PostType = z.infer<typeof PostFormSchema> & {
     url: string | null;
     nickname: string;
   };
-  count: {
-    commentCount: number;
-    likeCount: number;
-    viewCount: number;
-  };
+  count: CountType;
   districts: DistrictType;
   cities: CityType;
   countries: CountryType;

@@ -9,11 +9,15 @@ export async function toggleLike(posts_id?: number) {
   const token = session?.serverTokens?.accessToken;
 
   try {
-    const response = await axios.post(`${SERVER_URL}/likes/${posts_id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.post(
+      `${SERVER_URL}/likes`,
+      { posts_id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -9,12 +9,11 @@ import { toast } from "sonner";
 import { Icon } from "../ui/icon";
 
 export default function LikeButton({ post }: { post: PostType }) {
-  const { data: session } = useSession({ required: true });
+  const { data: session } = useSession();
   const toggleLike = useToggleLike();
   const { data: isLiked } = useIsLiked(post.id);
   const router = useRouter();
   function toggleLikeHandler() {
-    toggleLike.mutate(post.id);
     if (!session) {
       toast.error("로그인이 필요한 서비스입니다.");
       router.push("/users/login");

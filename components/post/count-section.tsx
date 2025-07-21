@@ -7,18 +7,18 @@ import { PiEyesFill } from "react-icons/pi";
 
 export default function CountSection({ post }: { post: PostType }) {
   const { data: count, isLoading } = useFindCountsByPostId(post.id);
-  if (isLoading) return null;
-  if (!count) {
+
+  if (!count || isLoading) {
     return (
       <div className="text-md font-medium text-muted-foreground flex items-center gap-3">
         <p className="flex items-center gap-1">
-          <FaRegCommentDots /> {post.count.commentCount}
+          <FaRegCommentDots /> {0}
         </p>
         <p className="flex items-center gap-1">
-          <FaRegHeart /> {post.count.likeCount}
+          <FaRegHeart /> {0}
         </p>
         <p className="flex items-center gap-1">
-          <PiEyesFill className="text-lg" /> {post.count.viewCount}
+          <PiEyesFill className="text-lg" /> {0}
         </p>
       </div>
     );
@@ -27,13 +27,13 @@ export default function CountSection({ post }: { post: PostType }) {
   return (
     <div className="text-md font-medium text-muted-foreground flex items-center gap-3">
       <p className="flex items-center gap-1">
-        <FaRegCommentDots /> {count.commentCount}
+        <FaRegCommentDots /> {count.comment_count}
       </p>
       <p className="flex items-center gap-1">
-        <FaRegHeart /> {count.likeCount}
+        <FaRegHeart /> {count.like_count}
       </p>
       <p className="flex items-center gap-1">
-        <PiEyesFill className="text-lg" /> {count.viewCount}
+        <PiEyesFill className="text-lg" /> {count.view_count}
       </p>
     </div>
   );

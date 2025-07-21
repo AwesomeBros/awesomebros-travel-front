@@ -2,7 +2,7 @@ import { Icon } from "@/components/ui/icon";
 import { useIsLiked, useToggleLike } from "@/hooks/query/use-likes";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function DetailLikeButton({ postId }: { postId?: number }) {
@@ -11,7 +11,6 @@ export default function DetailLikeButton({ postId }: { postId?: number }) {
   const { data: isLiked } = useIsLiked(postId);
   const router = useRouter();
   function toggleLikeHandler() {
-    toggleLike.mutate(postId);
     if (!session) {
       toast.error("로그인이 필요한 서비스입니다.");
       router.push("/users/login");

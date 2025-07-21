@@ -15,7 +15,6 @@ import { DistrictType } from "./district.type";
 export type PostFormType = z.infer<typeof PostFormSchema>;
 
 export type PostType = z.infer<typeof PostFormSchema> & {
-  viewCount: number;
   id: number;
   created_at: string;
   users: {
@@ -24,7 +23,7 @@ export type PostType = z.infer<typeof PostFormSchema> & {
     url: string | null;
     nickname: string;
   };
-  count: CountType;
+  counts: CountType;
   districts: DistrictType;
   cities: CityType;
   countries: CountryType;
